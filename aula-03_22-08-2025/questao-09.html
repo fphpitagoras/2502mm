@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resolução do Teste de Sistemas Lineares</title>
+    
+    <!-- KaTeX para renderização de matemática -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU07vaPkpxUPqlGPOJjFNpIKUVfZapGdx9CWU__hCQSylxtNCQPvpld" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+
+    <!-- Estilos CSS para uma aparência limpa -->
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .meta-info {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #555;
+        }
+        .question-box {
+            background-color: #ecf0f1;
+            border-left: 5px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .katex-display {
+            margin: 1.5em 0;
+        }
+        .final-answer {
+            background-color: #e8f6ef;
+            border-left: 5px solid #2ecc71;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Resolução do Teste de Sistemas Lineares</h1>
+        <div class="meta-info">
+            <p><strong>Professor:</strong> Felipe Heitmann</p>
+            <p><strong>Disciplina:</strong> Métodos Matemáticos</p>
+            <p><strong>Data:</strong> 22/08/2025</p>
+        </div>
+
+        <hr>
+
+        <h2>Questão 9:</h2>
+        <div class="question-box">
+            <p>Em um sistema de aquecimento de uma usina termelétrica, o balanço de massa e energia para três fluxos de entrada, \(m_1, m_2, m_3\), é descrito por:</p>
+            $$
+            \begin{cases}
+            2m_1 - m_2 + 3m_3 = 20 \\
+            4m_1 + 2m_2 - m_3 = 10
+            \end{cases}
+            $$
+            <p>Esse sistema tem solução?</p>
+        </div>
+
+        <h3>Análise do Problema</h3>
+        <p>Olá! Para resolver esta questão, precisamos determinar se o sistema de equações lineares apresentado possui uma solução. Temos aqui um sistema com duas equações e três incógnitas (\(m_1, m_2, m_3\)).</p>
+        <p>Quando o número de incógnitas é maior que o número de equações, o sistema pode ter infinitas soluções ou nenhuma solução. Ele nunca terá uma solução única. Vamos verificar qual é o caso para este sistema.</p>
+
+        <h3>Passo 1: Organizar o Sistema</h3>
+        <p>A primeira etapa é organizar o sistema para facilitar a resolução. O método de eliminação é uma ótima abordagem aqui. O objetivo é eliminar uma das variáveis para encontrar uma relação entre as outras duas.</p>
+        <p><strong>Lógica:</strong> Vamos eliminar a variável \(m_2\). Para isso, podemos multiplicar a primeira equação por 2 e somá-la à segunda equação. Isso fará com que os coeficientes de \(m_2\) se anulem.</p>
+        <p>O sistema inicial é:</p>
+        $$
+        \begin{cases}
+        2m_1 - m_2 + 3m_3 = 20 \quad \text{(Equação 1)} \\
+        4m_1 + 2m_2 - m_3 = 10 \quad \text{(Equação 2)}
+        \end{cases}
+        $$
+
+        <h3>Passo 2: Eliminação da Variável \(m_2\)</h3>
+        <p><strong>Lógica:</strong> Multiplicando a Equação 1 por 2, igualamos o coeficiente de \(m_2\) (em módulo) ao da Equação 2, mas com o sinal oposto.</p>
+        <p>Multiplicando a Equação 1 por 2:</p>
+        $$2 \times (2m_1 - m_2 + 3m_3) = 2 \times 20$$
+        $$4m_1 - 2m_2 + 6m_3 = 40 \quad \text{(Nova Equação 1)}$$
+        <p>Agora, somamos a "Nova Equação 1" com a Equação 2:</p>
+        $$(4m_1 - 2m_2 + 6m_3) + (4m_1 + 2m_2 - m_3) = 40 + 10$$
+        $$(4m_1 + 4m_1) + (-2m_2 + 2m_2) + (6m_3 - m_3) = 50$$
+        $$8m_1 + 5m_3 = 50$$
+
+        <h3>Passo 3: Expressar uma Variável em Função de Outra</h3>
+        <p><strong>Lógica:</strong> A equação resultante (\(8m_1 + 5m_3 = 50\)) nos mostra uma relação direta entre \(m_1\) e \(m_3\). Podemos isolar uma dessas variáveis para expressá-la em termos da outra. Vamos isolar \(m_1\).</p>
+        <p>A partir de \(8m_1 + 5m_3 = 50\):</p>
+        $$8m_1 = 50 - 5m_3$$
+        $$m_1 = \frac{50 - 5m_3}{8}$$
+
+        <h3>Passo 4: Encontrar a Expressão para a Terceira Variável</h3>
+        <p><strong>Lógica:</strong> Agora que temos \(m_1\) em função de \(m_3\), podemos substituir essa expressão em uma das equações originais para encontrar \(m_2\) também em função de \(m_3\). Usaremos a Equação 1, pois parece mais simples.</p>
+        <p>Substituindo \(m_1 = \frac{50 - 5m_3}{8}\) na Equação 1 (\(2m_1 - m_2 + 3m_3 = 20\)):</p>
+        $$2 \left( \frac{50 - 5m_3}{8} \right) - m_2 + 3m_3 = 20$$
+        <p>Simplificando a fração:</p>
+        $$\frac{50 - 5m_3}{4} - m_2 + 3m_3 = 20$$
+        <p>Agora, vamos isolar \(m_2\):</p>
+        $$m_2 = \frac{50 - 5m_3}{4} + 3m_3 - 20$$
+        <p>Para somar os termos, encontramos um denominador comum (4):</p>
+        $$m_2 = \frac{50 - 5m_3 + 4(3m_3) - 4(20)}{4}$$
+        $$m_2 = \frac{50 - 5m_3 + 12m_3 - 80}{4}$$
+        $$m_2 = \frac{7m_3 - 30}{4}$$
+
+        <h3>Conclusão</h3>
+        <p>Conseguimos expressar tanto \(m_1\) quanto \(m_2\) em termos de uma terceira variável, \(m_3\). Isso significa que, para cada valor que escolhermos para \(m_3\), encontraremos um valor correspondente para \(m_1\) e \(m_2\).</p>
+        <p>As soluções do sistema são da forma:</p>
+        $$\left( m_1, m_2, m_3 \right) = \left( \frac{50 - 5m_3}{8}, \frac{7m_3 - 30}{4}, m_3 \right)$$
+        <p>Como podemos atribuir infinitos valores a \(m_3\), o sistema possui infinitas soluções.</p>
+        
+        <div class="final-answer">
+            <strong>Resposta Final:</strong> Sim, o sistema tem solução. Mais especificamente, ele é um <strong>Sistema Possível e Indeterminado (SPI)</strong>, o que significa que ele possui infinitas soluções.
+        </div>
+    </div>
+
+</body>
+</html>
