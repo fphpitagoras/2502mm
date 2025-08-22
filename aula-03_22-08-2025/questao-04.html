@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resolução de Teste de Sistemas Lineares</title>
+    
+    <!-- KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" xintegrity="sha384-sN/2OKsEu9E+M3fGsoPOvIIDaX2sU1HsVqcLM/NRNs6KkO03r+BXTs923ZNVsM9q" crossorigin="anonymous">
+    
+    <!-- KaTeX JS -->
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" xintegrity="sha384-hIoIeYV1AgBERAWqMv7D8Uq+yYhcoCV3pmL2sACiYIe0bC2dM/K232HjY+wTCwBw" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" xintegrity="sha384-43gviWU0YVjaDtb/GpOKC4ExuBAPGkCrqS60VvrBIEaJMed8M0jU2P/QxksNyeOa" crossorigin="anonymous"></script>
+
+    <style>
+        /* Estilização geral do corpo do documento */
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+        /* Container principal para centralizar o conteúdo */
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        /* Estilos para os títulos */
+        h1, h2, h3, h4 {
+            color: #2c3e50;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+            margin-top: 1.5em;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2em;
+            border-bottom: 3px solid #34495e;
+        }
+        h2 {
+            font-size: 1.5em;
+        }
+        h3 {
+            font-size: 1.3em;
+        }
+        h4 {
+            font-size: 1.1em;
+            border-bottom: 1px dashed #ccc;
+        }
+        /* Estilo para informações do cabeçalho */
+        .header-info {
+            text-align: center;
+            margin-bottom: 20px;
+            font-style: italic;
+            color: #555;
+        }
+        .header-info p {
+            margin: 4px 0;
+        }
+        /* Estilo para a seção da questão */
+        .question-section {
+            background-color: #fdfdfd;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        /* Estilo para a seção de conclusão */
+        .conclusion {
+            background-color: #e8f6f3;
+            border-left: 4px solid #1abc9c;
+            padding: 15px;
+            margin-top: 30px;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+        /* Estilos para o KaTeX */
+        .katex-display {
+            margin: 1em 0;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Resolução do Teste de Sistemas Lineares</h1>
+        <div class="header-info">
+            <p><strong>Professor:</strong> Felipe Heitmann</p>
+            <p><strong>Disciplina:</strong> Métodos Matemáticos</p>
+            <p><strong>Data:</strong> 22/08/2025</p>
+        </div>
+
+        <hr>
+
+        <div class="question-section">
+            <h3>Questão 4:</h3>
+            <p>
+                A análise de esforços em uma treliça simples (estrutura com barras articuladas) pode ser modelada por um sistema de equações lineares. Em uma treliça, a soma das forças em um nó deve ser zero. Se em um nó temos as equações:
+            </p>
+            $$
+            \begin{cases}
+            F_1 \cos(45^\circ) + F_2 = 100 \\
+            F_1 \sin(45^\circ) = 100
+            \end{cases}
+            $$
+        </div>
+
+        <!-- Resolução por Substituição -->
+        <section id="substitution-method">
+            <h2>Resolução por Substituição</h2>
+
+            <h4>Passo 1: Isolar a variável \(F_1\) na segunda equação</h4>
+            <p><strong>Lógica:</strong> A segunda equação, \(F_1 \sin(45^\circ) = 100\), possui apenas a variável \(F_1\), o que nos permite calculá-la diretamente. Sabemos que o valor de \(\sin(45^\circ)\) é \(\frac{\sqrt{2}}{2}\).</p>
+            <p><strong>Cálculo:</strong></p>
+            $$ F_1 \cdot \frac{\sqrt{2}}{2} = 100 $$
+            $$ F_1 = 100 \cdot \frac{2}{\sqrt{2}} = \frac{200}{\sqrt{2}} $$
+            <p>Racionalizando o denominador:</p>
+            $$ F_1 = \frac{200 \cdot \sqrt{2}}{\sqrt{2} \cdot \sqrt{2}} = \frac{200\sqrt{2}}{2} = 100\sqrt{2} $$
+
+            <h4>Passo 2: Substituir o valor de \(F_1\) na primeira equação</h4>
+            <p><strong>Lógica:</strong> Agora que conhecemos o valor de \(F_1\), podemos substituí-lo na primeira equação para encontrar \(F_2\). Sabemos que \(\cos(45^\circ)\) também é \(\frac{\sqrt{2}}{2}\).</p>
+            <p><strong>Cálculo:</strong></p>
+            $$ (100\sqrt{2}) \cdot \cos(45^\circ) + F_2 = 100 $$
+            $$ (100\sqrt{2}) \cdot \left(\frac{\sqrt{2}}{2}\right) + F_2 = 100 $$
+            $$ \frac{100 \cdot 2}{2} + F_2 = 100 $$
+            $$ 100 + F_2 = 100 $$
+
+            <h4>Passo 3: Isolar a variável \(F_2\)</h4>
+            <p><strong>Lógica:</strong> Com a equação simplificada, isolamos \(F_2\) para encontrar seu valor final.</p>
+            <p><strong>Cálculo:</strong></p>
+            $$ F_2 = 100 - 100 \implies F_2 = 0 $$
+        </section>
+
+        <hr>
+
+        <!-- Resolução por Gauss-Jordan -->
+        <section id="gauss-jordan-method">
+            <h2>Resolução por Gauss-Jordan</h2>
+
+            <h4>Passo 1: Montar a matriz aumentada</h4>
+            <p><strong>Lógica:</strong> Representamos o sistema na forma de uma matriz aumentada $[A|B]$, substituindo \(\cos(45^\circ)\) e \(\sin(45^\circ)\) por \(\frac{\sqrt{2}}{2}\).</p>
+            $$
+            \left[
+            \begin{array}{cc|c}
+            \frac{\sqrt{2}}{2} & 1 & 100 \\
+            \frac{\sqrt{2}}{2} & 0 & 100
+            \end{array}
+            \right]
+            $$
+
+            <h4>Passo 2: Aplicar operações elementares</h4>
+            <p><strong>Operação 1:</strong> \(L_2 \leftarrow L_2 - L_1\)</p>
+            $$
+            \left[
+            \begin{array}{cc|c}
+            \frac{\sqrt{2}}{2} & 1 & 100 \\
+            0 & -1 & 0
+            \end{array}
+            \right]
+            $$
+            <p><strong>Operação 2:</strong> \(L_2 \leftarrow -1 \cdot L_2\)</p>
+            $$
+            \left[
+            \begin{array}{cc|c}
+            \frac{\sqrt{2}}{2} & 1 & 100 \\
+            0 & 1 & 0
+            \end{array}
+            \right]
+            $$
+            <p><strong>Operação 3:</strong> \(L_1 \leftarrow L_1 - L_2\)</p>
+            $$
+            \left[
+            \begin{array}{cc|c}
+            \frac{\sqrt{2}}{2} & 0 & 100 \\
+            0 & 1 & 0
+            \end{array}
+            \right]
+            $$
+            <p><strong>Operação 4:</strong> \(L_1 \leftarrow \frac{2}{\sqrt{2}} \cdot L_1\)</p>
+            $$
+            \left[
+            \begin{array}{cc|c}
+            1 & 0 & 100\sqrt{2} \\
+            0 & 1 & 0
+            \end{array}
+            \right]
+            $$
+
+            <h4>Passo 3: Interpretar a matriz resultante</h4>
+            <p><strong>Lógica:</strong> A matriz na forma escalonada reduzida nos dá diretamente a solução do sistema.</p>
+            $$
+            \begin{cases}
+            F_1 = 100\sqrt{2} \\
+            F_2 = 0
+            \end{cases}
+            $$
+        </section>
+
+        <div class="conclusion">
+            <p>A solução final para o sistema, encontrada por ambos os métodos, é:</p>
+            <p>Força \(F_1 = 100\sqrt{2}\) N (aproximadamente 141.4 N)</p>
+            <p>Força \(F_2 = 0\) N</p>
+        </div>
+    </div>
+
+    <!-- Script para renderizar o KaTeX -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '\\[', right: '\\]', display: true},
+                    {left: '$', right: '$', display: false},
+                    {left: '\\(', right: '\\)', display: false}
+                ]
+            });
+        });
+    </script>
+
+</body>
+</html>
