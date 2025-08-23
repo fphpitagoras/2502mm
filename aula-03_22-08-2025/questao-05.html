@@ -1,222 +1,111 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resolução de Sistemas Lineares com Gauss-Jordan</title>
+    <title>Resolução da Questão 05 - Sistema de Engrenagens</title>
     
-    <!-- KaTeX CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" xintegrity="sha384-sN/2OKsEu9E+wn368aU21pD7iY3AItT5G/B0UaAFAnPPFNEb/mmHoVifohGHRM4h" crossorigin="anonymous">
-
-    <!-- KaTeX JS -->
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" xintegrity="sha384-hIoBPJpTadBadd8+MWUoRAwfPmcxRFRnz8AUAXdkL9d5IscUBywws7vWgM2u0Tf1" crossorigin="anonymous"></script>
+    <!-- Local Stylesheet -->
+    <link rel="stylesheet" href="style.css">
     
-    <!-- KaTeX Auto-render extension -->
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" xintegrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUcrCfxH_hL+ACUKPCACUSTCprK8XZuRlu" crossorigin="anonymous"></script>
-
-    <style>
-        /* Estilo geral do corpo da página */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f9f9f9;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-        }
-        /* Container principal para o conteúdo */
-        .container {
-            max-width: 800px;
-            width: 100%;
-            background-color: #fff;
-            padding: 25px 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-        }
-        /* Estilo dos títulos */
-        h1, h2, h3 {
-            color: #2c3e50;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 8px;
-            margin-top: 1.5em;
-        }
-        h1 {
-            text-align: center;
-            font-size: 2em;
-            border-bottom: none;
-        }
-        /* Estilo para informações do cabeçalho */
-        .header-info {
-            text-align: center;
-            margin-bottom: 2em;
-            color: #555;
-        }
-        .header-info p {
-            margin: 4px 0;
-        }
-        /* Estilo para a seção da questão */
-        .question-box {
-            background-color: #ecf0f1;
-            border-left: 5px solid #3498db;
-            padding: 15px 20px;
-            margin: 2em 0;
-            border-radius: 5px;
-        }
-        /* Estilo para os passos da resolução */
-        .step {
-            margin-bottom: 1.8em;
-        }
-        .step h3 {
-            font-size: 1.2em;
-            color: #2980b9;
-        }
-        /* Estilo para a conclusão */
-        .conclusion {
-            background-color: #e8f6f3;
-            border-left: 5px solid #1abc9c;
-            padding: 15px 20px;
-            margin-top: 2em;
-            border-radius: 5px;
-            font-size: 1.1em;
-            text-align: center;
-        }
-        /* Estilo para o KaTeX em modo de display (bloco) */
-        .katex-display {
-            margin: 1.5em 0;
-            overflow-x: auto;
-            overflow-y: hidden;
-            padding: 10px 0;
-        }
-    </style>
+    <!-- KaTeX for LaTeX rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 </head>
 <body>
 
     <div class="container">
-        <h1>Resolução do Teste de Sistemas Lineares</h1>
-        <div class="header-info">
-            <p><strong>Professor:</strong> Felipe Heitmann</p>
-            <p><strong>Disciplina:</strong> Métodos Matemáticos</p>
-            <p><strong>Data:</strong> 22/08/2025</p>
-        </div>
-
-        <hr>
-
-        <div class="question-box">
-            <h3>Questão 5:</h3>
-            <p>
-                Um sistema de engrenagens de um motor de automóvel pode ser modelado para calcular as velocidades angulares. Se as equações que governam as velocidades angulares \( \omega_1 \) e \( \omega_2 \) são dadas por:
-            </p>
-            \[
-            \begin{cases}
-            2\omega_1 + 3\omega_2 = 150 \\
-            \omega_1 - \omega_2 = 50
-            \end{cases}
-            \]
-        </div>
-
-        <h2>Resolução com o Método de Gauss-Jordan</h2>
         
-        <div class="step">
-            <h3>Passo 1: Montar a Matriz Aumentada</h3>
-            <p>
-                Primeiro, representamos o sistema linear na forma de uma matriz aumentada, com os coeficientes das variáveis e os termos independentes.
-            </p>
-            \[
-            \left[
-            \begin{array}{cc|c}
-            2 & 3 & 150 \\
-            1 & -1 & 50
-            \end{array}
-            \right]
-            \]
-        </div>
+        <header class="titulo">
+            <h1>Resolução de Questão de Métodos Matemáticos</h1>
+        </header>
 
-        <div class="step">
-            <h3>Passo 2: Obter o pivô na Posição (1,1)</h3>
-            <p>
-                Para facilitar os cálculos, o ideal é ter o elemento 1 na posição do pivô. Podemos simplesmente trocar a Linha 1 (\(L_1\)) com a Linha 2 (\(L_2\)).
-            </p>
-            <p>Operação: \(L_1 \leftrightarrow L_2\)</p>
-            \[
-            \left[
-            \begin{array}{cc|c}
-            1 & -1 & 50 \\
-            2 & 3 & 150
-            \end{array}
-            \right]
-            \]
-        </div>
+        <section class="informacoes-gerais">
+            <div>
+                <span class="label">Professor:</span>
+                <span class="value">Felipe Heitmann</span>
+            </div>
+            <div>
+                <span class="label">Disciplina:</span>
+                <span class="value">Métodos Matemáticos</span>
+            </div>
+            <div>
+                <span class="label">Data:</span>
+                <span class="value">22/08/2025</span>
+            </div>
+        </section>
 
-        <div class="step">
-            <h3>Passo 3: Zerar o elemento abaixo do pivô</h3>
-            <p>
-                Agora, zeramos o elemento na posição (2,1). Para isso, subtraímos o dobro da Linha 1 da Linha 2.
-            </p>
-            <p>Operação: \(L_2 \leftarrow L_2 - 2L_1\)</p>
-            \[
-            \left[
-            \begin{array}{cc|c}
-            1 & -1 & 50 \\
-            0 & 5 & 50
-            \end{array}
-            \right]
-            \]
-        </div>
+        <main>
+            <section class="card">
+                <h2 class="numero-questao">Questão 5</h2>
+                <div class="enunciado-questao">
+                    <p>As equações que governam as velocidades angulares \( \omega_1 \) e \( \omega_2 \) de um sistema de engrenagens são dadas por:</p>
+                    <div class="katex-display">
+                        $$
+                        \begin{cases}
+                        2\omega_1 + 3\omega_2 = 150 \\
+                        \omega_1 - \omega_2 = 50
+                        \end{cases}
+                        $$
+                    </div>
+                </div>
+            </section>
 
-        <div class="step">
-            <h3>Passo 4: Obter o pivô na Posição (2,2)</h3>
-            <p>
-                O próximo passo é transformar o elemento na posição (2,2) em 1. Para isso, dividimos a Linha 2 por 5.
-            </p>
-            <p>Operação: \(L_2 \leftarrow \frac{1}{5} L_2\)</p>
-            \[
-            \left[
-            \begin{array}{cc|c}
-            1 & -1 & 50 \\
-            0 & 1 & 10
-            \end{array}
-            \right]
-            \]
-        </div>
+            <section class="card estrategia-resolucao">
+                <h2>Estratégia de Resolução</h2>
+                <p>A resolução será feita pelo método de Eliminação de Gauss-Jordan. Este método utiliza operações elementares em linhas sobre uma matriz aumentada para transformá-la na forma escalonada reduzida, da qual a solução pode ser lida diretamente.</p>
+            </section>
 
-        <div class="step">
-            <h3>Passo 5: Zerar o elemento acima do segundo pivô</h3>
-            <p>
-                Finalmente, para completar a forma escalonada reduzida, zeramos o elemento na posição (1,2). Somamos a Linha 2 à Linha 1.
-            </p>
-            <p>Operação: \(L_1 \leftarrow L_1 + L_2\)</p>
-            \[
-            \left[
-            \begin{array}{cc|c}
-            1 & 0 & 60 \\
-            0 & 1 & 10
-            \end{array}
-            \right]
-            \]
-        </div>
+            <section class="card passos-resolucao">
+                <h2>Passos da Resolução</h2>
+                <div class="passo">
+                    <h3>Passo 1: Montar a Matriz Aumentada</h3>
+                    <div class="katex-display">$$ \left[ \begin{array}{cc|c} 2 & 3 & 150 \\ 1 & -1 & 50 \end{array} \right] $$</div>
+                </div>
+                <div class="passo">
+                    <h3>Passo 2: Obter o pivô '1' na Posição (1,1)</h3>
+                    <p>Trocamos a Linha 1 com a Linha 2 (\(L_1 \leftrightarrow L_2\)).</p>
+                    <div class="katex-display">$$ \left[ \begin{array}{cc|c} 1 & -1 & 50 \\ 2 & 3 & 150 \end{array} \right] $$</div>
+                </div>
+                <div class="passo">
+                    <h3>Passo 3: Zerar o elemento abaixo do pivô</h3>
+                    <p>Executamos a operação \(L_2 \leftarrow L_2 - 2L_1\).</p>
+                    <div class="katex-display">$$ \left[ \begin{array}{cc|c} 1 & -1 & 50 \\ 0 & 5 & 50 \end{array} \right] $$</div>
+                </div>
+                <div class="passo">
+                    <h3>Passo 4: Obter o pivô '1' na Posição (2,2)</h3>
+                    <p>Executamos a operação \(L_2 \leftarrow \frac{1}{5} L_2\).</p>
+                    <div class="katex-display">$$ \left[ \begin{array}{cc|c} 1 & -1 & 50 \\ 0 & 1 & 10 \end{array} \right] $$</div>
+                </div>
+                <div class="passo">
+                    <h3>Passo 5: Zerar o elemento acima do segundo pivô</h3>
+                    <p>Executamos a operação \(L_1 \leftarrow L_1 + L_2\).</p>
+                    <div class="katex-display">$$ \left[ \begin{array}{cc|c} 1 & 0 & 60 \\ 0 & 1 & 10 \end{array} \right] $$</div>
+                </div>
+            </section>
 
-        <div class="conclusion">
-            <h3>Conclusão</h3>
-            <p>
-                A matriz final nos dá diretamente a solução do sistema:
-            </p>
-            <p>\( \omega_1 = 60 \)</p>
-            <p>\( \omega_2 = 10 \)</p>
-        </div>
+            <section class="card interpretacao-resultados">
+                <h2>Interpretação dos Resultados</h2>
+                <p>A matriz final está na forma escalonada reduzida. A primeira linha corresponde a \(1\omega_1 + 0\omega_2 = 60\) e a segunda linha a \(0\omega_1 + 1\omega_2 = 10\). Portanto, a solução é lida diretamente da matriz.</p>
+            </section>
+
+            <section class="card resposta-final">
+                <h2>Resposta Final</h2>
+                <p>A solução para o sistema é: <strong>\(\omega_1 = 60\) rad/s</strong> e <strong>\(\omega_2 = 10\) rad/s</strong>.</p>
+            </section>
+        </main>
 
     </div>
 
     <script>
-        // Script para renderizar o KaTeX automaticamente
         document.addEventListener("DOMContentLoaded", function() {
             renderMathInElement(document.body, {
                 delimiters: [
-                    {left: '$$', right: '$$', display: true},
-                    {left: '\\[', right: '\\]', display: true},
-                    {left: '$', right: '$', display: false},
-                    {left: '\\(', right: '\\)', display: false}
+                    {left: "$$", right: "$$", display: true},
+                    {left: "\\[", right: "\\]", display: true},
+                    {left: "$", right: "$", display: false},
+                    {left: "\\(", right: "\\)", display: false}
                 ]
             });
         });

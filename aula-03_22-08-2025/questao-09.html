@@ -1,143 +1,110 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resolução do Teste de Sistemas Lineares</title>
-    <!-- Tailwind CSS for styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- KaTeX para renderização matemática -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <title>Resolução da Questão 09 - Análise de Sistema Indeterminado</title>
+
+    <!-- Local Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- KaTeX for LaTeX rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+
+    <div class="container">
+
+        <header class="titulo">
+            <h1>Resolução de Questão de Métodos Matemáticos</h1>
+        </header>
+
+        <section class="informacoes-gerais">
+            <div>
+                <span class="label">Professor:</span>
+                <span class="value">Felipe Heitmann</span>
+            </div>
+            <div>
+                <span class="label">Disciplina:</span>
+                <span class="value">Métodos Matemáticos</span>
+            </div>
+            <div>
+                <span class="label">Data:</span>
+                <span class="value">22/08/2025</span>
+            </div>
+        </section>
+
+        <main>
+            <section class="card">
+                <h2 class="numero-questao">Questão 9</h2>
+                <div class="enunciado-questao">
+                    <p>O balanço de massa e energia para três fluxos (\(m_1, m_2, m_3\)) em uma usina é descrito pelo sistema a seguir. Este sistema tem solução?</p>
+                    <div class="katex-display">
+                        $$
+                        \begin{cases}
+                        2m_1 - m_2 + 3m_3 = 20 \\
+                        4m_1 + 2m_2 - m_3 = 10
+                        \end{cases}
+                        $$
+                    </div>
+                </div>
+            </section>
+
+            <section class="card estrategia-resolucao">
+                <h2>Estratégia de Resolução</h2>
+                <p>Com 3 incógnitas e 2 equações, o sistema não pode ter solução única. Usaremos o método da eliminação para reduzir o sistema e expressar duas variáveis em termos de uma terceira (variável livre), provando a existência de infinitas soluções.</p>
+            </section>
+
+            <section class="card passos-resolucao">
+                <h2>Passos da Resolução</h2>
+                <div class="passo">
+                    <h3>Passo 1: Eliminar a variável \(m_2\)</h3>
+                    <p>Multiplicamos a primeira equação por 2 e somamos à segunda:</p>
+                    <div class="katex-display">$$ (4m_1 - 2m_2 + 6m_3) + (4m_1 + 2m_2 - m_3) = 40 + 10 $$</div>
+                    <div class="katex-display">$$ 8m_1 + 5m_3 = 50 $$</div>
+                </div>
+                <div class="passo">
+                    <h3>Passo 2: Expressar \(m_1\) em função de \(m_3\)</h3>
+                    <p>Isolamos \(m_1\) na equação resultante:</p>
+                    <div class="katex-display">$$ 8m_1 = 50 - 5m_3 \implies m_1 = \frac{50 - 5m_3}{8} $$</div>
+                </div>
+                <div class="passo">
+                    <h3>Passo 3: Expressar \(m_2\) em função de \(m_3\)</h3>
+                    <p>Substituímos a expressão de \(m_1\) na primeira equação original (\(2m_1 - m_2 + 3m_3 = 20\)) e isolamos \(m_2\):</p>
+                    <div class="katex-display">$$ 2\left(\frac{50 - 5m_3}{8}\right) - m_2 + 3m_3 = 20 $$</div>
+                    <div class="katex-display">$$ \frac{50 - 5m_3}{4} - m_2 + 3m_3 = 20 $$</div>
+                    <div class="katex-display">$$ m_2 = \frac{50 - 5m_3 + 12m_3 - 80}{4} = \frac{7m_3 - 30}{4} $$</div>
+                </div>
+            </section>
+
+            <section class="card interpretacao-resultados">
+                <h2>Interpretação dos Resultados</h2>
+                <p>As variáveis \(m_1\) e \(m_2\) dependem de \(m_3\), que atua como uma variável livre. Para cada valor real de \(m_3\), obtemos uma solução válida. Isso caracteriza um sistema com infinitas soluções.</p>
+            </section>
+
+            <section class="card resposta-final">
+                <h2>Resposta Final</h2>
+                <p>Sim, o sistema tem solução. Ele é um <strong>Sistema Possível e Indeterminado (SPI)</strong>, pois possui infinitas soluções. A solução geral, com \(m_3=k\), é:</p>
+                <p><strong>\( \left( \frac{50 - 5k}{8}, \frac{7k - 30}{4}, k \right) \)</strong> para qualquer \(k \in \mathbb{R}\).</p>
+            </section>
+        </main>
+
+    </div>
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            if (typeof renderMathInElement === 'function') {
-                renderMathInElement(document.body, {
-                    delimiters: [
-                        {left: '$$', right: '$$', display: true},
-                        {left: '\\[', right: '\\]', display: true},
-                        {left: '$', right: '$', display: false},
-                        {left: '\\(', right: '\\)', display: false}
-                    ]
-                });
-            }
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "\\[", right: "\\]", display: true},
+                    {left: "$", right: "$", display: false},
+                    {left: "\\(", right: "\\)", display: false}
+                ]
+            });
         });
     </script>
-    <style>
-        .katex-display {
-            margin: 1em 0;
-            overflow-x: auto;
-            overflow-y: hidden;
-        }
-    </style>
-</head>
-<body class="bg-gray-50 text-gray-800">
-
-    <div class="container mx-auto max-w-4xl p-4 sm:p-8">
-        <div class="bg-white p-6 sm:p-10 rounded-2xl shadow-lg">
-
-            <!-- Header Section -->
-            <header class="border-b pb-4 mb-6">
-                <h1 class="text-3xl md:text-4xl font-bold text-gray-900 text-center">Resolução do Teste de Sistemas Lineares</h1>
-                <div class="text-center text-gray-600 mt-4 space-y-1">
-                    <p><strong>Professor:</strong> Felipe Heitmann</p>
-                    <p><strong>Disciplina:</strong> Métodos Matemáticos</p>
-                    <p><strong>Data:</strong> 22/08/2025</p>
-                </div>
-            </header>
-
-            <!-- Problem Statement -->
-            <section>
-                <h2 class="text-2xl font-semibold text-gray-800 mb-3">Questão 9:</h2>
-                <div class="bg-blue-50 border-l-4 border-blue-500 text-blue-800 p-4 rounded-lg mb-6 text-lg">
-                    <p>Em um sistema de aquecimento de uma usina termelétrica, o balanço de massa e energia para três fluxos de entrada, \(m_1, m_2, m_3\), é descrito por:</p>
-                    \[
-                    \begin{cases}
-                    2m_1 - m_2 + 3m_3 = 20 \\
-                    4m_1 + 2m_2 - m_3 = 10
-                    \end{cases}
-                    \]
-                    <p>Esse sistema tem solução?</p>
-                </div>
-            </section>
-
-            <!-- Solution Section -->
-            <section>
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Análise do Problema</h2>
-                <p class="mb-4 text-lg">Olá! Para resolver esta questão, precisamos determinar se o sistema de equações lineares apresentado possui uma solução. Temos aqui um sistema com duas equações e três incógnitas (\(m_1, m_2, m_3\)).</p>
-                <p class="mb-4 text-lg">Quando o número de incógnitas é maior que o número de equações, o sistema pode ter infinitas soluções ou nenhuma solução. Ele nunca terá uma solução única. Vamos verificar qual é o caso para este sistema.</p>
-
-                <!-- Step 1 -->
-                <div class="step mb-8">
-                    <h3 class="text-xl font-semibold text-gray-700 mb-2">Passo 1: Organizar o Sistema</h3>
-                    <p>A primeira etapa é organizar o sistema para facilitar a resolução. O método de eliminação é uma ótima abordagem aqui. O objetivo é eliminar uma das variáveis para encontrar uma relação entre as outras duas.</p>
-                    <p class="mt-2"><strong>Lógica:</strong> Vamos eliminar a variável \(m_2\). Para isso, podemos multiplicar a primeira equação por 2 e somá-la à segunda equação. Isso fará com que os coeficientes de \(m_2\) se anulem.</p>
-                    <p>O sistema inicial é:</p>
-                    \[
-                    \begin{cases}
-                    2m_1 - m_2 + 3m_3 = 20 \quad \text{(Equação 1)} \\
-                    4m_1 + 2m_2 - m_3 = 10 \quad \text{(Equação 2)}
-                    \end{cases}
-                    \]
-                </div>
-
-                <!-- Step 2 -->
-                <div class="step mb-8">
-                    <h3 class="text-xl font-semibold text-gray-700 mb-2">Passo 2: Eliminação da Variável \(m_2\)</h3>
-                    <p><strong>Lógica:</strong> Multiplicando a Equação 1 por 2, igualamos o coeficiente de \(m_2\) (em módulo) ao da Equação 2, mas com o sinal oposto.</p>
-                    <p>Multiplicando a Equação 1 por 2:</p>
-                    \[2 \times (2m_1 - m_2 + 3m_3) = 2 \times 20\]
-                    \[4m_1 - 2m_2 + 6m_3 = 40 \quad \text{(Nova Equação 1)}\]
-                    <p>Agora, somamos a "Nova Equação 1" com a Equação 2:</p>
-                    \[(4m_1 - 2m_2 + 6m_3) + (4m_1 + 2m_2 - m_3) = 40 + 10\]
-                    \[(4m_1 + 4m_1) + (-2m_2 + 2m_2) + (6m_3 - m_3) = 50\]
-                    \[8m_1 + 5m_3 = 50\]
-                </div>
-
-                <!-- Step 3 -->
-                <div class="step mb-8">
-                    <h3 class="text-xl font-semibold text-gray-700 mb-2">Passo 3: Expressar uma Variável em Função de Outra</h3>
-                    <p><strong>Lógica:</strong> A equação resultante (\(8m_1 + 5m_3 = 50\)) nos mostra uma relação direta entre \(m_1\) e \(m_3\). Podemos isolar uma dessas variáveis para expressá-la em termos da outra. Vamos isolar \(m_1\).</p>
-                    <p>A partir de \(8m_1 + 5m_3 = 50\):</p>
-                    \[8m_1 = 50 - 5m_3\]
-                    \[m_1 = \frac{50 - 5m_3}{8}\]
-                </div>
-
-                <!-- Step 4 -->
-                <div class="step mb-8">
-                    <h3 class="text-xl font-semibold text-gray-700 mb-2">Passo 4: Encontrar a Expressão para a Terceira Variável</h3>
-                    <p><strong>Lógica:</strong> Agora que temos \(m_1\) em função de \(m_3\), podemos substituir essa expressão em uma das equações originais para encontrar \(m_2\) também em função de \(m_3\). Usaremos a Equação 1, pois parece mais simples.</p>
-                    <p>Substituindo \(m_1 = \frac{50 - 5m_3}{8}\) na Equação 1 (\(2m_1 - m_2 + 3m_3 = 20\)):</p>
-                    \[2 \left( \frac{50 - 5m_3}{8} \right) - m_2 + 3m_3 = 20\]
-                    <p>Simplificando a fração:</p>
-                    \[\frac{50 - 5m_3}{4} - m_2 + 3m_3 = 20\]
-                    <p>Agora, vamos isolar \(m_2\):</p>
-                    \[m_2 = \frac{50 - 5m_3}{4} + 3m_3 - 20\]
-                    <p>Para somar os termos, encontramos um denominador comum (4):</p>
-                    \[m_2 = \frac{50 - 5m_3 + 12m_3 - 80}{4}\]
-                    \[m_2 = \frac{7m_3 - 30}{4}\]
-                </div>
-
-                <!-- Conclusion -->
-                <section>
-                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Conclusão</h2>
-                    <p class="mb-4 text-lg">Conseguimos expressar tanto \(m_1\) quanto \(m_2\) em termos de uma terceira variável, \(m_3\). Isso significa que, para cada valor que escolhermos para \(m_3\), encontraremos um valor correspondente para \(m_1\) e \(m_2\).</p>
-                    <p class="mb-4 text-lg">As soluções do sistema são da forma:</p>
-                    <div class="bg-blue-50 border-l-4 border-blue-500 text-blue-800 p-4 rounded-lg text-lg mb-4">
-                        \[
-                        \left( m_1, m_2, m_3 \right) = \left( \frac{50 - 5m_3}{8}, \frac{7m_3 - 30}{4}, m_3 \right)
-                        \]
-                        <p>Como podemos atribuir infinitos valores a \(m_3\), o sistema possui infinitas soluções.</p>
-                    </div>
-                    <div class="bg-green-50 border-l-4 border-green-500 text-green-800 p-4 rounded-lg text-lg font-bold">
-                        <strong>Resposta Final:</strong> Sim, o sistema tem solução. Mais especificamente, ele é um <strong>Sistema Possível e Indeterminado (SPI)</strong>, o que significa que ele possui infinitas soluções.
-                    </div>
-                </section>
-            </section>
-        </div>
-    </div>
 
 </body>
 </html>
