@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resolução do Teste de Sistemas Lineares</title>
+    
+    <!-- KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0KOVEMckDpbOc7ymOFAuVQT/xzmpDCa9ABhzjbjGHGzNz+d0R84nU" crossorigin="anonymous">
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Custom styles */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .katex-display {
+            margin: 1em 0;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto max-w-3xl p-6 sm:p-8 md:p-12 bg-white rounded-lg shadow-md my-10">
+
+        <header class="text-center border-b pb-4 mb-6">
+            <h1 class="text-3xl font-bold text-gray-900">Resolução do Teste de Sistemas Lineares</h1>
+            <div class="mt-4 text-gray-600">
+                <p><strong>Professor:</strong> Felipe Heitmann</p>
+                <p><strong>Disciplina:</strong> Métodos Matemáticos</p>
+                <p><strong>Data:</strong> 22/08/2025</p>
+            </div>
+        </header>
+
+        <main>
+            <section class="mb-8">
+                <h3 class="text-xl font-semibold mb-2">Questão 3:</h3>
+                <p class="text-base leading-relaxed">
+                    Em um circuito elétrico, a Lei de Kirchhoff para as correntes em um nó (\(I_1 + I_2 = I_3\)) e a Lei de Kirchhoff para as tensões em uma malha podem ser representadas por um sistema de equações lineares. Se em um circuito temos as seguintes equações:
+                </p>
+                <!-- KaTeX block for the system of equations -->
+                \[
+                \begin{cases}
+                I_1 + I_2 = 10 \\
+                3I_1 - 2I_2 = 5
+                \end{cases}
+                \]
+            </section>
+
+            <hr class="my-8">
+
+            <section>
+                <h3 class="text-2xl font-bold mb-4 text-center">Resolução Passo-a-Passo</h3>
+                <p class="text-center mb-6">
+                    Olá! Vamos resolver este sistema de equações lineares para encontrar os valores das correntes \(I_1\) e \(I_2\). Utilizaremos o método da substituição, que é uma abordagem bastante intuitiva.
+                </p>
+
+                <div class="space-y-6">
+                    <!-- Step 1 -->
+                    <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                        <h4 class="text-lg font-semibold mb-2">Passo 1: Isolar uma das variáveis</h4>
+                        <p><strong>Lógica:</strong> O primeiro passo é escolher uma das equações e isolar uma das incógnitas. Vamos escolher a primeira equação (\(I_1 + I_2 = 10\)) e isolar a variável \(I_1\), pois ela possui um coeficiente igual a 1, o que simplifica o cálculo.</p>
+                        <p class="mt-2"><strong>Cálculo:</strong> Partindo da equação \(I_1 + I_2 = 10\), subtraindo \(I_2\) de ambos os lados, obtemos:</p>
+                        \[I_1 = 10 - I_2\]
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                        <h4 class="text-lg font-semibold mb-2">Passo 2: Substituir a expressão na outra equação</h4>
+                        <p><strong>Lógica:</strong> Agora que temos uma expressão para \(I_1\), vamos substituí-la na segunda equação (\(3I_1 - 2I_2 = 5\)). Isso nos permitirá ter uma equação com apenas uma variável, a \(I_2\), que podemos resolver facilmente.</p>
+                        <p class="mt-2"><strong>Cálculo:</strong> Substituindo \(I_1\) por \((10 - I_2)\) na equação \(3I_1 - 2I_2 = 5\):</p>
+                        \[3(10 - I_2) - 2I_2 = 5\]
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                        <h4 class="text-lg font-semibold mb-2">Passo 3: Resolver a nova equação para encontrar \(I_2\)</h4>
+                        <p><strong>Lógica:</strong> Com a equação contendo apenas a variável \(I_2\), vamos resolver para encontrar seu valor. Para isso, aplicaremos a propriedade distributiva e, em seguida, isolaremos a variável.</p>
+                        <p class="mt-2"><strong>Cálculo:</strong></p>
+                        \[30 - 3I_2 - 2I_2 = 5\]
+                        \[30 - 5I_2 = 5\]
+                        \[-5I_2 = 5 - 30\]
+                        \[-5I_2 = -25\]
+                        \[I_2 = \frac{-25}{-5} \implies I_2 = 5\]
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                        <h4 class="text-lg font-semibold mb-2">Passo 4: Encontrar o valor de \(I_1\)</h4>
+                        <p><strong>Lógica:</strong> Agora que conhecemos o valor de \(I_2\), podemos substituí-lo na expressão que encontramos no Passo 1 para determinar o valor de \(I_1\).</p>
+                        <p class="mt-2"><strong>Cálculo:</strong> Usando a expressão \(I_1 = 10 - I_2\) e substituindo \(I_2 = 5\):</p>
+                        \[I_1 = 10 - 5\]
+                        \[I_1 = 5\]
+                    </div>
+                </div>
+            </section>
+
+            <hr class="my-8">
+            
+            <section class="text-center bg-blue-100 text-blue-800 p-6 rounded-lg">
+                <h3 class="text-xl font-bold mb-2">Conclusão</h3>
+                <p class="text-lg">A solução para o sistema de equações lineares é:</p>
+                <div class="mt-4 text-2xl font-semibold">
+                    <span class="inline-block mx-4">\(I_1 = 5\)</span>
+                    <span class="inline-block mx-4">\(I_2 = 5\)</span>
+                </div>
+                <p class="mt-4 text-lg">Isso significa que as correntes no circuito são \(I_1 = 5\) A e \(I_2 = 5\) A.</p>
+            </section>
+        </main>
+
+    </div>
+
+    <!-- KaTeX JS and Auto-render extension -->
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUbKyJma0" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+    <script>
+        // Optional configuration for auto-render
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "\\[", right: "\\]", display: true},
+                    {left: "$", right: "$", display: false},
+                    {left: "\\(", right: "\\)", display: false}
+                ]
+            });
+        });
+    </script>
+
+</body>
+</html>
