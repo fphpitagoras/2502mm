@@ -1,0 +1,153 @@
+/* General Body Styling */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap');
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Header and Title */
+.titulo {
+    text-align: center;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e7e7e7;
+}
+
+.titulo h1 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 2.5em;
+    font-weight: 700;
+    color: #1a237e; /* Dark Blue */
+}
+
+/* General Information Section */
+.informacoes-gerais {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.informacoes-gerais div {
+    font-size: 1.1em;
+}
+
+.informacoes-gerais span.label {
+    font-weight: 600;
+    color: #495057;
+}
+
+.informacoes-gerais span.value {
+    color: #212529;
+}
+
+/* Generic Card Styling for Sections */
+.card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.card h2 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.8em;
+    font-weight: 500;
+    color: #3f51b5; /* Indigo */
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Question Section */
+.numero-questao {
+    font-size: 1.5em !important;
+    color: #1a237e !important;
+    margin-bottom: 15px !important;
+}
+
+.enunciado-questao {
+    background-color: #e3f2fd; /* Light Blue */
+    border-left: 5px solid #2196f3; /* Blue */
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 5px;
+}
+
+.enunciado-questao p {
+    margin: 0;
+    font-size: 1.2em;
+    color: #1d4ed8;
+}
+
+/* Resolution Strategy Section */
+.estrategia-resolucao p {
+    font-size: 1.1em;
+    color: #444;
+}
+
+/* Resolution Steps Section */
+.passos-resolucao .passo {
+    margin-bottom: 20px;
+}
+
+.passos-resolucao .passo h3 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.4em;
+    font-weight: 500;
+    color: #00796b; /* Teal */
+    margin-bottom: 10px;
+}
+
+/* KaTeX Math Styling */
+.katex-display {
+    text-align: center;
+    margin: 1.5em 0;
+    font-size: 1.2em;
+    overflow-x: auto;
+    padding: 10px 0;
+}
+
+/* Interpretation of Results Section */
+.interpretacao-resultados p {
+    font-size: 1.1em;
+    color: #444;
+}
+
+/* Final Answer Section */
+.resposta-final {
+    background-color: #e8f5e9; /* Light Green */
+    border: 1px solid #a5d6a7;
+    border-left: 5px solid #4caf50; /* Green */
+}
+
+.resposta-final h2 {
+    color: #2e7d32; /* Dark Green */
+}
+
+.resposta-final p {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #1b5e20; /* Darker Green */
+}

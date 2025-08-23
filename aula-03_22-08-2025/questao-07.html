@@ -3,215 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resolução do Teste de Sistemas Lineares</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                if (typeof renderMathInElement === 'function') {
-                    renderMathInElement(document.body, {
-                        delimiters: [
-                            {left: '$$', right: '$$', display: true},
-                            {left: '\\[', right: '\\]', display: true},
-                            {left: '$', right: '$', display: false},
-                            {left: '\\(', right: '\\)', display: false}
-                        ]
-                    });
-                }
-            });
-        </script>
-    <style>
-        body {
-            font-family: sans-serif;
-            line-height: 1.6;
-            margin: 2em;
-        }
-        h1, h3, h4 {
-            color: #333;
-        }
-        .container {
-            max-width: 800px;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-        }
-    </style>
+    <title>Resolução da Questão 07 - Equilíbrio de Corpo Rígido</title>
+
+    <!-- Local Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- KaTeX for LaTeX rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 </head>
 <body>
 
     <div class="container">
-        <h1>Resolução do Teste de Sistemas Lineares</h1>
-        <p><b>Professor:</b> Felipe Heitmann</p>
-        <p><b>Disciplina:</b> Métodos Matemáticos</p>
-        <p><b>Data:</b> 22/08/2025</p>
-    
-        <hr>
-    
-        <h3><strong>Questão 7:</strong></h3>
-        <p>
-            O equilíbrio de um corpo rígido na mecânica dos sólidos é descrito por sistemas lineares. Considere um corpo com três forças, $F_1$, $F_2$, $F_3$, atuando sobre ele. As equações de equilíbrio para a soma das forças nas direções x e y, respectivamente, e a soma dos momentos em torno de um ponto são dadas por:
-        </p>
-        $$
-        \begin{cases}
-        F_1 + F_2 = 10 \\
-        F_1 - 2F_2 = 0 \\
-        3F_1 + 4F_2 + 2F_3 = 50
-        \end{cases}
-        $$
-    
-        <hr>
-    
-        <h3><strong>Resolução Passo-a-Passo (Método de Gauss-Jordan):</strong></h3>
-        <p>
-            Olá! Para resolver este sistema linear utilizando o método de eliminação de Gauss-Jordan, nosso objetivo é transformar a matriz aumentada do sistema em uma matriz identidade. Isso nos dará diretamente os valores de $F_1$, $F_2$ e $F_3$.
-        </p>
-    
-        <h4><strong>Etapa 1: Construção da Matriz Aumentada</strong></h4>
-        <p>
-            <b>Lógica:</b> Primeiro, representamos o sistema de equações na forma de uma matriz aumentada. Cada linha representa uma equação, e as colunas correspondem aos coeficientes das variáveis $F_1$, $F_2$, $F_3$ e aos termos constantes.
-        </p>
-        <p>
-            <b>Matriz:</b> O sistema pode ser escrito como:
-        </p>
-        $$
-        \begin{cases}
-        1F_1 + 1F_2 + 0F_3 = 10 \\
-        1F_1 - 2F_2 + 0F_3 = 0 \\
-        3F_1 + 4F_2 + 2F_3 = 50
-        \end{cases}
-        $$
-        <p>
-            A matriz aumentada correspondente é:
-        </p>
-        $$
-        \left[
-        \begin{array}{ccc|c}
-        1 & 1 & 0 & 10 \\
-        1 & -2 & 0 & 0 \\
-        3 & 4 & 2 & 50
-        \end{array}
-        \right]
-        $$
-    
-        <h4><strong>Etapa 2: Aplicação das Operações Elementares sobre as Linhas</strong></h4>
-        <p>
-            <b>Lógica:</b> O objetivo é zerar os elementos abaixo e acima do pivô de cada coluna (os elementos da diagonal principal), transformando a matriz dos coeficientes em uma matriz identidade.
-        </p>
-        <p>
-            <b>Cálculo:</b>
-        </p>
-        <ul>
-            <li>
-                <p><strong>Passo 1:</strong> Zerar os elementos da primeira coluna, exceto o pivô (o elemento da primeira linha, primeira coluna, que já é 1).</p>
-                <p>Para zerar o elemento da segunda linha ($L_2$), fazemos a operação: $L_2 \leftarrow L_2 - L_1$.</p>
-                <p>Para zerar o elemento da terceira linha ($L_3$), fazemos a operação: $L_3 \leftarrow L_3 - 3L_1$.</p>
-                $$
-                \left[
-                \begin{array}{ccc|c}
-                1 & 1 & 0 & 10 \\
-                1-1 & -2-1 & 0-0 & 0-10 \\
-                3-3(1) & 4-3(1) & 2-3(0) & 50-3(10)
-                \end{array}
-                \right]
-                \rightarrow
-                \left[
-                \begin{array}{ccc|c}
-                1 & 1 & 0 & 10 \\
-                0 & -3 & 0 & -10 \\
-                0 & 1 & 2 & 20
-                \end{array}
-                \right]
-                $$
-            </li>
-            <li>
-                <p><strong>Passo 2:</strong> Transformar o pivô da segunda coluna (elemento na segunda linha) em 1.</p>
-                <p>Fazemos a operação: $L_2 \leftarrow -\frac{1}{3}L_2$.</p>
-                $$
-                \left[
-                \begin{array}{ccc|c}
-                1 & 1 & 0 & 10 \\
-                0 & 1 & 0 & 10/3 \\
-                0 & 1 & 2 & 20
-                \end{array}
-                \right]
-                $$
-            </li>
-            <li>
-                <p><strong>Passo 3:</strong> Zerar os outros elementos da segunda coluna.</p>
-                <p>Para zerar o elemento da primeira linha ($L_1$), fazemos: $L_1 \leftarrow L_1 - L_2$.</p>
-                <p>Para zerar o elemento da terceira linha ($L_3$), fazemos: $L_3 \leftarrow L_3 - L_2$.</p>
-                $$
-                \left[
-                \begin{array}{ccc|c}
-                1-0 & 1-1 & 0-0 & 10 - 10/3 \\
-                0 & 1 & 0 & 10/3 \\
-                0-0 & 1-1 & 2-0 & 20 - 10/3
-                \end{array}
-                \right]
-                \rightarrow
-                \left[
-                \begin{array}{ccc|c}
-                1 & 0 & 0 & 20/3 \\
-                0 & 1 & 0 & 10/3 \\
-                0 & 0 & 2 & 50/3
-                \end{array}
-                \right]
-                $$
-            </li>
-            <li>
-                <p><strong>Passo 4:</strong> Transformar o pivô da terceira coluna (elemento na terceira linha) em 1.</p>
-                <p>Fazemos a operação: $L_3 \leftarrow \frac{1}{2}L_3$.</p>
-                $$
-                \left[
-                \begin{array}{ccc|c}
-                1 & 0 & 0 & 20/3 \\
-                0 & 1 & 0 & 10/3 \\
-                0 & 0 & 1 & (50/3) \times (1/2)
-                \end{array}
-                \right]
-                \rightarrow
-                \left[
-                \begin{array}{ccc|c}
-                1 & 0 & 0 & 20/3 \\
-                0 & 1 & 0 & 10/3 \\
-                0 & 0 & 1 & 25/3
-                \end{array}
-                \right]
-                $$
-            </li>
-        </ul>
-    
-        <h4><strong>Etapa 3: Interpretação do Resultado</strong></h4>
-        <p>
-            <b>Lógica:</b> A matriz agora está na forma escalonada reduzida por linhas (forma identidade). Cada linha corresponde a uma equação simplificada, da qual podemos ler diretamente a solução.
-        </p>
-        <p>
-            <b>Sistema Final:</b>
-        </p>
-        $$
-        \begin{cases}
-        1F_1 + 0F_2 + 0F_3 = 20/3 \\
-        0F_1 + 1F_2 + 0F_3 = 10/3 \\
-        0F_1 + 0F_2 + 1F_3 = 25/3
-        \end{cases}
-        $$
-    
-        <hr>
-    
-        <h3><strong>Conclusão</strong></h3>
-        <p>
-            A partir da matriz final, podemos extrair diretamente os valores das forças:
-        </p>
-        <ul>
-            <li>$F_1 = \frac{20}{3}$</li>
-            <li>$F_2 = \frac{10}{3}$</li>
-            <li>$F_3 = \frac{25}{3}$</li>
-        </ul>
+
+        <header class="titulo">
+            <h1>Resolução de Questão de Métodos Matemáticos</h1>
+        </header>
+
+        <section class="informacoes-gerais">
+            <div>
+                <span class="label">Professor:</span>
+                <span class="value">Felipe Heitmann</span>
+            </div>
+            <div>
+                <span class="label">Disciplina:</span>
+                <span class="value">Métodos Matemáticos</span>
+            </div>
+            <div>
+                <span class="label">Data:</span>
+                <span class="value">22/08/2025</span>
+            </div>
+        </section>
+
+        <main>
+            <section class="card">
+                <h2 class="numero-questao">Questão 7</h2>
+                <div class="enunciado-questao">
+                    <p>As equações de equilíbrio para um corpo rígido com três forças \(F_1, F_2, F_3\) são dadas pelo sistema:</p>
+                    <div class="katex-display">
+                        $$
+                        \begin{cases}
+                        F_1 + F_2 = 10 \\
+                        F_1 - 2F_2 = 0 \\
+                        3F_1 + 4F_2 + 2F_3 = 50
+                        \end{cases}
+                        $$
+                    </div>
+                </div>
+            </section>
+
+            <section class="card estrategia-resolucao">
+                <h2>Estratégia de Resolução</h2>
+                <p>O sistema 3x3 será resolvido pelo método de Eliminação de Gauss-Jordan. A meta é transformar a matriz aumentada do sistema em sua forma escalonada reduzida, o que nos fornecerá diretamente os valores de \(F_1, F_2, F_3\).</p>
+            </section>
+
+            <section class="card passos-resolucao">
+                <h2>Passos da Resolução</h2>
+                <div class="passo">
+                    <h3>Passo 1: Montar a Matriz Aumentada</h3>
+                    <div class="katex-display">$$ \left[ \begin{array}{ccc|c} 1 & 1 & 0 & 10 \\ 1 & -2 & 0 & 0 \\ 3 & 4 & 2 & 50 \end{array} \right] $$</div>
+                </div>
+                <div class="passo">
+                    <h3>Passo 2: Zerar a primeira coluna (abaixo do pivô)</h3>
+                    <p>Operações: \(L_2 \leftarrow L_2 - L_1\) e \(L_3 \leftarrow L_3 - 3L_1\)</p>
+                    <div class="katex-display">$$ \left[ \begin{array}{ccc|c} 1 & 1 & 0 & 10 \\ 0 & -3 & 0 & -10 \\ 0 & 1 & 2 & 20 \end{array} \right] $$</div>
+                </div>
+                <div class="passo">
+                    <h3>Passo 3: Normalizar o pivô da segunda linha</h3>
+                    <p>Operação: \(L_2 \leftarrow -\frac{1}{3}L_2\)</p>
+                    <div class="katex-display">$$ \left[ \begin{array}{ccc|c} 1 & 1 & 0 & 10 \\ 0 & 1 & 0 & 10/3 \\ 0 & 1 & 2 & 20 \end{array} \right] $$</div>
+                </div>
+                <div class="passo">
+                    <h3>Passo 4: Zerar a segunda coluna (acima e abaixo do pivô)</h3>
+                    <p>Operações: \(L_1 \leftarrow L_1 - L_2\) e \(L_3 \leftarrow L_3 - L_2\)</p>
+                    <div class="katex-display">$$ \left[ \begin{array}{ccc|c} 1 & 0 & 0 & 20/3 \\ 0 & 1 & 0 & 10/3 \\ 0 & 0 & 2 & 50/3 \end{array} \right] $$</div>
+                </div>
+                <div class="passo">
+                    <h3>Passo 5: Normalizar o pivô da terceira linha</h3>
+                    <p>Operação: \(L_3 \leftarrow \frac{1}{2}L_3\)</p>
+                    <div class="katex-display">$$ \left[ \begin{array}{ccc|c} 1 & 0 & 0 & 20/3 \\ 0 & 1 & 0 & 10/3 \\ 0 & 0 & 1 & 25/3 \end{array} \right] $$</div>
+                </div>
+            </section>
+
+            <section class="card interpretacao-resultados">
+                <h2>Interpretação dos Resultados</h2>
+                <p>A matriz final está na forma escalonada reduzida. Cada linha nos dá o valor de uma variável diretamente: a primeira linha corresponde a \(F_1 = 20/3\), a segunda a \(F_2 = 10/3\), e a terceira a \(F_3 = 25/3\).</p>
+            </section>
+
+            <section class="card resposta-final">
+                <h2>Resposta Final</h2>
+                <p>As forças de equilíbrio são: <strong>\(F_1 = \frac{20}{3}\) N</strong>, <strong>\(F_2 = \frac{10}{3}\) N</strong>, e <strong>\(F_3 = \frac{25}{3}\) N</strong>.</p>
+            </section>
+        </main>
+
     </div>
 
-    <!-- Script KaTeX já incluído no <head> -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "\\[", right: "\\]", display: true},
+                    {left: "$", right: "$", display: false},
+                    {left: "\\(", right: "\\)", display: false}
+                ]
+            });
+        });
+    </script>
 
 </body>
 </html>
