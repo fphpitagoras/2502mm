@@ -4,12 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resolução do Teste de Sistemas Lineares</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-sN/Jvrf7AeeaTeDpqT1A2kG+xV6sYl3izjCi1j9wGzQ2OKzImzEofD7leRXQ+jT3" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" integrity="sha384-hIoBPJpTadx5MyA2c3/fGgANbN0Mc3V9wEHzKrbG0iEX3jc2BrcjQe4pKAySWkFk" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/Gf1E3aN7HKH03Gt7MabKEpd3Ie2AyGvV7DbxadSJBsfXkDXg" crossorigin="anonymous"
-        onload="renderMathInElement(document.body);"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                if (typeof renderMathInElement === 'function') {
+                    renderMathInElement(document.body, {
+                        delimiters: [
+                            {left: '$$', right: '$$', display: true},
+                            {left: '\\[', right: '\\]', display: true},
+                            {left: '$', right: '$', display: false},
+                            {left: '\\(', right: '\\)', display: false}
+                        ]
+                    });
+                }
+            });
+        </script>
     
     <style>
+    
         body {
             font-family: sans-serif;
             line-height: 1.6;
@@ -79,19 +93,19 @@
         Agora, vamos focar na quantidade da substância A. A quantidade total da substância A na mistura final é a soma das quantidades da substância A provenientes de cada mistura original.
     </p>
     <ul>
-        <li>A quantidade de A na primeira mistura é \(20\%\) de \(x\), ou seja, \(0,20x\).</li>
-        <li>A quantidade de A na segunda mistura é \(50\%\) de \(y\), ou seja, \(0,50y\).</li>
-        <li>A quantidade total de A na mistura final deve ser \(35\%\) de 100 litros, que é \(0,35 \times 100 = 35\) litros.</li>
+    <li>A quantidade de A na primeira mistura é \(20\%\) de \(x\), ou seja, \(0.20x\).</li>
+    <li>A quantidade de A na segunda mistura é \(50\%\) de \(y\), ou seja, \(0.50y\).</li>
+    <li>A quantidade total de A na mistura final deve ser \(35\%\) de 100 litros, que é \(0.35 \times 100 = 35\) litros.</li>
     </ul>
     <p>Isso nos dá a nossa segunda equação:</p>
-    \[0,20x + 0,50y = 35\]
+    \[0.20x + 0.50y = 35\]
 
     <h4><strong>Passo 4: Montar e resolver o sistema linear</strong></h4>
     <p>Agora temos um sistema com duas equações e duas incógnitas:</p>
     \[
     \begin{cases}
     x + y = 100 \\
-    0,20x + 0,50y = 35
+    0.20x + 0.50y = 35
     \end{cases}
     \]
     <p>Vamos utilizar o método da substituição para resolver o sistema.</p>
@@ -102,16 +116,16 @@
     <ul>
         <li><strong>Substituir na segunda equação:</strong> Agora, substituímos a expressão para \(x\) na segunda equação.</li>
     </ul>
-    \[0,20(100 - y) + 0,50y = 35\]
+    \[0.20(100 - y) + 0.50y = 35\]
     <ul>
         <li><strong>Resolver para y:</strong> Vamos distribuir o \(0,20\) e resolver a equação para encontrar o valor de \(y\).</li>
     </ul>
     \[
     \begin{aligned}
-    20 - 0,20y + 0,50y &= 35 \\
-    0,30y &= 35 - 20 \\
-    0,30y &= 15 \\
-    y &= \frac{15}{0,30} \\
+    20 - 0.20y + 0.50y &= 35 \\
+    0.30y &= 35 - 20 \\
+    0.30y &= 15 \\
+    y &= \frac{15}{0.30} \\
     y &= 50
     \end{aligned}
     \]
@@ -135,6 +149,8 @@
     <p>
         Portanto, para obter 100 litros de uma nova mistura com 35% de substância A, devem ser utilizados 50 litros da primeira mistura e 50 litros da segunda mistura.
     </p>
+
+    <!-- Script KaTeX já incluído no <head> -->
 
 </body>
 </html>
