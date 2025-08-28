@@ -6,6 +6,9 @@
     <title>Métodos Matemáticos - Prof. Felipe Heitmann</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
     <style>
         body {
             font-family: "Inter", sans-serif;
@@ -36,6 +39,317 @@
                     Unidade 1: Introdução à Álgebra Linear IV
                 </p>
             </div>
+
+            <div class="mt-6 prose max-w-none">
+                <section id="aula1">
+                    <h2 class="text-2xl font-bold mt-8 mb-4">Aula 1 - Matrizes</h2>
+                    <p class="leading-relaxed">Além das matrizes, uma maneira de representar um conjunto de dados, nesta aula você aprenderá a realizar operações em que elas são envolvidas, incluindo o cálculo da matriz inversa e, também aprenderá, os determinantes, que é um número real associado a uma matriz quadrada.</p>
+                </section>
+                <section id="conteudo-1">
+                    <h3 class="text-xl font-bold mt-6 mb-2"><strong>Introdução</strong></h3>
+                    <p class="leading-relaxed">Olá, estudante!<br>Nesta aula, você aprenderá sobre as matrizes, uma maneira de representar um conjunto de dados. Você também aprenderá a realizar operações envolvendo as matrizes, incluindo o cálculo da matriz inversa. Além disso, você aprenderá os determinantes, que é um número real associado a uma matriz quadrada.<br>Ao final desta abordagem, espera-se que você seja capaz de identificar e de realizar operações envolvendo as matrizes, de encontrar uma matriz inversa e de realizar o cálculo do determinante de uma matriz quadrada. Também que saiba utilizar tais conceitos em aplicações relacionadas à sua profissão. Eles são amplamente utilizados em processamento computacional de imagens, em modelos construtivos de estruturas 3D e em outras áreas da engenharia.<br>Bons estudos!</p>
+
+                    <h3 class="text-xl font-bold mt-6 mb-2"><strong>Matrizes</strong></h3>
+                    <p class="leading-relaxed">Uma matriz pode ser definida como a representação de um conjunto de dados em uma tabela, organizada em linhas e colunas. Veja sua definição a seguir.</p>
+
+                    <h4 class="text-lg font-bold mt-4 mb-2"><strong>Matriz</strong></h4>
+                    <p class="leading-relaxed">Dados dois números naturais não nulos $m$ e $n$, uma matriz real M de ordem $m$ por $n$ (indica-se $m \times n$) é uma tabela de números reais, dispostos em $m$ linhas e $n$ colunas.<br><strong>Exemplo 1:</strong></p>
+                    <ol class="list-decimal list-inside ml-4" type="a">
+                        <li>$$A = \begin{bmatrix} 1 & 2 & 4 \\ 5 & 3 & -1 \\ -3 & 0 & -2 \end{bmatrix}$$</li>
+                        <li>$$B = \begin{bmatrix} 0 & \frac{1}{2} \end{bmatrix}$$</li>
+                        <li>$$C = \begin{bmatrix} -5 \\ 1 \end{bmatrix}$$</li>
+                    </ol>
+                    <p class="leading-relaxed">Cada elemento de uma matriz é indicado por $a_{ij}$, de modo que o índice <em>i</em> indica a linha e o índice <em>j</em> indica a coluna às quais o elemento pertence.</p>
+                    <p class="leading-relaxed">$$M = \begin{pmatrix} a_{11} & \cdots & a_{1n} \\ \vdots & \ddots & \vdots \\ a_{m1} & \cdots & a_{mn} \end{pmatrix}$$</p>
+                    <p class="leading-relaxed">Algumas matrizes recebem um nome especial de acordo com as características que possuem. Veja a seguir.</p>
+
+                    <h4 class="text-lg font-bold mt-4 mb-2"><strong>Matriz linha</strong></h4>
+                    <p class="leading-relaxed">Uma matriz linha é toda matriz do tipo $1 \times n$, ou seja, possui uma única linha.<br><strong>Exemplo 2:</strong> $$D = \begin{bmatrix} 1 & -2 & 2 & -1 \end{bmatrix}$$</p>
+
+                    <h4 class="text-lg font-bold mt-4 mb-2"><strong>Matriz coluna</strong></h4>
+                    <p class="leading-relaxed">Uma matriz coluna é toda matriz do tipo $m \times 1$, ou seja, possui uma única coluna.<br><strong>Exemplo 3:</strong> $$E = \begin{bmatrix} 0 \\ 20 \\ -5 \end{bmatrix}$$</p>
+
+                    <h4 class="text-lg font-bold mt-4 mb-2"><strong>Matriz nula</strong></h4>
+                    <p class="leading-relaxed">Uma matriz nula é toda matriz em que todos os elementos são iguais a zero.<br><strong>Exemplo 4:</strong></p>
+                    <ol class="list-decimal list-inside ml-4" type="a">
+                        <li>$$F = \begin{bmatrix} 0 & 0 & 0 \end{bmatrix}$$</li>
+                        <li>$$G = \begin{bmatrix} 0 & 0 \\ 0 & 0 \end{bmatrix}$$</li>
+                    </ol>
+
+                    <h4 class="text-lg font-bold mt-4 mb-2"><strong>Matriz quadrada</strong></h4>
+                    <p class="leading-relaxed">Uma matriz quadrada de ordem $n$ é toda matriz do tipo $n \times n$, ou seja, uma matriz que possui o mesmo número de linhas e colunas.<br><strong>Exemplo 5:</strong></p>
+                    <ol class="list-decimal list-inside ml-4" type="a">
+                        <li>$$M = \begin{bmatrix} 3 & -3 \\ 5 & 10 \end{bmatrix}$$ é uma matriz quadrada de ordem 2.</li>
+                        <li>$$N = \begin{bmatrix} 92 & 0 & 5 \\ \frac{3}{7} & 33 & -2 \\ -20 & 7 & 4 \end{bmatrix}$$ é uma matriz quadrada de ordem 3.</li>
+                    </ol>
+                    <p class="leading-relaxed">Em uma matriz quadrada, chama-se de diagonal principal o conjunto de elementos que possuem os índices <em>i</em> e <em>j</em> iguais, isto é, $\{a_{ij} / i=j\} = \{a_{11}, a_{22}, a_{33}, ..., a_{nn}\}$.<br>Em uma matriz quadrada, chama-se de diagonal secundária o conjunto de elementos que possuem a soma dos índices <em>i</em> e <em>j</em> igual a $n + 1$, isto é, $\{a_{ij} / i+j=n+1\} = \{a_{1n}, a_{2,n-1}, a_{3,n-2}, ..., a_{n1}\}$.</p>
+
+                    <h4 class="text-lg font-bold mt-4 mb-2"><strong>Matriz diagonal</strong></h4>
+                    <p class="leading-relaxed">Uma matriz diagonal é toda matriz quadrada em que todos os elementos que não pertencem à diagonal principal são iguais a zero.<br><strong>Exemplo 6:</strong></p>
+                    <ol class="list-decimal list-inside ml-4" type="a">
+                        <li>$$H = \begin{bmatrix} -2 & 0 \\ 0 & 6 \end{bmatrix}$$</li>
+                        <li>$$J = \begin{bmatrix} 4 & 0 & 0 \\ 0 & -7 & 0 \\ 0 & 0 & 5 \end{bmatrix}$$</li>
+                    </ol>
+
+                    <h4 class="text-lg font-bold mt-4 mb-2"><strong>Matriz identidade</strong></h4>
+                    <p class="leading-relaxed">Uma matriz identidade é toda matriz diagonal em que todos os elementos da diagonal principal são iguais a 1. Indica-se uma matriz identidade por $I_n$, em que $n$ indica a ordem da matriz.<br><strong>Exemplo 7:</strong></p>
+                    <ol class="list-decimal list-inside ml-4" type="a">
+                        <li>$$I_2 = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$$ é uma matriz identidade de ordem 2.</li>
+                        <li>$$I_3 = \begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{bmatrix}$$ é uma matriz identidade de ordem 3.</li>
+                    </ol>
+                    <p class="leading-relaxed">Desse modo você pode aprender a identificar matrizes que serão utilizadas nos conceitos seguintes.</p>
+
+                    <h3 class="text-xl font-bold mt-6 mb-2"><strong>Operações com matrizes</strong></h3>
+                    <p class="leading-relaxed">Vamos aprender a realizar operações envolvendo as matrizes.</p>
+
+                    <h4 class="text-lg font-bold mt-4 mb-2"><strong>Igualdade entre matrizes</strong></h4>
+                    <p class="leading-relaxed">Sejam duas matrizes A e B que pertencem ao conjunto das matrizes $M_{m \times n} \in \mathbb{R}$, ou seja, possuem o mesmo tamanho. As matrizes A e B são iguais se apresentam todos os elementos correspondentes iguais, isto é, $A=B \Leftrightarrow a_{ij} = b_{ij}$, $\forall i = 1, ..., m; j = 1, ..., n$.<br><strong>Exemplo 1:</strong> Sejam as matrizes $A = \begin{bmatrix} 2x & 3y \\ z+w & 6 \end{bmatrix}$ e $B = \begin{bmatrix} 4 & -9 \\ 1 & 2z \end{bmatrix}$. Sabendo que A = B, vamos determinar os valores de x, y, z e w.<br>Como as matrizes A e B são iguais, temos que seus elementos correspondentes são iguais. Assim:</p>
+                    <p class="leading-relaxed">
+                    $2x = 4 \Leftrightarrow x = 2$<br>
+                    $3y = -9 \Leftrightarrow y = -3$<br>
+                    $6 = 2z \Leftrightarrow z = 3$<br>
+                    $z+w = 1 \Leftrightarrow 3+w = 1 \Leftrightarrow w = -2$
+                    </p>
+
+                    <h4 class="text-lg font-bold mt-4 mb-2"><strong>Adição de matrizes</strong></h4>
+                    <p class="leading-relaxed">Sejam as matrizes A, B e C que pertencem ao conjunto das matrizes $M_{m \times n} \in \mathbb{R}$, ou seja, possuem o mesmo tamanho. Tem-se que a soma das matrizes A e B é uma matriz C na qual cada elemento é resultado da soma dos elementos correspondentes em A e B, isto é, $C = A+B \Leftrightarrow c_{ij} = a_{ij} + b_{ij}$, $\forall i = 1, ..., m; j = 1, ..., n$.<br><strong>Exemplo 2:</strong> Determine a matriz C sabendo que ela é a soma das matrizes A e B, que são $A = \begin{bmatrix} 3 \\ -1 \\ 7 \end{bmatrix}$ e $B = \begin{bmatrix} 2 \\ 7 \\ -3 \end{bmatrix}$.</p>
+                    <p class="leading-relaxed">$$C = A+B = \begin{bmatrix} 3 \\ -1 \\ 7 \end{bmatrix} + \begin{bmatrix} 2 \\ 7 \\ -3 \end{bmatrix} = \begin{bmatrix} 3+2 \\ -1+7 \\ 7+(-3) \end{bmatrix} = \begin{bmatrix} 5 \\ 6 \\ 4 \end{bmatrix}$$</p>
+
+                    <h4 class="text-lg font-bold mt-4 mb-2"><strong>Multiplicação de uma matriz por um escalar</strong></h4>
+                    <p class="leading-relaxed">Sejam duas matrizes A e B que pertencem ao conjunto das matrizes $M_{m \times n} \in \mathbb{R}$, ou seja, possuem o mesmo tamanho; e o escalar $\alpha$. Ao multiplicar a matriz A pelo escalar $\alpha$ obtém-se a matriz B, cujos os elementos são o elementos da matriz A multiplicados pelo escalar $\alpha$, isto é, $B = \alpha \cdot A \Leftrightarrow b_{ij} = \alpha \cdot a_{ij}$, $\forall i = 1, ..., m; j = 1, ..., n$.<br><strong>Exemplo 3:</strong> Dada a matriz $D = \begin{bmatrix} 5 & -3 & 10 & 1 \end{bmatrix}$, calcule -2D.</p>
+                    <p class="leading-relaxed">$$-2D = -2 \cdot \begin{bmatrix} 5 & -3 & 10 & 1 \end{bmatrix} = \begin{bmatrix} -2 \cdot 5 & -2 \cdot (-3) & -2 \cdot 10 & -2 \cdot 1 \end{bmatrix} = \begin{bmatrix} -10 & 6 & -20 & -2 \end{bmatrix}$$</p>
+
+                    <h4 class="text-lg font-bold mt-4 mb-2"><strong>Produto (ou multiplicação) entre matrizes</strong></h4>
+                    <p class="leading-relaxed">Dadas as matrizes $A \in M_{m \times n}(\mathbb{R})$, $B \in M_{n \times p}(\mathbb{R})$ e $C \in M_{p \times q}(\mathbb{R})$ temos que o produto da matriz A pela matriz B resulta na matriz C de modo que $C = A \cdot B \Leftrightarrow c_{ik} = a_{i1} \cdot b_{1k} + a_{i2} \cdot b_{2k} + ... + a_{in} \cdot b_{nk} = \sum_{j=1}^{n} a_{ij} \cdot b_{jk}$.</p>
+                    <p class="leading-relaxed">É importante verificar que nem sempre é possível realizar a multiplicação entre duas matrizes, já que nem sempre a condição relacionada ao tamanho dessas matrizes é satisfeita. Logo, o primeiro passo é verificar se a multiplicação pode ou não ocorrer, o que pode ser feito por meio de um procedimento simples (Figura 1). Basta verificar se o número de colunas da primeira matriz é o mesmo que o número de linhas da segunda matriz. Se estes forem iguais, a multiplicação existe, e a matriz resultante possui o mesmo número de linhas da primeira matriz e de colunas da segunda matriz. Caso contrário, a multiplicação não pode ser realizada.</p>
+                    <figure class="my-4">
+                        <figcaption class="text-center text-sm text-gray-600 mb-2">Figura 1 | Verificação se existe a multiplicação entre duas matrizes</figcaption>
+                        <img src="https://conteudo.avaeduc.com.br/202302/WHITE_LABEL/METODOS_MATEMATICOS/LIVRO/U1/assets/img/fig_a1_01.jpg" alt="Esquema mostrando que a multiplicação de uma matriz A (m x n) por uma matriz B (n x p) só é possível porque o número de colunas de A (n) é igual ao número de linhas de B (n), resultando em uma matriz C (m x p)." class="mx-auto">
+                        <figcaption class="text-center text-xs text-gray-500 mt-2">Fonte: elaborada pela autora.</figcaption>
+                    </figure>
+                    <p class="leading-relaxed"><strong>Exemplo 4:</strong> Sejam as matrizes $A = \begin{bmatrix} 1 & 2 & 0 \\ 0 & 3 & 4 \end{bmatrix}$ e $B = \begin{bmatrix} 5 \\ 6 \\ 7 \end{bmatrix}$. Calcule, se possível:</p>
+                    <ol class="list-decimal list-inside ml-4" type="a">
+                        <li>$A \cdot B$</li>
+                        <li>$B \cdot A$</li>
+                    </ol>
+                    <p class="leading-relaxed">Vamos resolver cada item.</p>
+                    <ol class="list-decimal list-inside ml-4" type="a">
+                        <li>Primeiramente, vamos verificar se a multiplicação pode ocorrer.<br>Temos $A_{2 \times 3} \cdot B_{3 \times 1} = \begin{bmatrix} 1 & 2 & 0 \\ 0 & 3 & 4 \end{bmatrix} \cdot \begin{bmatrix} 5 \\ 6 \\ 7 \end{bmatrix}$, em que o número de colunas da matriz A é igual ao número de linhas da matriz B.<br>Então a multiplicação pode ser realizada e a matriz resultante será $C_{2 \times 1}$.<br>$$C = \begin{bmatrix} c_{11} \\ c_{21} \end{bmatrix} = \begin{bmatrix} 1 \cdot 5 + 2 \cdot 6 + 0 \cdot 7 \\ 0 \cdot 5 + 3 \cdot 6 + 4 \cdot 7 \end{bmatrix} = \begin{bmatrix} 17 \\ 46 \end{bmatrix}$$</li>
+                        <li>Primeiramente, vamos verificar se a multiplicação pode ocorrer. Temos $B_{3 \times 1} \cdot A_{2 \times 3}$, em que o número de colunas da matriz B não é igual ao número de linhas da matriz A. Com isso, essa multiplicação não pode ser realizada.<br>Desse modo, você aprendeu a realizar operações que envolvem as matrizes.</li>
+                    </ol>
+
+                    <h3 class="text-xl font-bold mt-6 mb-2"><strong>Cálculo do determinante</strong></h3>
+                    <p class="leading-relaxed">Agora que você aprendeu o que são as matrizes, vamos estudar os determinantes. Veja a definição a seguir.</p>
+
+                    <h4 class="text-lg font-bold mt-4 mb-2"><strong>Determinante</strong></h4>
+                    <p class="leading-relaxed">O determinante é uma função que transforma uma matriz quadrada em um número real. Desse modo, para uma matriz A, indicamos seu determinante como det(A). Observe que apenas matrizes quadradas possuem determinantes.</p>
+
+                    <h5 class="text-md font-bold mt-4 mb-2"><strong>Cálculo do determinante de uma matriz de ordem $n = 1$</strong></h5>
+                    <p class="leading-relaxed">Se uma matriz M é de ordem $n=1$, então o determinante de M é o único elemento de M.<br><strong>Exemplo 1:</strong> Seja a matriz $A = [-2]$. Então, $det(A) = -2$.</p>
+
+                    <h5 class="text-md font-bold mt-4 mb-2"><strong>Cálculo do determinante de uma matriz de ordem $n = 2$</strong></h5>
+                    <p class="leading-relaxed">Se uma matriz M é de ordem $n=2$, então o determinante de M é a subtração entre o produto dos elementos de sua diagonal principal e o produto dos elementos de sua diagonal secundária.<br><strong>Exemplo 2:</strong> Seja a matriz $B = \begin{bmatrix} 5 & -1 \\ 4 & 3 \end{bmatrix}$. Então, $det(B) = 5 \cdot 3 - (-1 \cdot 4) = 15 - (-4) = 19$.</p>
+
+                    <h5 class="text-md font-bold mt-4 mb-2"><strong>Determinante de uma matriz de ordem $n = 3$ (Regra de Sarrus)</strong></h5>
+                    <p class="leading-relaxed">Se uma matriz M é de ordem $n=3$, cujos elementos são definidos como $a_{ij}$, para calcular o determinante de M realizamos um procedimento prático da seguinte forma.</p>
+                    <ol class="list-decimal list-inside ml-4" type="i">
+                        <li>Repete, ao lado direito da matriz, suas duas primeiras colunas.</li>
+                        <li>Realiza-se o produto dos elementos da diagonal principal e das demais que seguem sua direção, somando os resultados (Figura 2).</li>
+                        <li>Realiza-se o produto dos elementos da diagonal secundária e das demais que seguem sua direção, subtraindo os resultados (Figura 2).</li>
+                        <li>Ao final, obtemos o resultado do determinante da matriz.</li>
+                    </ol>
+                    <figure class="my-4">
+                        <figcaption class="text-center text-sm text-gray-600 mb-2">Figura 2 | Procedimento para determinar o determinante de uma matriz de ordem 3</figcaption>
+                        <img src="https://conteudo.avaeduc.com.br/202302/WHITE_LABEL/METODOS_MATEMATICOS/LIVRO/U1/assets/img/fig_a1_02.jpg" alt="Esquema da Regra de Sarrus para cálculo de determinante 3x3, mostrando a repetição das duas primeiras colunas e as setas indicando as multiplicações nas diagonais." class="mx-auto">
+                        <figcaption class="text-center text-xs text-gray-500 mt-2">Fonte: IEZZI; HAZZAN (2004).</figcaption>
+                    </figure>
+                    <p class="leading-relaxed"><strong>Exemplo 3:</strong> Calcule o determinante da matriz $E = \begin{bmatrix} 1 & 4 & 3 \\ 2 & -1 & -3 \\ 0 & 5 & -2 \end{bmatrix}$.</p>
+                    <p class="leading-relaxed">
+                    $det(E) = \begin{vmatrix} 1 & 4 & 3 \\ 2 & -1 & -3 \\ 0 & 5 & -2 \end{vmatrix} \begin{matrix} 1 & 4 \\ 2 & -1 \\ 0 & 5 \end{matrix} = $<br>
+                    $= [1 \cdot (-1) \cdot (-2)] + [4 \cdot (-3) \cdot 0] + [3 \cdot 2 \cdot 5] - [4 \cdot 2 \cdot (-2)] - [1 \cdot (-3) \cdot 5] - [3 \cdot (-1) \cdot 0] = $<br>
+                    $= 2 + 0 + 30 + 16 + 15 + 0 = 63$
+                    </p>
+                    <p class="leading-relaxed">Você pode perceber que o procedimento para o cálculo do determinante de uma matriz de ordem 2 e de ordem 3 é parecido. Com isto, podemos generalizar o procedimento do cálculo do determinante para qualquer matriz quadrada de ordem 2 ou superior por meio do Teorema de Laplace. Para isso, é preciso entender algumas definições que serão usadas pelo teorema. Veja a seguir.</p>
+
+                    <h4 class="text-lg font-bold mt-4 mb-2"><strong>Menor complementar</strong></h4>
+                    <p class="leading-relaxed">Seja uma matriz M de ordem $n \ge 2$. O menor complementar do elemento $a_{ij}$, indicado por $D_{ij}$, é o determinante da matriz que se obtém quando retiramos a linha <em>i</em> e a coluna <em>j</em> de M.<br><strong>Exemplo 4:</strong> Seja $M = \begin{bmatrix} 2 & 3 & 4 \\ 5 & 2 & 1 \\ -3 & 7 & 1 \end{bmatrix}$. Calcule $D_{23}$.<br>Para calcular $D_{23}$ retiramos a linha 2 e a coluna 3 da matriz M.<br>Assim, $D_{23} = \begin{vmatrix} 2 & 3 \\ -3 & 7 \end{vmatrix} = 2 \cdot 7 - 3 \cdot (-3) = 14+9=23$.<br>É possível calcular o menor complementar de qualquer elemento de uma matriz quadrada.</p>
+
+                    <h4 class="text-lg font-bold mt-4 mb-2"><strong>Cofator</strong></h4>
+                    <p class="leading-relaxed">Seja uma matriz M de ordem $n \ge 2$. O cofator do elemento $a_{ij}$, indicado por $A_{ij}$, é tal que $A_{ij} = (-1)^{i+j} \cdot D_{ij}$.<br><strong>Exemplo 5:</strong> Para a mesma matriz $M = \begin{bmatrix} 2 & 3 & 4 \\ 5 & 2 & 1 \\ -3 & 7 & 1 \end{bmatrix}$ do Exemplo 4, calcule $A_{23}$.<br>$A_{23} = (-1)^{2+3} \cdot D_{23} = (-1)^5 \cdot 23 = -1 \cdot 23 = -23$.<br>É possível calcular o cofator de qualquer elemento de uma matriz quadrada.<br>Desse modo, podemos definir o Teorema de Laplace para o cálculo de determinante de qualquer matriz quadrada de ordem $n \ge 2$.</p>
+
+                    <h4 class="text-lg font-bold mt-4 mb-2"><strong>Teorema de Laplace</strong></h4>
+                    <p class="leading-relaxed">O determinante de uma matriz M de ordem $n \ge 2$ é a soma dos produtos dos elementos de uma fila qualquer (linha ou coluna) pelos seus respectivos cofatores.<br><strong>Exemplo 6:</strong> Calcule o determinante da matriz $V = \begin{bmatrix} 5 & 0 & 2 \\ 3 & -3 & 1 \\ -2 & 0 & 8 \end{bmatrix}$ através do Teorema de Laplace.<br>Escolhendo a coluna 2 temos $det(V) = 0 \cdot A_{12} + (-3) \cdot A_{22} + 0 \cdot A_{32}$.<br>Observe que, os cofatores que são multiplicados por 0 não precisam ser calculados, pois o resultado da multiplicação será 0. Com isso, precisamos calcular, apenas, o cofator $A_{22}$.</p>
+                    <p class="leading-relaxed">
+                    $A_{22} = (-1)^{2+2} \cdot \begin{vmatrix} 5 & 2 \\ -2 & 8 \end{vmatrix} = (-1)^4 \cdot [5 \cdot 8 - 2 \cdot (-2)] = 1 \cdot 44 = 44$
+                    </p>
+                    <p class="leading-relaxed">Portanto, $det(V) = 0 \cdot A_{12} + (-3) \cdot A_{22} + 0 \cdot A_{32} = 0 + (-3) \cdot 44 + 0 = -132$.<br>Ao fazer a escolha da fila (linha ou coluna) da matriz para aplicar o Teorema de Laplace, é vantajoso escolher a fila que for composta por mais zeros.<br>Na maioria das vezes, quando se estudam matrizes, dá-se maior importância para o cálculo de determinantes, pois é a partir deste que se adquire conhecimento para a resolução de sistemas lineares, um tópico também muito aplicado na matemática e engenharia.</p>
+
+                    <h3 class="text-xl font-bold mt-6 mb-2"><strong>Vídeo Resumo</strong></h3>
+                    <p class="leading-relaxed">Neste vídeo, você verá o resumo dos conceitos abordados sobre as matrizes, envolvendo a identificação das matrizes especiais e suas operações; e sobre o cálculo do determinante de uma matriz quadrada, além de alguns exemplos para ajudar a fixação do conteúdo.</p>
+                    <p class="leading-relaxed">Para assistir ao vídeo sobre este tópico, <a href="https://mdstrm.com/embed/63e3e474e9d813047c5381d5" target="_blank" class="text-blue-600 hover:underline">clique aqui</a>.</p>
+
+                    <div class="mt-4 p-4 bg-gray-100 rounded">
+                        <h3 class="text-lg font-bold mb-2"><strong>Saiba mais</strong></h3>
+                        <p class="leading-relaxed">Para saber mais sobre as matrizes e os determinantes, você pode acessar os links: <a href="https://www.todamateria.com.br/matrizes-e-determinantes/" target="_blank" class="text-blue-600 hover:underline">Toda Matéria</a> e <a href="https://matematicabasica.net/matrizes-e-determinantes/" target="_blank" class="text-blue-600 hover:underline">Matemática Básica</a>. Nestas páginas, você encontrará exemplos dos conceitos abordados nesta aula.</p>
+                    </div>
+                </section>
+
+                <hr class="my-8 border-gray-300">
+
+                <section id="aula2">
+                    <h2 class="text-2xl font-bold mt-8 mb-4">Aula 2 - Sistemas de equações lineares</h2>
+                    <p class="leading-relaxed">Os sistemas de equações lineares são uma maneira de representar um conjunto de dados que também pode ser expresso na forma de uma matriz.</p>
+                </section>
+
+                <section id="conteudo-2">
+                    <h3 class="text-xl font-bold mt-6 mb-2"><strong>Introdução</strong></h3>
+                    <p class="leading-relaxed">Olá, estudante!<br>Nesta aula, você aprenderá sobre os sistemas de equações lineares, uma maneira de representar um conjunto de dados que também pode ser expresso na forma de uma matriz. Você aprenderá a identificar quando um sistema de equações lineares é classificado como homogêneo ou não-homogêneo e a aplicar a fatoração LU nestes sistemas.<br>Ao final desta aula, espera-se que você seja capaz de identificar e realizar operações envolvendo os sistemas de equações lineares, e saiba utilizar tais conceitos em aplicações relacionadas à sua profissão. Estes conceitos serão amplamente utilizados na disciplina de Métodos Matemáticos e em outras disciplinas ao longo do curso.<br>Bons estudos!</p>
+
+                    <h3 class="text-xl font-bold mt-6 mb-2"><strong>Sistemas de equações lineares</strong></h3>
+                    <p class="leading-relaxed">Uma equação linear é toda equação do tipo $a_{11}x_1 + a_{12}x_2 + ... + a_{1n}x_n = b$, na qual $x_1, x_2, ..., x_n$ são as incógnitas; $a_{11}, a_{12}, ..., a_{1n} \in \mathbb{R}$ são chamados de coeficientes; e $b \in \mathbb{R}$ é chamado de termo independente da equação.<br>Exemplo 1: São exemplos de equações lineares:</p>
+                    <ol class="list-decimal list-inside ml-4" type="a">
+                        <li>$3x_1 + 2x_2 - 15x_3 = -1$</li>
+                        <li>$-2x + 7y = 0$</li>
+                    </ol>
+                    <p class="leading-relaxed">Podemos diferenciar as incógnitas de uma equação linear por meio da variação de seu índice ou pela mudança do nome.<br>Exemplo 2: Não são exemplos de equações lineares:</p>
+                    <ol class="list-decimal list-inside ml-4" type="a">
+                        <li>Item 1</li>
+                    </ol>
+                    <p class="leading-relaxed">Neste exemplo, as equações são ditas não-lineares pois existe a multiplicação entre as incógnitas da equação. (Lembrete: ).<br>A solução de uma equação linear é uma sequência de $n$ números reais que satisfaz a equação linear.<br>Exemplo 3:</p>
+                    <ol class="list-decimal list-inside ml-4" type="a">
+                        <li>Para a equação ..., temos que uma solução é (-1, 1, 0), pois .</li>
+                        <li>Para a equação ..., temos que uma solução é (7, 2), pois .</li>
+                    </ol>
+                    <p class="leading-relaxed">Observe que, em alguns casos, uma equação linear pode ter mais que uma solução possível.<br>Desse modo, podemos definir o que é um sistema de equações lineares. Veja a seguir.</p>
+
+                    <h4 class="text-lg font-bold mt-4 mb-2"><strong>Sistema de equações lineares</strong></h4>
+                    <p class="leading-relaxed">Um sistema de equações lineares (ou apenas sistema linear) é um conjunto com $m$ equações lineares, cada uma delas com $n$ incógnitas.</p>
+                    <p class="leading-relaxed">$$\begin{cases} a_{11}x_1 + a_{12}x_2 + ... + a_{1n}x_n = b_1 \\ a_{21}x_1 + a_{22}x_2 + ... + a_{2n}x_n = b_2 \\ \vdots \\ a_{m1}x_1 + a_{m2}x_2 + ... + a_{mn}x_n = b_m \end{cases}$$</p>
+                    <p class="leading-relaxed">Exemplo 4: são exemplos de sistemas lineares:</p>
+                    <ol class="list-decimal list-inside ml-4" type="a">
+                        <li>$$\begin{cases} x_1 - 3x_2 = 20 \\ -2x_1 + x_2 = 4 \end{cases}$$</li>
+                        <li>$$\begin{cases} x + 2y - 3z = 9 \\ -x - 3y + 2z = 0 \\ 5x + y - z = -3 \end{cases}$$</li>
+                    </ol>
+                    <p class="leading-relaxed">Quando todos os termos independentes são iguais a zero, ou seja, $b_1, b_2, ..., b_n = 0$, tem-se um sistema linear homogêneo.<br>Exemplo 5: $$\begin{cases} x+y+z=0 \\ 2x-y-z=0 \end{cases}$$ é um sistema linear homogêneo.<br>Da mesma maneira que temos a solução da equação linear, tem-se a solução de um sistema linear. Para o sistema, a solução é uma sequência de $n$ números reais $(\alpha_1, \alpha_2, ..., \alpha_n)$ que deve satisfazer todas as equações do sistema simultaneamente.<br>Exemplo 6: para o sistema linear $$\begin{cases} x+y=10 \\ 3x-4y=2 \end{cases}$$ temos como única solução S = {(6, 4)}, pois $6+4=10$ e $3 \cdot 6 - 4 \cdot 4 = 2$.<br>Exemplo 7: Para o sistema linear $$\begin{cases} x+y-z=0 \\ 4y+2z=6 \end{cases}$$ temos como algumas soluções possíveis S= {(1, 0, 1); (0, 1, 1); (9, -8, 1); ...}.<br>Observe que este sistema linear possui infinitas soluções. As soluções apresentadas são apenas algumas que satisfazem todas as suas equações.<br>Exemplo 8: Para o sistema linear $$\begin{cases} x+y=3 \\ x+y=4 \end{cases}$$ não existe um conjunto solução que satisfaça todas as equações simultaneamente, pois a soma de dois números reais é única, não podendo resultar em valores distintos. Neste caso, indicamos por S = ∅ ou S = { }.<br>Nos exemplos anteriores, você pode observar que um sistema de equações lineares pode resultar em três tipos de solução distintas: solução única, infinitas soluções e solução vazia (ou seja, nesse caso, não existe solução). Desse modo, podemos classificar um sistema linear de acordo com sua solução.</p>
+
+                    <h4 class="text-lg font-bold mt-4 mb-2"><strong>Classificação de um sistema linear</strong></h4>
+                    <ol class="list-decimal list-inside ml-4" type="I">
+                        <li>Sistema possível e determinado: é aquele que possui uma única solução.</li>
+                        <li>Sistema possível e indeterminado: é aquele que possui infinitas soluções.</li>
+                        <li>Sistema impossível: é aquele que não possui solução.</li>
+                    </ol>
+                    <p class="leading-relaxed">Desse modo, você pode identificar um sistema linear de acordo com sua solução.</p>
+
+                    <h3 class="text-xl font-bold mt-6 mb-2"><strong>Solução geométrica de um sistema lineares</strong></h3>
+                    <p class="leading-relaxed">Como você viu, um sistema de equações lineares pode ter três tipos distintos de solução, sendo classificado de acordo com ela como um sistema possível e determinado, um sistema possível e indeterminado ou um sistema impossível. Durante nossos estudos, você vai aprender a interpretação geométrica de um sistema linear e como identificar sua solução por meio dos gráficos das equações que compõem o sistema. Veja a seguir.<br>Exemplo 1: seja o sistema linear $$\begin{cases} x+2y=3 \\ -2x+y=-1 \end{cases}$$. A seguir, a Figura 1 apresenta a solução gráfica para o sistema linear, em que a primeira equação se encontra na cor verde; e a segunda equação encontra-se na cor azul.</p>
+                    <figure class="my-4">
+                        <figcaption class="text-center text-sm text-gray-600 mb-2">Figura 1 | Resolução geométrica do sistema linear do Exemplo 1</figcaption>
+                        <img src="https://conteudo.avaeduc.com.br/202302/WHITE_LABEL/METODOS_MATEMATICOS/LIVRO/U1/assets/img/fig_a2_01.jpg" alt="Gráfico de duas retas concorrentes que se cruzam no ponto (1,1)." class="mx-auto">
+                        <figcaption class="text-center text-xs text-gray-500 mt-2">Fonte: elaborada pela autora.</figcaption>
+                    </figure>
+                    <p class="leading-relaxed">Observe que o ponto S = (1, 1), em vermelho, indica a intersecção das duas retas que compõem o sistema. A intersecção das retas de um sistema linear é a solução desse sistema.<br>Desse modo temos que: $x+2y=3 \Leftrightarrow 1+2 \cdot 1=3$ e $-2x+y=-1 \Leftrightarrow -2 \cdot 1+1=-1$.<br>Portanto, esse sistema é um sistema possível e determinado cuja solução é S = {(1, 1)}.<br>Exemplo 2: seja o sistema linear $$\begin{cases} x+y=2 \\ 2x+2y=4 \end{cases}$$. A seguir, a Figura 2 apresenta a solução gráfica para o sistema linear, em que a primeira equação se encontra no lado esquerdo da figura; e a segunda equação encontra-se no lado direito da figura.</p>
+                    <figure class="my-4">
+                        <figcaption class="text-center text-sm text-gray-600 mb-2">Figura 2 | Resolução geométrica do sistema linear do Exemplo 2</figcaption>
+                        <img src="https://conteudo.avaeduc.com.br/202302/WHITE_LABEL/METODOS_MATEMATICOS/LIVRO/U1/assets/img/fig_a2_02-a.jpg" alt="Gráfico da reta x+y=2." class="mx-auto">
+                        <img src="https://conteudo.avaeduc.com.br/202302/WHITE_LABEL/METODOS_MATEMATICOS/LIVRO/U1/assets/img/fig_a2_02-b.jpg" alt="Gráfico da reta 2x+2y=4. As duas retas são coincidentes." class="mx-auto">
+                        <figcaption class="text-center text-xs text-gray-500 mt-2">Fonte: elaborada pela autora.</figcaption>
+                    </figure>
+                    <p class="leading-relaxed">Observe na Figura 2 que, ao traçarmos as retas que compõem o sistema linear, elas ficam dispostas uma em cima da outra. Desse modo, vemos que todos os pontos pertencentes a ambas as retas são soluções do sistema.<br>Portanto, esse é um sistema possível e indeterminado cujas soluções são infinitas.<br>Exemplo 3: seja o sistema linear $$\begin{cases} -7x+2y=1 \\ -21x+6y=-2 \end{cases}$$. A seguir, a Figura 3 apresenta a solução gráfica para o sistema linear, em que a primeira equação é representada pela reta mais à esquerda na figura; e a segunda equação é representada pela reta mais à direita na figura.</p>
+                    <figure class="my-4">
+                        <figcaption class="text-center text-sm text-gray-600 mb-2">Figura 3 | Resolução geométrica do sistema linear do Exemplo 3</figcaption>
+                        <img src="https://conteudo.avaeduc.com.br/202302/WHITE_LABEL/METODOS_MATEMATICOS/LIVRO/U1/assets/img/fig_a2_03.jpg" alt="Gráfico de duas retas paralelas que nunca se cruzam." class="mx-auto">
+                        <figcaption class="text-center text-xs text-gray-500 mt-2">Fonte: elaborada pela autora.</figcaption>
+                    </figure>
+                    <p class="leading-relaxed">Observe na Figura 3 que, ao traçarmos as retas que compõem o sistema linear, não há intersecção entre elas. Assim, o sistema linear não possui solução. Portanto, este é um sistema impossível cuja solução é S = ∅.<br>Desse modo, você aprendeu que pode encontrar a solução de um sistema de equações lineares a partir de sua resolução geométrica. Porém, imagine que o sistema que você precisa resolver possua um número grande de incógnitas. Neste caso, sua resolução gráfica se torna inviável.<br>Mais adiante, você vai aprender a encontrar a solução de um sistema de equações lineares sem a necessidade de utilizar a ferramenta geométrica, por meio de um método prático de resolução algébrica.</p>
+
+                    <h3 class="text-xl font-bold mt-6 mb-2"><strong>Solução de um sistema linear através da decomposição LU</strong></h3>
+                    <p class="leading-relaxed">Vamos aprender a encontrar a solução de um sistema a partir de um método prático chamado de decomposição LU. Antes disso, vamos conhecer o conceito de matriz triangular.</p>
+
+                    <h4 class="text-lg font-bold mt-4 mb-2"><strong>Matriz triangular superior</strong></h4>
+                    <p class="leading-relaxed">Uma matriz triangular superior é uma matriz quadrada na qual os elementos abaixo da diagonal principal são todos nulos.</p>
+
+                    <h4 class="text-lg font-bold mt-4 mb-2"><strong>Matriz triangular inferior</strong></h4>
+                    <p class="leading-relaxed">Uma matriz triangular inferior é uma matriz quadrada na qual os elementos acima da diagonal principal são todos nulos.<br>Exemplo 1:</p>
+                    <ol class="list-decimal list-inside ml-4" type="a">
+                        <li>$$B = \begin{bmatrix} 4 & 7 & -1 \\ 0 & -6 & 3 \\ 0 & 0 & 1 \end{bmatrix}$$ é uma matriz triangular superior.</li>
+                        <li>$$C = \begin{bmatrix} -1 & 0 & 0 \\ -5 & 4 & 0 \\ 8 & -3 & 3 \end{bmatrix}$$ é uma matriz triangular inferior.</li>
+                    </ol>
+                    <p class="leading-relaxed">A partir da definição do produto entre matrizes, podemos reescrever um sistema linear na forma matricial.</p>
+                    <p class="leading-relaxed">$$\begin{cases} a_{11}x_1 + ... + a_{1n}x_n = b_1 \\ \vdots \\ a_{m1}x_1 + ... + a_{mn}x_n = b_m \end{cases} \Leftrightarrow \begin{bmatrix} a_{11} & \cdots & a_{1n} \\ \vdots & \ddots & \vdots \\ a_{m1} & \cdots & a_{mn} \end{bmatrix} \cdot \begin{bmatrix} x_1 \\ \vdots \\ x_n \end{bmatrix} = \begin{bmatrix} b_1 \\ \vdots \\ b_m \end{bmatrix} \Leftrightarrow Ax=b$$</p>
+                    <p class="leading-relaxed">Temos então a equação $Ax = b$, em que $A$ é a matriz dos coeficientes, $x$ é o vetor das variáveis do sistema e $b$ é o vetor dos termos independentes.<br>Exemplo 2: O sistema $$\begin{cases} x+y+z=2 \\ x-y-z=-3 \\ 3x+2y+3z=3 \end{cases}$$ pode ser representado matricialmente por $$\begin{bmatrix} 1 & 1 & 1 \\ 1 & -1 & -1 \\ 3 & 2 & 3 \end{bmatrix} \cdot \begin{bmatrix} x \\ y \\ z \end{bmatrix} = \begin{bmatrix} 2 \\ -3 \\ 3 \end{bmatrix}$$</p>
+
+                    <h4 class="text-lg font-bold mt-4 mb-2"><strong>Decomposição LU</strong></h4>
+                    <p class="leading-relaxed">Para que o método da decomposição LU possa ser aplicado, a matriz A de ordem $n$ deve ter o determinante de todas as suas matrizes principais de menor ordem diferentes de zero; ou seja, as matrizes $A_1 = [a_{11}]$, $A_2 = \begin{bmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{bmatrix}$, ..., até a matriz de ordem $n-1$.<br>O método de decomposição LU pode ser dividido em dois passos:</p>
+                    <ol class="list-decimal list-inside ml-4" type="I">
+                        <li><strong>Passo de decomposição:</strong> a matriz $A$ é fatorada em duas matrizes triangulares: uma matriz triangular inferior $L$ com todos os elementos da diagonal principal iguais a 1; e uma matriz triangular superior $U$, de modo que, realizando a multiplicação entre as matrizes $L \cdot U$, obtemos a matriz $A$.</li>
+                        <li><strong>Resolução do sistema:</strong> as matrizes $L$ e $U$ são usadas para determinar a solução do sistema por meio do processo $Ax = b$.</li>
+                    </ol>
+                    <p class="leading-relaxed">Vamos aplicar o passo a passo da decomposição LU no próximo exemplo.<br>Exemplo 3: seja o sistema $$\begin{cases} 3x+2y+4z=1 \\ x+y+2z=2 \\ 4x+3y-2z=3 \end{cases}$$, que pode ser representado matricialmente por $$\begin{bmatrix} 3 & 2 & 4 \\ 1 & 1 & 2 \\ 4 & 3 & -2 \end{bmatrix} \cdot \begin{bmatrix} x \\ y \\ z \end{bmatrix} = \begin{bmatrix} 1 \\ 2 \\ 3 \end{bmatrix}$$, de forma que $A = \begin{bmatrix} 3 & 2 & 4 \\ 1 & 1 & 2 \\ 4 & 3 & -2 \end{bmatrix}$, $x = \begin{bmatrix} x \\ y \\ z \end{bmatrix}$ e $b = \begin{bmatrix} 1 \\ 2 \\ 3 \end{bmatrix}$.<br>Primeiro, precisamos verificar se os determinantes de todas as matrizes principais de menor ordem de A são diferentes de zero:</p>
+                    <p class="leading-relaxed">$det(A_1) = |3| = 3 \ne 0$</p>
+                    <p class="leading-relaxed">$det(A_2) = \begin{vmatrix} 3 & 2 \\ 1 & 1 \end{vmatrix} = 3 - (2) = 1 \ne 0$</p>
+                    <p class="leading-relaxed">Com isso o método da decomposição LU pode ser aplicado.<br>Vamos agora decompor a matriz A em duas matrizes: uma triangular inferior L e uma triangular superior U.<br>Vamos obter a matriz $L = \begin{bmatrix} 1 & 0 & 0 \\ l_{21} & 1 & 0 \\ l_{31} & l_{32} & 1 \end{bmatrix}$.<br>Os elementos da matriz L são os múltiplos do primeiro elemento da linha de A a ser zerado, dividido pelo pivô acima na mesma coluna. Assim:<br>Para zerar o primeiro elemento da segunda linha de A, calculamos $l_{21} = \frac{a_{21}}{a_{11}} = \frac{1}{3}$ e fazemos a substituição na matriz $A_2 = A_2 - l_{21} \cdot A_1$, obtendo $A = \begin{bmatrix} 3 & 2 & 4 \\ 0 & \frac{1}{3} & \frac{2}{3} \\ 4 & 3 & -2 \end{bmatrix}$.<br>Para zerar o primeiro elemento da terceira linha de A, calculamos $l_{31} = \frac{a_{31}}{a_{11}} = \frac{4}{3}$ e fazemos a substituição na matriz $A_3 = A_3 - l_{31} \cdot A_1$, obtendo $A = \begin{bmatrix} 3 & 2 & 4 \\ 0 & \frac{1}{3} & \frac{2}{3} \\ 0 & \frac{1}{3} & -\frac{22}{3} \end{bmatrix}$.<br>Para zerar o segundo elemento da terceira linha de A, calculamos $l_{32} = \frac{a_{32}}{a_{22}} = \frac{1/3}{1/3} = 1$ e fazemos a substituição na matriz $A_3 = A_3 - l_{32} \cdot A_2$, obtendo $A = \begin{bmatrix} 3 & 2 & 4 \\ 0 & \frac{1}{3} & \frac{2}{3} \\ 0 & 0 & -8 \end{bmatrix}$.<br>Após esse processo, a matriz triangular superior obtida é a nossa matriz U. Desse modo temos $L = \begin{bmatrix} 1 & 0 & 0 \\ \frac{1}{3} & 1 & 0 \\ \frac{4}{3} & 1 & 1 \end{bmatrix}$ e $U = \begin{bmatrix} 3 & 2 & 4 \\ 0 & \frac{1}{3} & \frac{2}{3} \\ 0 & 0 & -8 \end{bmatrix}$.<br>Uma verificação possível da validade das matrizes L e U é realizar a operação $L \cdot U = A \Leftrightarrow \begin{bmatrix} 1 & 0 & 0 \\ \frac{1}{3} & 1 & 0 \\ \frac{4}{3} & 1 & 1 \end{bmatrix} \cdot \begin{bmatrix} 3 & 2 & 4 \\ 0 & \frac{1}{3} & \frac{2}{3} \\ 0 & 0 & -8 \end{bmatrix} = \begin{bmatrix} 3 & 2 & 4 \\ 1 & 1 & 2 \\ 4 & 3 & -2 \end{bmatrix}$.<br>Agora que decompomos a matriz $A$ nas matrizes $L$ e $U$, podemos usá-las para obter a solução do sistema linear $Ax=b \Leftrightarrow LU \cdot x = b$.<br>Usaremos o vetor de incógnitas auxiliar $y$, de modo que, definindo $Ux=y$, temos que $Ly=b$, ou seja, $$\begin{bmatrix} 1 & 0 & 0 \\ \frac{1}{3} & 1 & 0 \\ \frac{4}{3} & 1 & 1 \end{bmatrix} \cdot \begin{bmatrix} y_1 \\ y_2 \\ y_3 \end{bmatrix} = \begin{bmatrix} 1 \\ 2 \\ 3 \end{bmatrix} \Leftrightarrow \begin{cases} y_1 = 1 \\ y_2 = \frac{5}{3} \\ y_3 = 0 \end{cases}$$<br>De volta à relação $Ux=y$, temos $$\begin{bmatrix} 3 & 2 & 4 \\ 0 & \frac{1}{3} & \frac{2}{3} \\ 0 & 0 & -8 \end{bmatrix} \cdot \begin{bmatrix} x \\ y \\ z \end{bmatrix} = \begin{bmatrix} 1 \\ \frac{5}{3} \\ 0 \end{bmatrix} \Leftrightarrow \begin{cases} x = -3 \\ y = 5 \\ z = 0 \end{cases}$$<br>Portanto, a solução do sistema linear é S = {(-3, 5, 0)}.<br>Desse modo, você pode obter a solução de um sistema linear com $n$ incógnitas e sem a necessidade do apelo geométrico.</p>
+
+                    <h3 class="text-xl font-bold mt-6 mb-2"><strong>Vídeo Resumo</strong></h3>
+                    <p class="leading-relaxed">Neste vídeo, você verá o resumo dos conceitos abordados na aula sobre os sistemas de equações lineares, como a identificação de um sistema linear e dos sistemas homogêneos e não-homogêneos, e a resolução de tais sistemas, utilizando a fatoração LU, além de alguns exemplos para ajudar a fixação do conteúdo.</p>
+                    <p class="leading-relaxed">Para assistir ao vídeo sobre este tópico, <a href="https://mdstrm.com/embed/63e3e4e92af45f0868f8a073" target="_blank" class="text-blue-600 hover:underline">clique aqui</a>.</p>
+
+                    <div class="mt-4 p-4 bg-gray-100 rounded">
+                        <h3 class="text-lg font-bold mb-2"><strong>Saiba mais</strong></h3>
+                        <p class="leading-relaxed">Para saber mais sobre os sistemas de equações lineares e a decomposição LU, você pode acessar o livro <a href="https://biblioteca-virtual-cms-serverless-prd.s3.us-east-1.amazonaws.com/ebook/867-geometria-analitica-e-algebra-vetorial.pdf" target="_blank" class="text-blue-600 hover:underline"><em>Geometria Analítica e Álgebra Vetorial</em></a>, páginas de 39 a 52, e o site <a href="https://enigmusacademy7.wordpress.com/2021/08/01/decomposicao-lu-e-ldu/" target="_blank" class="text-blue-600 hover:underline"><em>Enigmus Academy</em></a>. Nessas fontes, você encontrará exemplos dos conceitos abordados nesta aula.</p>
+                    </div>
+                </section>
+
+                <hr class="my-8 border-gray-300">
+
+                <section id="aula4">
+                    <h2 class="text-2xl font-bold mt-8 mb-4">Aula 4 - Autovalores e autovetores</h2>
+                    <p class="leading-relaxed">Os autovalores e autovetores associados a uma transformação linear, um tipo de função entre os espaços vetoriais. Nesta aula, aprenderemos a calcular os autovalores e autovetores associados a uma transformação linear, assim como realizar a ortogonalização e a diagonalização de matrizes.</p>
+                </section>
+
+                <section id="conteudo-4">
+                    <h3 class="text-xl font-bold mt-6 mb-2"><strong>Introdução</strong></h3>
+                    <p class="leading-relaxed">Olá, estudante!<br>Nesta aula, você aprenderá sobre os autovalores e autovetores associados a uma transformação linear, um tipo de função entre os espaços vetoriais. Também aprenderá como realizar a ortogonalização e a diagonalização de uma matriz.<br>Ao final desta aula, espera-se que você seja capaz de calcular os autovalores e autovetores associados a uma transformação linear, assim como realizar a ortogonalização e a diagonalização de matrizes. Também que saiba utilizar tais conceitos em aplicações relacionadas à sua profissão.<br>Bons estudos!</p>
+
+                    <h3 class="text-xl font-bold mt-6 mb-2"><strong>Matriz ortogonal</strong></h3>
+                    <p class="leading-relaxed">Vamos continuar o estudo de conceitos relacionados à álgebra linear. Você aprenderá sobre a matriz ortogonal. Primeiramente, vamos ver aprender sobre a matriz transposta e a matriz inversa, conceitos relacionados às matrizes que serão utilizados durante a aula.</p>
+
+                    <h4 class="text-lg font-bold mt-4 mb-2"><strong>Matriz transposta</strong></h4>
+                    <p class="leading-relaxed">Chamamos de matriz transposta de $A \in M_{m \times n} \in \mathbb{R}$, com elementos de <em>A</em> na forma $a_{ij}$, a matriz $B = A^T$ tal que $b_{ij} = a_{ji}$, $\forall i = 1, ..., m; j = 1, ..., n$. Em outras palavras, a matriz transposta inverte as linhas com as colunas da matriz; ou seja, os elementos que constituem as linhas se transformam em elementos da coluna, e vice-versa.<br><strong>Exemplo 1:</strong></p>
+                    <ol class="list-decimal list-inside ml-4" type="a">
+                        <li>Para $A = \begin{bmatrix} 1 & 2 & 4 \\ 5 & 3 & -1 \\ -3 & 0 & -2 \end{bmatrix}$, então $A^T = \begin{bmatrix} 1 & 5 & -3 \\ 2 & 3 & 0 \\ 4 & -1 & -2 \end{bmatrix}$.</li>
+                    </ol>
+                    <p class="leading-relaxed">Observe que a primeira linha da matriz <em>A</em> se torna a primeira coluna da matriz transposta $A^T$, e assim por diante para todas as linhas e colunas.</p>
+                    <ol class="list-decimal list-inside ml-4" type="a" start="2">
+                        <li>Para $B = \begin{bmatrix} 0 & \frac{1}{2} \end{bmatrix}$, então $B^T = \begin{bmatrix} 0 \\ \frac{1}{2} \end{bmatrix}$.</li>
+                    </ol>
+                    <p class="leading-relaxed">Neste exemplo, a matriz <em>B</em> é uma matriz linha. Já sua matriz transposta $B^T$ é uma matriz coluna.</p>
+
+                    <h4 class="text-lg font-bold mt-4 mb-2"><strong>Matriz inversa</strong></h4>
+                    <p class="leading-relaxed">Uma matriz $A \in M_n \in \mathbb{R}$ é dita inversível, ou seja $\exists A^{-1} \in M_n(\mathbb{R})$, se $A \cdot A^{-1} = A^{-1} \cdot A = I_n$. Ou seja, independentemente de qual seja a ordem da multiplicação entre a matriz quadrada <em>A</em> e sua inversa, esta sempre resultará na matriz identidade de mesma ordem de <em>A</em>.<br>Vale ressaltar que a inversa de uma matriz é única.<br><strong>Exemplo 2:</strong> para $C = \begin{bmatrix} 2 & 1 \\ 5 & 3 \end{bmatrix}$, vamos encontrar $C^{-1}$.<br>Seja $C^{-1} = \begin{bmatrix} x & y \\ z & t \end{bmatrix}$.</p>
+                    <p class="leading-relaxed">$C \cdot C^{-1} = I_2 \Leftrightarrow \begin{bmatrix} 2 & 1 \\ 5 & 3 \end{bmatrix} \cdot \begin{bmatrix} x & y \\ z & t \end{bmatrix} = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix} \Leftrightarrow \begin{bmatrix} 2x+z & 2y+t \\ 5x+3z & 5y+3t \end{bmatrix} = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix} \Leftrightarrow \begin{cases} x=3 \\ y=-1 \\ z=-5 \\ t=2 \end{cases}$</p>
+                    <p class="leading-relaxed">Portanto, $C^{-1} = \begin{bmatrix} 3 & -1 \\ -5 & 2 \end{bmatrix}$.<br>Observe que encontrar a matriz inversa da maneira que foi resolvido no Exemplo 2 se torna cada vez mais trabalhoso à medida que o tamanho da matriz aumenta, já que ambas as multiplicações, $C \cdot C^{-1}$ e $C^{-1} \cdot C$, devem resultar na matriz identidade.<br>Outra maneira de encontrar a matriz inversa é através do uso do seguinte teorema.<br><strong>Teorema:</strong> uma matriz <em>A</em> é inversível se e somente se a matriz <em>A</em> é equivalente à matriz identidade, isto é, $I_n \approx A$.<br>Desse modo, temos que a mesma sucessão de operações elementares que transformam a matriz $A \in M_n \in \mathbb{R}$ na matriz $I_n$, transformam a matriz $I_n$ na matriz inversa $A^{-1} \in M_n(\mathbb{R})$. (As operações elementares citadas são as mesmas que você utilizou no processo prático para encontrar uma base para um espaço vetorial.)<br>Retornando ao Exemplo 2, agora vamos encontrar a matriz inversa da matriz <em>C</em> através da aplicação do teorema. Para isso, escrevemos a matriz que queremos inverter e a identidade lado a lado, de maneira a aplicar as operações elementares em ambas as matrizes simultaneamente.</p>
+                    <figure class="my-4">
+                        <img src="https://conteudo.avaeduc.com.br/202302/WHITE_LABEL/METODOS_MATEMATICOS/LIVRO/U1/assets/img/formula_a4_01.png" alt="Processo de encontrar a matriz inversa usando operações elementares em uma matriz aumentada com a identidade." class="mx-auto">
+                    </figure>
+                    <p class="leading-relaxed">Portanto, $C^{-1} = \begin{bmatrix} 3 & -1 \\ -5 & 2 \end{bmatrix}$.<br>Agora que você aprendeu a encontrar a matriz transposta e a matriz inversa, podemos definir a matriz ortogonal.</p>
+
+                    <h4 class="text-lg font-bold mt-4 mb-2"><strong>Matriz ortogonal</strong></h4>
+                    <p class="leading-relaxed">Uma matriz quadrada $A \in M_n \in \mathbb{R}$ é chamada de ortogonal se sua inversa é igual a sua transposta, ou seja, $A^{-1} = A^T$.<br><strong>Exemplo 3:</strong> a matriz $D = \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix}$ é uma matriz ortogonal pois $D^T = \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix}$ e $D^{-1} = \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix}$, pois</p>
+                    <figure class="my-4">
+                        <img src="https://conteudo.avaeduc.com.br/202302/WHITE_LABEL/METODOS_MATEMATICOS/LIVRO/U1/assets/img/formula_a4_02.png" alt="Verificação de que a matriz D multiplicada por sua transposta resulta na matriz identidade." class="mx-auto">
+                    </figure>
+                    <p class="leading-relaxed">Desse modo, você aprendeu a encontrar a matriz transposta e a matriz inversa de uma matriz e, com ambas as definições, a conceituar uma matriz ortogonal.</p>
+
+                    <h3 class="text-xl font-bold mt-6 mb-2"><strong>Autovalor e autovetor</strong></h3>
+                    <p class="leading-relaxed">Agora você vai aprender sobre autovalores e autovetores, conceitos que estão relacionados a uma transformação linear para um espaço vetorial.<br>Podemos definir como $L(U,V) = \{T: U \to V\}$ o conjunto de transformações lineares T entre dois espaços vetoriais reais. Assim, $L(U) = \{T: U \to U\}$ é o conjunto de operadores lineares sobre o espaço vetorial <em>U</em>.</p>
+
+                    <h4 class="text-lg font-bold mt-4 mb-2"><strong>Autovalor e autovetor</strong></h4>
+                    <p class="leading-relaxed">Seja U um espaço vetorial real e $T \in L(U)$, ou seja, <em>T</em> é uma transformação do conjunto de operadores lineares de <em>U</em>. Um vetor $u \in U$, com $u \neq 0$ (u não é o vetor nulo), é um autovetor (ou vetor próprio) de <em>T</em> se $\exists \lambda \in \mathbb{R} / T(u) = \lambda u$; ou seja, existe um número real $\lambda$ de modo que, ao aplicar a transformação <em>T</em> no vetor <em>u</em>, seu resultado é a multiplicação de $\lambda$ por <em>u</em>. Neste caso, $\lambda$ é chamado de autovalor (ou valor próprio).<br><strong>Exemplo 1:</strong> seja $T: \mathbb{R}^2 \to \mathbb{R}^2$ tal que $T(x,y) = (y,x)$, $\forall(x,y) \in \mathbb{R}^2$. Calcule o(s) autovalor(es) e o(s) autovetor(es) de <em>T</em>, se existirem.<br>Primeiramente, encontramos o(s) autovalor(es) de <em>T</em>.<br>Seja $u=(x,y)$.</p>
+                    <p class="leading-relaxed">$T(u) = \lambda u \Leftrightarrow T(x,y) = \lambda(x,y) \Leftrightarrow (y,x) = (\lambda x, \lambda y) \Leftrightarrow \begin{cases} y = \lambda x \\ x = \lambda y \end{cases}$</p>
+                    <p class="leading-relaxed">Substituindo (i) em (ii): $x = \lambda(\lambda x) \Leftrightarrow x = \lambda^2 x \Leftrightarrow \lambda^2 = \frac{x}{x} \Leftrightarrow \lambda^2 = 1 \Leftrightarrow \lambda = \pm 1$.<br>Portanto, $\lambda = -1$ e $\lambda=1$ são autovalores de T.<br>Vamos, agora, encontrar os autovetores associados aos autovalores já encontrados.<br>Para $\lambda = -1$: $T(u) = \lambda u \Leftrightarrow T(x,y) = -1(x,y) \Leftrightarrow (y,x) = (-x,-y) \Leftrightarrow y=-x$.<br>Portanto, o conjunto de autovetores associado ao autovalor $\lambda = -1$ é $V(-1) = \{(x,-x) / x \in \mathbb{R}\} = \{x(1,-1) / x \in \mathbb{R}\} \to \{(1,-1)\}$.<br>Para $\lambda = 1$: $T(u) = \lambda u \Leftrightarrow T(x,y) = 1(x,y) \Leftrightarrow (y,x) = (x,y) \Leftrightarrow y=x$.<br>Portanto, o conjunto de autovetores associado ao autovalor $\lambda=1$ é $V(1) = \{(x,x) / x \in \mathbb{R}\} = \{x(1,1) / x \in \mathbb{R}\} \to \{(1,1)\}$.<br>Observe que, para cada autovalor, existe um conjunto de autovetores associado a ele.</p>
+                </section>
+            </div>
+
              <div class="mt-6 p-4 bg-orange-100 border-l-4 border-orange-500 text-orange-700 rounded-md">
                 <h3 class="font-bold">Contato do Professor</h3>
                 <p><strong>E-mail:</strong> fphpitagoras@gmail.com</p>
@@ -54,6 +368,19 @@
             <p>&copy; 2025 - Prof. Felipe Heitmann. Todos os direitos reservados.</p>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false},
+                    {left: "\\[", right: "\\]", display: true},
+                    {left: "\\(", right: "\\)", display: false}
+                ]
+            });
+        });
+    </script>
 
 </body>
 </html>
