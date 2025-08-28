@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unidade 1 - Aula 4: Autovalores e autovetores</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; margin: 2em; }
+        h1, h2, h3, h4, h5, h6 { color: #333; }
+        figure { margin: 1.5em 0; text-align: center; }
+        figcaption { font-size: 0.9em; color: #555; margin-top: 0.5em; }
+        img { max-width: 100%; height: auto; }
+        ol, ul { padding-left: 2em; }
+        li { margin-bottom: 0.5em; }
+    </style>
+</head>
+<body>
+
+    <section id="aula4">
+        <h1>Aula 4 - Autovalores e autovetores</h1>
+        <p>Os autovalores e autovetores associados a uma transformação linear, um tipo de função entre os espaços vetoriais. Nesta aula, aprenderemos a calcular os autovalores e autovetores associados a uma transformação linear, assim como realizar a ortogonalização e a diagonalização de matrizes.</p>
+    </section>
+
+    <section id="conteudo-4">
+        <h3><strong>Introdução</strong></h3>
+        <p>Olá, estudante!<br>Nesta aula, você aprenderá sobre os autovalores e autovetores associados a uma transformação linear, um tipo de função entre os espaços vetoriais. Também aprenderá como realizar a ortogonalização e a diagonalização de uma matriz.<br>Ao final desta aula, espera-se que você seja capaz de calcular os autovalores e autovetores associados a uma transformação linear, assim como realizar a ortogonalização e a diagonalização de matrizes. Também que saiba utilizar tais conceitos em aplicações relacionadas à sua profissão.<br>Bons estudos!</p>
+        
+        <h3><strong>Matriz ortogonal</strong></h3>
+        <p>Vamos continuar o estudo de conceitos relacionados à álgebra linear. Você aprenderá sobre a matriz ortogonal. Primeiramente, vamos ver aprender sobre a matriz transposta e a matriz inversa, conceitos relacionados às matrizes que serão utilizados durante a aula.</p>
+        
+        <h4><strong>Matriz transposta</strong></h4>
+        <p>Chamamos de matriz transposta de $A \in M_{m \times n} \in \mathbb{R}$, com elementos de <em>A</em> na forma $a_{ij}$, a matriz $B = A^T$ tal que $b_{ij} = a_{ji}$, $\forall i = 1, ..., m; j = 1, ..., n$. Em outras palavras, a matriz transposta inverte as linhas com as colunas da matriz; ou seja, os elementos que constituem as linhas se transformam em elementos da coluna, e vice-versa.<br><strong>Exemplo 1:</strong></p>
+        <ol type="a">
+            <li>Para $A = \begin{bmatrix} 1 & 2 & 4 \\ 5 & 3 & -1 \\ -3 & 0 & -2 \end{bmatrix}$, então $A^T = \begin{bmatrix} 1 & 5 & -3 \\ 2 & 3 & 0 \\ 4 & -1 & -2 \end{bmatrix}$.</li>
+        </ol>
+        <p>Observe que a primeira linha da matriz <em>A</em> se torna a primeira coluna da matriz transposta $A^T$, e assim por diante para todas as linhas e colunas.</p>
+        <ol type="a" start="2">
+            <li>Para $B = \begin{bmatrix} 0 & \frac{1}{2} \end{bmatrix}$, então $B^T = \begin{bmatrix} 0 \\ \frac{1}{2} \end{bmatrix}$.</li>
+        </ol>
+        <p>Neste exemplo, a matriz <em>B</em> é uma matriz linha. Já sua matriz transposta $B^T$ é uma matriz coluna.</p>
+        
+        <h4><strong>Matriz inversa</strong></h4>
+        <p>Uma matriz $A \in M_n \in \mathbb{R}$ é dita inversível, ou seja $\exists A^{-1} \in M_n(\mathbb{R})$, se $A \cdot A^{-1} = A^{-1} \cdot A = I_n$. Ou seja, independentemente de qual seja a ordem da multiplicação entre a matriz quadrada <em>A</em> e sua inversa, esta sempre resultará na matriz identidade de mesma ordem de <em>A</em>.<br>Vale ressaltar que a inversa de uma matriz é única.<br><strong>Exemplo 2:</strong> para $C = \begin{bmatrix} 2 & 1 \\ 5 & 3 \end{bmatrix}$, vamos encontrar $C^{-1}$.<br>Seja $C^{-1} = \begin{bmatrix} x & y \\ z & t \end{bmatrix}$.</p>
+        <p>$C \cdot C^{-1} = I_2 \Leftrightarrow \begin{bmatrix} 2 & 1 \\ 5 & 3 \end{bmatrix} \cdot \begin{bmatrix} x & y \\ z & t \end{bmatrix} = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix} \Leftrightarrow \begin{bmatrix} 2x+z & 2y+t \\ 5x+3z & 5y+3t \end{bmatrix} = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix} \Leftrightarrow \begin{cases} x=3 \\ y=-1 \\ z=-5 \\ t=2 \end{cases}$</p>
+        <p>Portanto, $C^{-1} = \begin{bmatrix} 3 & -1 \\ -5 & 2 \end{bmatrix}$.<br>Observe que encontrar a matriz inversa da maneira que foi resolvido no Exemplo 2 se torna cada vez mais trabalhoso à medida que o tamanho da matriz aumenta, já que ambas as multiplicações, $C \cdot C^{-1}$ e $C^{-1} \cdot C$, devem resultar na matriz identidade.<br>Outra maneira de encontrar a matriz inversa é através do uso do seguinte teorema.<br><strong>Teorema:</strong> uma matriz <em>A</em> é inversível se e somente se a matriz <em>A</em> é equivalente à matriz identidade, isto é, $I_n \approx A$.<br>Desse modo, temos que a mesma sucessão de operações elementares que transformam a matriz $A \in M_n \in \mathbb{R}$ na matriz $I_n$, transformam a matriz $I_n$ na matriz inversa $A^{-1} \in M_n(\mathbb{R})$. (As operações elementares citadas são as mesmas que você utilizou no processo prático para encontrar uma base para um espaço vetorial.)<br>Retornando ao Exemplo 2, agora vamos encontrar a matriz inversa da matriz <em>C</em> através da aplicação do teorema. Para isso, escrevemos a matriz que queremos inverter e a identidade lado a lado, de maneira a aplicar as operações elementares em ambas as matrizes simultaneamente.</p>
+        <figure>
+            <img src="https://conteudo.avaeduc.com.br/202302/WHITE_LABEL/METODOS_MATEMATICOS/LIVRO/U1/assets/img/formula_a4_01.png" alt="Processo de encontrar a matriz inversa usando operações elementares em uma matriz aumentada com a identidade.">
+        </figure>
+        <p>Portanto, $C^{-1} = \begin{bmatrix} 3 & -1 \\ -5 & 2 \end{bmatrix}$.<br>Agora que você aprendeu a encontrar a matriz transposta e a matriz inversa, podemos definir a matriz ortogonal.</p>
+        
+        <h4><strong>Matriz ortogonal</strong></h4>
+        <p>Uma matriz quadrada $A \in M_n \in \mathbb{R}$ é chamada de ortogonal se sua inversa é igual a sua transposta, ou seja, $A^{-1} = A^T$.<br><strong>Exemplo 3:</strong> a matriz $D = \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix}$ é uma matriz ortogonal pois $D^T = \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix}$ e $D^{-1} = \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix}$, pois</p>
+        <figure>
+            <img src="https://conteudo.avaeduc.com.br/202302/WHITE_LABEL/METODOS_MATEMATICOS/LIVRO/U1/assets/img/formula_a4_02.png" alt="Verificação de que a matriz D multiplicada por sua transposta resulta na matriz identidade.">
+        </figure>
+        <p>Desse modo, você aprendeu a encontrar a matriz transposta e a matriz inversa de uma matriz e, com ambas as definições, a conceituar uma matriz ortogonal.</p>
+        
+        <h3><strong>Autovalor e autovetor</strong></h3>
+        <p>Agora você vai aprender sobre autovalores e autovetores, conceitos que estão relacionados a uma transformação linear para um espaço vetorial.<br>Podemos definir como $L(U,V) = \{T: U \to V\}$ o conjunto de transformações lineares T entre dois espaços vetoriais reais. Assim, $L(U) = \{T: U \to U\}$ é o conjunto de operadores lineares sobre o espaço vetorial <em>U</em>.</p>
+        
+        <h4><strong>Autovalor e autovetor</strong></h4>
+        <p>Seja U um espaço vetorial real e $T \in L(U)$, ou seja, <em>T</em> é uma transformação do conjunto de operadores lineares de <em>U</em>. Um vetor $u \in U$, com $u \neq 0$ (u não é o vetor nulo), é um autovetor (ou vetor próprio) de <em>T</em> se $\exists \lambda \in \mathbb{R} / T(u) = \lambda u$; ou seja, existe um número real $\lambda$ de modo que, ao aplicar a transformação <em>T</em> no vetor <em>u</em>, seu resultado é a multiplicação de $\lambda$ por <em>u</em>. Neste caso, $\lambda$ é chamado de autovalor (ou valor próprio).<br><strong>Exemplo 1:</strong> seja $T: \mathbb{R}^2 \to \mathbb{R}^2$ tal que $T(x,y) = (y,x)$, $\forall(x,y) \in \mathbb{R}^2$. Calcule o(s) autovalor(es) e o(s) autovetor(es) de <em>T</em>, se existirem.<br>Primeiramente, encontramos o(s) autovalor(es) de <em>T</em>.<br>Seja $u=(x,y)$.</p>
+        <p>$T(u) = \lambda u \Leftrightarrow T(x,y) = \lambda(x,y) \Leftrightarrow (y,x) = (\lambda x, \lambda y) \Leftrightarrow \begin{cases} y = \lambda x \\ x = \lambda y \end{cases}$</p>
+        <p>Substituindo (i) em (ii): $x = \lambda(\lambda x) \Leftrightarrow x = \lambda^2 x \Leftrightarrow \lambda^2 = \frac{x}{x} \Leftrightarrow \lambda^2 = 1 \Leftrightarrow \lambda = \pm 1$.<br>Portanto, $\lambda = -1$ e $\lambda=1$ são autovalores de T.<br>Vamos, agora, encontrar os autovetores associados aos autovalores já encontrados.<br>Para $\lambda = -1$: $T(u) = \lambda u \Leftrightarrow T(x,y) = -1(x,y) \Leftrightarrow (y,x) = (-x,-y) \Leftrightarrow y=-x$.<br>Portanto, o conjunto de autovetores associado ao autovalor $\lambda = -1$ é $V(-1) = \{(x,-x) / x \in \mathbb{R}\} = \{x(1,-1) / x \in \mathbb{R}\} \to \{(1,-1)\}$.<br>Para $\lambda = 1$: $T(u) = \lambda u \Leftrightarrow T(x,y) = 1(x,y) \Leftrightarrow (y,x) = (x,y) \Leftrightarrow y=x$.<br>Portanto, o conjunto de autovetores associado ao autovalor $\lambda=1$ é $V(1) = \{(x,x) / x \in \mathbb{R}\} = \{x(1,1) / x \in \mathbb{R}\} \to \{(1,1)\}$.<br>Observe que, para cada autovalor, existe um conjunto de autovetores associado a ele.</p>
+
+    </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false},
+                    {left: "\\[", right: "\\]", display: true},
+                    {left: "\\(", right: "\\)", display: false}
+                ]
+            });
+        });
+    </script>
+
+</body>
+</html>
