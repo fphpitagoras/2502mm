@@ -299,10 +299,10 @@
             <p>Vamos calcular o determinante da matriz A, escolhendo a primeira coluna para a expansão:</p>
             $$ A = \begin{bmatrix} 2 & 1 & 0 & 3 \\ 1 & 0 & 2 & 1 \\ 3 & 2 & 0 & 4 \\ 0 & 1 & 3 & 2 \end{bmatrix} $$
             <p>det(A) = $2 \cdot C_{11} + 1 \cdot C_{21} + 3 \cdot C_{31} + 0 \cdot C_{41}$</p>
-            <p>$C_{11} = (-1)^{1+1} \begin{vmatrix} 0 & 2 & 1 \\ 2 & 0 & 4 \\ 1 & 3 & 2 \end{vmatrix} = 1 \cdot (0 - 8 - 6 - (0+0+8)) = -22$</p>
-            <p>$C_{21} = (-1)^{2+1} \begin{vmatrix} 1 & 0 & 3 \\ 2 & 0 & 4 \\ 1 & 3 & 2 \end{vmatrix} = -1 \cdot (0+0+18 - (0+12+0)) = -6$</p>
-            <p>$C_{31} = (-1)^{3+1} \begin{vmatrix} 1 & 0 & 3 \\ 0 & 2 & 1 \\ 1 & 3 & 2 \end{vmatrix} = 1 \cdot (4+0+0 - (6+3+0)) = -5$</p>
-            <p>det(A) = $2(-22) + 1(-6) + 3(-5) + 0 = -44 - 6 - 15 = -65$</p>
+            <p>$C_{11} = (-1)^{1+1} \begin{vmatrix} 0 & 2 & 1 \\ 2 & 0 & 4 \\ 1 & 3 & 2 \end{vmatrix} = 1 \cdot ((0+8+6) - (0+0+8)) = 6$</p>
+            <p>$C_{21} = (-1)^{2+1} \begin{vmatrix} 1 & 0 & 3 \\ 2 & 0 & 4 \\ 1 & 3 & 2 \end{vmatrix} = -1 \cdot ((0+0+18) - (0+12+0)) = -6$</p>
+            <p>$C_{31} = (-1)^{3+1} \begin{vmatrix} 1 & 0 & 3 \\ 0 & 2 & 1 \\ 1 & 3 & 2 \end{vmatrix} = 1 \cdot ((4+0+0) - (6+3+0)) = -5$</p>
+            <p>det(A) = $2(6) + 1(-6) + 3(-5) + 0 = 12 - 6 - 15 = -9$</p>
             <div class="mt-8 flex justify-between">
                 <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
                 <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
