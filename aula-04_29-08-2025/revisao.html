@@ -4,303 +4,493 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Revisão de Álgebra Linear - Prof. Felipe Heitmann</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/dist/reset.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/dist/reveal.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/dist/theme/white.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: "Inter", sans-serif;
+        }
+        section {
+            min-height: 100vh;
+            padding: 4rem 2rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+    </style>
 </head>
-<body>
-    <div class="reveal">
-        <div class="slides">
-            <section>
-                <h1>Revisão de Álgebra Linear</h1>
-                <p>Prof. Felipe Heitmann</p>
-            </section>
-            <section>
-                <h2>Definição de Matriz</h2>
-                <p>Uma matriz é um arranjo retangular de números, símbolos ou expressões, dispostos em linhas e colunas. As matrizes são usadas para representar dados de forma organizada e para resolver sistemas de equações lineares.</p>
-                <p>Uma matriz com $m$ linhas e $n$ colunas é chamada de matriz $m \times n$.</p>
-            </section>
-            <section>
-                <h2>2 Exemplos de Matrizes Diferentes</h2>
-                <p>Matriz A (2x3):</p>
-                $$ A = \begin{bmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{bmatrix} $$
-                <p>Matriz B (3x2):</p>
-                $$ B = \begin{bmatrix} 7 & 8 \\ 9 & 10 \\ 11 & 12 \end{bmatrix} $$
-            </section>
-            <section>
-                <h2>Definição de Matriz Linha e um Exemplo</h2>
-                <p>Uma matriz linha é uma matriz que possui apenas uma linha.</p>
-                <p>Exemplo:</p>
-                $$ C = \begin{bmatrix} 1 & -5 & 0 \end{bmatrix} $$
-            </section>
-            <section>
-                <h2>Definição de Matriz Coluna e um Exemplo</h2>
-                <p>Uma matriz coluna é uma matriz que possui apenas uma coluna.</p>
-                <p>Exemplo:</p>
-                $$ D = \begin{bmatrix} 10 \\ 20 \\ 30 \end{bmatrix} $$
-            </section>
-            <section>
-                <h2>Definição de Matriz Nula e um Exemplo</h2>
-                <p>Uma matriz nula é uma matriz em que todos os seus elementos são iguais a zero.</p>
-                <p>Exemplo (2x2):</p>
-                $$ O = \begin{bmatrix} 0 & 0 \\ 0 & 0 \end{bmatrix} $$
-            </section>
-            <section>
-                <h2>Definição de Matriz Quadrada e sua Importância</h2>
-                <p>Uma matriz quadrada é uma matriz que possui o mesmo número de linhas e colunas. Uma matriz $n \times n$ é uma matriz quadrada de ordem $n$.</p>
-                <p>As matrizes quadradas são importantes porque conceitos como determinante e inversa são definidos apenas para elas.</p>
-            </section>
-            <section>
-                <h2>Exemplos de Matrizes Quadradas</h2>
-                <p>Matriz de ordem 2:</p>
-                $$ E = \begin{bmatrix} a & b \\ c & d \end{bmatrix} $$
-                <p>Matriz de ordem 3:</p>
-                $$ F = \begin{bmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \\ 7 & 8 & 9 \end{bmatrix} $$
-            </section>
-            <section>
-                <h2>Definição de Matriz Diagonal e Exemplo</h2>
-                <p>Uma matriz diagonal é uma matriz quadrada em que todos os elementos fora da diagonal principal são nulos.</p>
-                <p>Exemplo:</p>
-                $$ G = \begin{bmatrix} 1 & 0 & 0 \\ 0 & 5 & 0 \\ 0 & 0 & 9 \end{bmatrix} $$
-            </section>
-            <section>
-                <h2>Definição de Matriz Identidade e Exemplo</h2>
-                <p>Uma matriz identidade é uma matriz diagonal em que todos os elementos da diagonal principal são iguais a 1. É denotada por $I_n$.</p>
-                <p>Exemplo (I_3):</p>
-                $$ I_3 = \begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{bmatrix} $$
-            </section>
-            <section>
-                <h2>Definição da Operação de Soma entre Matrizes</h2>
-                <p>A soma de duas matrizes A e B, de mesma dimensão $m \times n$, é uma matriz C, também de dimensão $m \times n$, em que cada elemento $c_{ij}$ é a soma dos elementos correspondentes $a_{ij}$ e $b_{ij}$.</p>
-                $$ C = A + B \Rightarrow c_{ij} = a_{ij} + b_{ij} $$
-            </section>
-            <section>
-                <h2>Exemplo Detalhado de Soma de Matrizes</h2>
-                <p>Sejam as matrizes A e B:</p>
-                $$ A = \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}, B = \begin{bmatrix} 5 & 6 \\ 7 & 8 \end{bmatrix} $$
-                <p>A soma A + B é:</p>
-                $$ A+B = \begin{bmatrix} 1+5 & 2+6 \\ 3+7 & 4+8 \end{bmatrix} = \begin{bmatrix} 6 & 8 \\ 10 & 12 \end{bmatrix} $$
-            </section>
-            <section>
-                <h2>Definição de Subtração entre Matrizes</h2>
-                <p>A subtração de duas matrizes A e B, de mesma dimensão $m \times n$, é uma matriz C, também de dimensão $m \times n$, em que cada elemento $c_{ij}$ é a subtração dos elementos correspondentes $a_{ij}$ e $b_{ij}$.</p>
-                $$ C = A - B \Rightarrow c_{ij} = a_{ij} - b_{ij} $$
-            </section>
-            <section>
-                <h2>Exemplo Detalhado de Subtração de Matrizes</h2>
-                <p>Sejam as matrizes A e B:</p>
-                $$ A = \begin{bmatrix} 10 & 20 \\ 30 & 40 \end{bmatrix}, B = \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix} $$
-                <p>A subtração A - B é:</p>
-                $$ A-B = \begin{bmatrix} 10-1 & 20-2 \\ 30-3 & 40-4 \end{bmatrix} = \begin{bmatrix} 9 & 18 \\ 27 & 36 \end{bmatrix} $$
-            </section>
-            <section>
-                <h2>Definição de Produto de Matrizes por Escalares</h2>
-                <p>O produto de uma matriz A por um escalar $k$ é uma matriz B em que cada elemento $b_{ij}$ é o produto do elemento correspondente $a_{ij}$ pelo escalar $k$.</p>
-                $$ B = kA \Rightarrow b_{ij} = k \cdot a_{ij} $$
-            </section>
-            <section>
-                <h2>Exemplo Detalhado de Multiplicação de Matrizes por Escalar</h2>
-                <p>Seja a matriz A e o escalar k=3:</p>
-                $$ A = \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix} $$
-                <p>O produto 3A é:</p>
-                $$ 3A = 3 \cdot \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix} = \begin{bmatrix} 3 \cdot 1 & 3 \cdot 2 \\ 3 \cdot 3 & 3 \cdot 4 \end{bmatrix} = \begin{bmatrix} 3 & 6 \\ 9 & 12 \end{bmatrix} $$
-            </section>
-            <section>
-                <h2>Definição de Igualdade entre Matrizes</h2>
-                <p>Duas matrizes A e B são iguais se, e somente se, elas têm a mesma dimensão e seus elementos correspondentes são iguais.</p>
-                $$ A = B \iff a_{ij} = b_{ij} \text{ para todo } i, j $$
-            </section>
-            <section>
-                <h2>Exemplo de Igualdade entre Matrizes</h2>
-                <p>Encontre os valores de x, y, z e w para que as matrizes sejam iguais:</p>
-                $$ \begin{bmatrix} x+1 & 5 \\ 10 & y-2 \end{bmatrix} = \begin{bmatrix} 3 & 5 \\ 10 & 8 \end{bmatrix} $$
-                <p>Temos: $x+1=3 \Rightarrow x=2$ e $y-2=8 \Rightarrow y=10$.</p>
-            </section>
-            <section>
-                <h2>Definição de Multiplicação de Matrizes</h2>
-                <p>O produto de duas matrizes A ($m \times n$) e B ($n \times p$) é uma matriz C ($m \times p$), onde cada elemento $c_{ij}$ é a soma dos produtos dos elementos da i-ésima linha de A pelos elementos da j-ésima coluna de B.</p>
-            </section>
-            <section>
-                <h2>Casos quando a Multiplicação é Possível ou Impossível</h2>
-                <p>A multiplicação de matrizes A e B só é possível se o número de colunas de A for igual ao número de linhas de B.</p>
-                <p>Se A é $m \times n$ e B é $p \times q$, A*B só é possível se $n=p$. O resultado será uma matriz $m \times q$.</p>
-            </section>
-            <section>
-                <h2>Exemplo Detalhado de uma Multiplicação</h2>
-                $$ A = \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}, B = \begin{bmatrix} 5 & 6 \\ 7 & 8 \end{bmatrix} $$
-                $$ C = A \cdot B = \begin{bmatrix} (1\cdot5 + 2\cdot7) & (1\cdot6 + 2\cdot8) \\ (3\cdot5 + 4\cdot7) & (3\cdot6 + 4\cdot8) \end{bmatrix} $$
-                $$ C = \begin{bmatrix} 19 & 22 \\ 43 & 50 \end{bmatrix} $$
-            </section>
-            <section>
-                <h2>Definição de Determinante</h2>
-                <p>O determinante é um valor escalar que pode ser calculado a partir dos elementos de uma matriz quadrada. O determinante de uma matriz A é denotado por det(A) ou |A|.</p>
-            </section>
-            <section>
-                <h2>Cálculo de Determinante 2x2 e Exemplo</h2>
-                <p>Para uma matriz 2x2, o determinante é a diferença entre o produto dos elementos da diagonal principal e o produto dos elementos da diagonal secundária.</p>
-                $$ A = \begin{bmatrix} a & b \\ c & d \end{bmatrix} \Rightarrow |A| = ad - bc $$
-                <p>Exemplo: $$ \begin{vmatrix} 3 & 8 \\ 4 & 6 \end{vmatrix} = 3\cdot6 - 8\cdot4 = 18 - 32 = -14 $$</p>
-            </section>
-            <section>
-                <h2>Cálculo de Determinante 3x3 (Sarrus)</h2>
-                <p>A Regra de Sarrus é um método para calcular o determinante de uma matriz 3x3. Repetem-se as duas primeiras colunas à direita da matriz e somam-se os produtos das diagonais principais, subtraindo os produtos das diagonais secundárias.</p>
-            </section>
-            <section>
-                <h2>Exemplo Detalhado da Regra de Sarrus</h2>
-                $$ A = \begin{bmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \\ 7 & 8 & 9 \end{bmatrix} $$
-                $$ |A| = (1\cdot5\cdot9 + 2\cdot6\cdot7 + 3\cdot4\cdot8) - (3\cdot5\cdot7 + 1\cdot6\cdot8 + 2\cdot4\cdot9) $$
-                $$ |A| = (45 + 84 + 96) - (105 + 48 + 72) = 225 - 225 = 0 $$
-            </section>
-            <section>
-                <h2>Definição de Menor Complementar e Cofator</h2>
-                <p>O menor complementar $D_{ij}$ de um elemento $a_{ij}$ de uma matriz quadrada A é o determinante da submatriz obtida pela remoção da i-ésima linha e da j-ésima coluna.</p>
-                <p>O cofator $C_{ij}$ é definido como $C_{ij} = (-1)^{i+j}D_{ij}$.</p>
-            </section>
-            <section>
-                <h2>Exemplos de Menores Complementares e Cofatores</h2>
-                <p>Para a matriz $A = \begin{bmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \\ 7 & 8 & 9 \end{bmatrix}$</p>
-                <p>$D_{11} = \begin{vmatrix} 5 & 6 \\ 8 & 9 \end{vmatrix} = 45 - 48 = -3$</p>
-                <p>$C_{11} = (-1)^{1+1}D_{11} = 1 \cdot (-3) = -3$</p>
-            </section>
-            <section>
-                <h2>Teorema de Laplace</h2>
-                <p>O Teorema de Laplace afirma que o determinante de uma matriz pode ser calculado pela soma dos produtos dos elementos de qualquer linha ou coluna pelos seus respectivos cofatores.</p>
-            </section>
-            <section class="r-scrollable">
-                <h2>Exemplo Detalhado de Determinante 4x4 (Laplace)</h2>
-                <p>Vamos calcular o determinante da matriz A, escolhendo a primeira coluna para a expansão:</p>
-                $$ A = \begin{bmatrix} 2 & 1 & 0 & 3 \\ 1 & 0 & 2 & 1 \\ 3 & 2 & 0 & 4 \\ 0 & 1 & 3 & 2 \end{bmatrix} $$
-                <p>det(A) = $2 \cdot C_{11} + 1 \cdot C_{21} + 3 \cdot C_{31} + 0 \cdot C_{41}$</p>
-                <p>$C_{11} = (-1)^{1+1} \begin{vmatrix} 0 & 2 & 1 \\ 2 & 0 & 4 \\ 1 & 3 & 2 \end{vmatrix} = 1 \cdot (0 - 8 - 6 - (0+0+8)) = -22$</p>
-                <p>$C_{21} = (-1)^{2+1} \begin{vmatrix} 1 & 0 & 3 \\ 2 & 0 & 4 \\ 1 & 3 & 2 \end{vmatrix} = -1 \cdot (0+0+18 - (0+12+0)) = -6$</p>
-                <p>$C_{31} = (-1)^{3+1} \begin{vmatrix} 1 & 0 & 3 \\ 0 & 2 & 1 \\ 1 & 3 & 2 \end{vmatrix} = 1 \cdot (4+0+0 - (6+3+0)) = -5$</p>
-                <p>det(A) = $2(-22) + 1(-6) + 3(-5) + 0 = -44 - 6 - 15 = -65$</p>
-            </section>
-            <section>
-                <h2>Definição de Sistemas de Equações Lineares</h2>
-                <p>Um sistema de equações lineares é um conjunto de uma ou mais equações lineares com um conjunto de variáveis.</p>
-            </section>
-            <section>
-                <h2>Exemplos de Sistemas de Equações em Problemas Reais</h2>
-                <p>1. Balanceamento de reações químicas.</p>
-                <p>2. Análise de circuitos elétricos.</p>
-                <p>3. Modelos econômicos de oferta e demanda.</p>
-            </section>
-            <section>
-                <h2>Classificação de Sistemas Lineares</h2>
-                <p>Um sistema linear pode ser:</p>
-                <ul>
-                    <li>Possível e Determinado (solução única)</li>
-                    <li>Possível e Indeterminado (infinitas soluções)</li>
-                    <li>Impossível (nenhuma solução)</li>
-                </ul>
-            </section>
-            <section>
-                <h2>Exemplo: Sistema Possível e Determinado</h2>
-                <p>O sistema tem uma única solução.</p>
-                $$ \begin{cases} x + y = 2 \\ x - y = 0 \end{cases} $$
-                <p>Solução: $x=1, y=1$</p>
-            </section>
-            <section>
-                <h2>Exemplo: Sistema Possível e Indeterminado</h2>
-                <p>O sistema tem infinitas soluções.</p>
-                $$ \begin{cases} x + y = 2 \\ 2x + 2y = 4 \end{cases} $$
-                <p>A segunda equação é um múltiplo da primeira.</p>
-            </section>
-            <section>
-                <h2>Exemplo: Sistema Impossível</h2>
-                <p>O sistema não tem solução.</p>
-                $$ \begin{cases} x + y = 2 \\ x + y = 3 \end{cases} $$
-                <p>As equações são contraditórias.</p>
-            </section>
-            <section>
-                <h2>Definição de Decomposição LU</h2>
-                <p>A decomposição LU é um método que fatora uma matriz A como o produto de uma matriz triangular inferior L e uma matriz triangular superior U (A=LU). É útil para resolver sistemas de equações lineares.</p>
-            </section>
-            <section>
-                <h2>Definição de Escalonamento de Matrizes por Gauss-Jordan</h2>
-                <p>O método de eliminação de Gauss-Jordan é um algoritmo para resolver sistemas de equações lineares, encontrar a inversa de uma matriz e o posto de uma matriz. Ele transforma a matriz aumentada do sistema em uma forma escalonada reduzida por linhas.</p>
-            </section>
-            <section class="r-scrollable">
-                <h2>Exemplo de Solução de Sistema por Gauss-Jordan</h2>
-                <p>Resolver o sistema:</p>
-                $$ \begin{cases} 2x + y - z = 8 \\ -3x - y + 2z = -11 \\ -2x + y + 2z = -3 \end{cases} $$
-                <p>Matriz aumentada:</p>
-                $$ \left[ \begin{array}{ccc|c} 2 & 1 & -1 & 8 \\ -3 & -1 & 2 & -11 \\ -2 & 1 & 2 & -3 \end{array} \right] $$
-                <p>$L_1 \leftarrow \frac{1}{2}L_1$</p>
-                $$ \left[ \begin{array}{ccc|c} 1 & 1/2 & -1/2 & 4 \\ -3 & -1 & 2 & -11 \\ -2 & 1 & 2 & -3 \end{array} \right] $$
-                <p>$L_2 \leftarrow L_2 + 3L_1$, $L_3 \leftarrow L_3 + 2L_1$</p>
-                $$ \left[ \begin{array}{ccc|c} 1 & 1/2 & -1/2 & 4 \\ 0 & 1/2 & 1/2 & 1 \\ 0 & 2 & 1 & 5 \end{array} \right] $$
-                <p>$L_2 \leftarrow 2L_2$</p>
-                $$ \left[ \begin{array}{ccc|c} 1 & 1/2 & -1/2 & 4 \\ 0 & 1 & 1 & 2 \\ 0 & 2 & 1 & 5 \end{array} \right] $$
-                <p>$L_1 \leftarrow L_1 - \frac{1}{2}L_2$, $L_3 \leftarrow L_3 - 2L_2$</p>
-                $$ \left[ \begin{array}{ccc|c} 1 & 0 & -1 & 3 \\ 0 & 1 & 1 & 2 \\ 0 & 0 & -1 & 1 \end{array} \right] $$
-                <p>$L_3 \leftarrow -L_3$</p>
-                $$ \left[ \begin{array}{ccc|c} 1 & 0 & -1 & 3 \\ 0 & 1 & 1 & 2 \\ 0 & 0 & 1 & -1 \end{array} \right] $$
-                <p>$L_1 \leftarrow L_1 + L_3$, $L_2 \leftarrow L_2 - L_3$</p>
-                $$ \left[ \begin{array}{ccc|c} 1 & 0 & 0 & 2 \\ 0 & 1 & 0 & 3 \\ 0 & 0 & 1 & -1 \end{array} \right] $$
-                <p>Solução: $x=2, y=3, z=-1$</p>
-            </section>
-            <section>
-                <h2>Definição de Matriz Transposta</h2>
-                <p>A transposta de uma matriz A, denotada por $A^T$, é a matriz obtida pela troca de suas linhas por colunas.</p>
-            </section>
-            <section>
-                <h2>Exemplos de Matrizes e suas Transpostas</h2>
-                $$ A = \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix} \Rightarrow A^T = \begin{bmatrix} 1 & 3 \\ 2 & 4 \end{bmatrix} $$
-            </section>
-            <section>
-                <h2>Definição de Matriz Inversa</h2>
-                <p>A inversa de uma matriz quadrada A, denotada por $A^{-1}$, é a matriz tal que o produto de A por $A^{-1}$ é a matriz identidade. Nem toda matriz tem uma inversa.</p>
-                $$ A \cdot A^{-1} = A^{-1} \cdot A = I $$
-            </section>
-            <section>
-                <h2>Exemplos de Matrizes e suas Inversas</h2>
-                $$ A = \begin{bmatrix} 2 & 5 \\ 1 & 3 \end{bmatrix} \Rightarrow A^{-1} = \begin{bmatrix} 3 & -5 \\ -1 & 2 \end{bmatrix} $$
-            </section>
-            <section>
-                <h2>Determinação da Inversa por Gauss-Jordan</h2>
-                <p>Para encontrar a inversa de A, formamos a matriz aumentada $[A|I]$ e usamos operações de linha para transformar A em I. A matriz resultante será $[I|A^{-1}]$.</p>
-            </section>
-            <section class="r-scrollable">
-                <h2>Exemplo de Inversão de Matriz por Gauss-Jordan</h2>
-                <p>Encontrar a inversa da matriz A:</p>
-                $$ A = \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix} $$
-                <p>Matriz aumentada $[A|I]$:</p>
-                $$ \left[ \begin{array}{cc|cc} 1 & 2 & 1 & 0 \\ 3 & 4 & 0 & 1 \end{array} \right] $$
-                <p>$L_2 \leftarrow L_2 - 3L_1$</p>
-                $$ \left[ \begin{array}{cc|cc} 1 & 2 & 1 & 0 \\ 0 & -2 & -3 & 1 \end{array} \right] $$
-                <p>$L_2 \leftarrow -\frac{1}{2}L_2$</p>
-                $$ \left[ \begin{array}{cc|cc} 1 & 2 & 1 & 0 \\ 0 & 1 & 3/2 & -1/2 \end{array} \right] $$
-                <p>$L_1 \leftarrow L_1 - 2L_2$</p>
-                $$ \left[ \begin{array}{cc|cc} 1 & 0 & -2 & 1 \\ 0 & 1 & 3/2 & -1/2 \end{array} \right] $$
-                <p>A inversa é:</p>
-                $$ A^{-1} = \begin{bmatrix} -2 & 1 \\ 3/2 & -1/2 \end{bmatrix} $$
-            </section>
-            <section>
-                <h2>Definição de Matriz Ortogonal</h2>
-                <p>Uma matriz quadrada A é ortogonal se sua transposta é igual à sua inversa.</p>
-                $$ A^T = A^{-1} \iff A \cdot A^T = A^T \cdot A = I $$
-            </section>
-            <section>
-                <h2>Exemplo de Matriz Ortogonal</h2>
-                <p>A matriz de rotação é um exemplo de matriz ortogonal:</p>
-                $$ R(\theta) = \begin{bmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{bmatrix} $$
-                <p>Sua transposta é sua inversa.</p>
-            </section>
-        </div>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto">
+        <section id="slide0">
+            <h1 class="text-5xl font-bold text-center">Revisão de Álgebra Linear</h1>
+            <p class="text-xl text-center mt-4">Prof. Felipe Heitmann</p>
+            <div class="mt-8 text-center">
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Iniciar</button>
+            </div>
+        </section>
+        <section id="slide1">
+            <h2 class="text-3xl font-bold mb-4">Definição de Matriz</h2>
+            <p>Uma matriz é um arranjo retangular de números, símbolos ou expressões, dispostos em linhas e colunas. As matrizes são usadas para representar dados de forma organizada e para resolver sistemas de equações lineares.</p>
+            <p>Uma matriz com $m$ linhas e $n$ colunas é chamada de matriz $m \times n$.</p>
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide2">
+            <h2 class="text-3xl font-bold mb-4">2 Exemplos de Matrizes Diferentes</h2>
+            <p>Matriz A (2x3):</p>
+            $$ A = \begin{bmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{bmatrix} $$
+            <p>Matriz B (3x2):</p>
+            $$ B = \begin{bmatrix} 7 & 8 \\ 9 & 10 \\ 11 & 12 \end{bmatrix} $$
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide3">
+            <h2 class="text-3xl font-bold mb-4">Definição de Matriz Linha e um Exemplo</h2>
+            <p>Uma matriz linha é uma matriz que possui apenas uma linha.</p>
+            <p>Exemplo:</p>
+            $$ C = \begin{bmatrix} 1 & -5 & 0 \end{bmatrix} $$
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide4">
+            <h2 class="text-3xl font-bold mb-4">Definição de Matriz Coluna e um Exemplo</h2>
+            <p>Uma matriz coluna é uma matriz que possui apenas uma coluna.</p>
+            <p>Exemplo:</p>
+            $$ D = \begin{bmatrix} 10 \\ 20 \\ 30 \end{bmatrix} $$
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide5">
+            <h2 class="text-3xl font-bold mb-4">Definição de Matriz Nula e um Exemplo</h2>
+            <p>Uma matriz nula é uma matriz em que todos os seus elementos são iguais a zero.</p>
+            <p>Exemplo (2x2):</p>
+            $$ O = \begin{bmatrix} 0 & 0 \\ 0 & 0 \end{bmatrix} $$
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide6">
+            <h2 class="text-3xl font-bold mb-4">Definição de Matriz Quadrada e sua Importância</h2>
+            <p>Uma matriz quadrada é uma matriz que possui o mesmo número de linhas e colunas. Uma matriz $n \times n$ é uma matriz quadrada de ordem $n$.</p>
+            <p>As matrizes quadradas são importantes porque conceitos como determinante e inversa são definidos apenas para elas.</p>
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide7">
+            <h2 class="text-3xl font-bold mb-4">Exemplos de Matrizes Quadradas</h2>
+            <p>Matriz de ordem 2:</p>
+            $$ E = \begin{bmatrix} a & b \\ c & d \end{bmatrix} $$
+            <p>Matriz de ordem 3:</p>
+            $$ F = \begin{bmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \\ 7 & 8 & 9 \end{bmatrix} $$
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide8">
+            <h2 class="text-3xl font-bold mb-4">Definição de Matriz Diagonal e Exemplo</h2>
+            <p>Uma matriz diagonal é uma matriz quadrada em que todos os elementos fora da diagonal principal são nulos.</p>
+            <p>Exemplo:</p>
+            $$ G = \begin{bmatrix} 1 & 0 & 0 \\ 0 & 5 & 0 \\ 0 & 0 & 9 \end{bmatrix} $$
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide9">
+            <h2 class="text-3xl font-bold mb-4">Definição de Matriz Identidade e Exemplo</h2>
+            <p>Uma matriz identidade é uma matriz diagonal em que todos os elementos da diagonal principal são iguais a 1. É denotada por $I_n$.</p>
+            <p>Exemplo (I_3):</p>
+            $$ I_3 = \begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{bmatrix} $$
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide10">
+            <h2 class="text-3xl font-bold mb-4">Definição da Operação de Soma entre Matrizes</h2>
+            <p>A soma de duas matrizes A e B, de mesma dimensão $m \times n$, é uma matriz C, também de dimensão $m \times n$, em que cada elemento $c_{ij}$ é a soma dos elementos correspondentes $a_{ij}$ e $b_{ij}$.</p>
+            $$ C = A + B \Rightarrow c_{ij} = a_{ij} + b_{ij} $$
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide11">
+            <h2 class="text-3xl font-bold mb-4">Exemplo Detalhado de Soma de Matrizes</h2>
+            <p>Sejam as matrizes A e B:</p>
+            $$ A = \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}, B = \begin{bmatrix} 5 & 6 \\ 7 & 8 \end{bmatrix} $$
+            <p>A soma A + B é:</p>
+            $$ A+B = \begin{bmatrix} 1+5 & 2+6 \\ 3+7 & 4+8 \end{bmatrix} = \begin{bmatrix} 6 & 8 \\ 10 & 12 \end{bmatrix} $$
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide12">
+            <h2 class="text-3xl font-bold mb-4">Definição de Subtração entre Matrizes</h2>
+            <p>A subtração de duas matrizes A e B, de mesma dimensão $m \times n$, é uma matriz C, também de dimensão $m \times n$, em que cada elemento $c_{ij}$ é a subtração dos elementos correspondentes $a_{ij}$ e $b_{ij}$.</p>
+            $$ C = A - B \Rightarrow c_{ij} = a_{ij} - b_{ij} $$
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide13">
+            <h2 class="text-3xl font-bold mb-4">Exemplo Detalhado de Subtração de Matrizes</h2>
+            <p>Sejam as matrizes A e B:</p>
+            $$ A = \begin{bmatrix} 10 & 20 \\ 30 & 40 \end{bmatrix}, B = \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix} $$
+            <p>A subtração A - B é:</p>
+            $$ A-B = \begin{bmatrix} 10-1 & 20-2 \\ 30-3 & 40-4 \end{bmatrix} = \begin{bmatrix} 9 & 18 \\ 27 & 36 \end{bmatrix} $$
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide14">
+            <h2 class="text-3xl font-bold mb-4">Definição de Produto de Matrizes por Escalares</h2>
+            <p>O produto de uma matriz A por um escalar $k$ é uma matriz B em que cada elemento $b_{ij}$ é o produto do elemento correspondente $a_{ij}$ pelo escalar $k$.</p>
+            $$ B = kA \Rightarrow b_{ij} = k \cdot a_{ij} $$
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide15">
+            <h2 class="text-3xl font-bold mb-4">Exemplo Detalhado de Multiplicação de Matrizes por Escalar</h2>
+            <p>Seja a matriz A e o escalar k=3:</p>
+            $$ A = \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix} $$
+            <p>O produto 3A é:</p>
+            $$ 3A = 3 \cdot \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix} = \begin{bmatrix} 3 \cdot 1 & 3 \cdot 2 \\ 3 \cdot 3 & 3 \cdot 4 \end{bmatrix} = \begin{bmatrix} 3 & 6 \\ 9 & 12 \end{bmatrix} $$
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide16">
+            <h2 class="text-3xl font-bold mb-4">Definição de Igualdade entre Matrizes</h2>
+            <p>Duas matrizes A e B são iguais se, e somente se, elas têm a mesma dimensão e seus elementos correspondentes são iguais.</p>
+            $$ A = B \iff a_{ij} = b_{ij} \text{ para todo } i, j $$
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide17">
+            <h2 class="text-3xl font-bold mb-4">Exemplo de Igualdade entre Matrizes</h2>
+            <p>Encontre os valores de x, y, z e w para que as matrizes sejam iguais:</p>
+            $$ \begin{bmatrix} x+1 & 5 \\ 10 & y-2 \end{bmatrix} = \begin{bmatrix} 3 & 5 \\ 10 & 8 \end{bmatrix} $$
+            <p>Temos: $x+1=3 \Rightarrow x=2$ e $y-2=8 \Rightarrow y=10$.</p>
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide18">
+            <h2 class="text-3xl font-bold mb-4">Definição de Multiplicação de Matrizes</h2>
+            <p>O produto de duas matrizes A ($m \times n$) e B ($n \times p$) é uma matriz C ($m \times p$), onde cada elemento $c_{ij}$ é a soma dos produtos dos elementos da i-ésima linha de A pelos elementos da j-ésima coluna de B.</p>
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide19">
+            <h2 class="text-3xl font-bold mb-4">Casos quando a Multiplicação é Possível ou Impossível</h2>
+            <p>A multiplicação de matrizes A e B só é possível se o número de colunas de A for igual ao número de linhas de B.</p>
+            <p>Se A é $m \times n$ e B é $p \times q$, A*B só é possível se $n=p$. O resultado será uma matriz $m \times q$.</p>
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide20">
+            <h2 class="text-3xl font-bold mb-4">Exemplo Detalhado de uma Multiplicação</h2>
+            $$ A = \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}, B = \begin{bmatrix} 5 & 6 \\ 7 & 8 \end{bmatrix} $$
+            $$ C = A \cdot B = \begin{bmatrix} (1\cdot5 + 2\cdot7) & (1\cdot6 + 2\cdot8) \\ (3\cdot5 + 4\cdot7) & (3\cdot6 + 4\cdot8) \end{bmatrix} $$
+            $$ C = \begin{bmatrix} 19 & 22 \\ 43 & 50 \end{bmatrix} $$
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide21">
+            <h2 class="text-3xl font-bold mb-4">Definição de Determinante</h2>
+            <p>O determinante é um valor escalar que pode ser calculado a partir dos elementos de uma matriz quadrada. O determinante de uma matriz A é denotado por det(A) ou |A|.</p>
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide22">
+            <h2 class="text-3xl font-bold mb-4">Cálculo de Determinante 2x2 e Exemplo</h2>
+            <p>Para uma matriz 2x2, o determinante é a diferença entre o produto dos elementos da diagonal principal e o produto dos elementos da diagonal secundária.</p>
+            $$ A = \begin{bmatrix} a & b \\ c & d \end{bmatrix} \Rightarrow |A| = ad - bc $$
+            <p>Exemplo: $$ \begin{vmatrix} 3 & 8 \\ 4 & 6 \end{vmatrix} = 3\cdot6 - 8\cdot4 = 18 - 32 = -14 $$</p>
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide23">
+            <h2 class="text-3xl font-bold mb-4">Cálculo de Determinante 3x3 (Sarrus)</h2>
+            <p>A Regra de Sarrus é um método para calcular o determinante de uma matriz 3x3. Repetem-se as duas primeiras colunas à direita da matriz e somam-se os produtos das diagonais principais, subtraindo os produtos das diagonais secundárias.</p>
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide24">
+            <h2 class="text-3xl font-bold mb-4">Exemplo Detalhado da Regra de Sarrus</h2>
+            $$ A = \begin{bmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \\ 7 & 8 & 9 \end{bmatrix} $$
+            $$ |A| = (1\cdot5\cdot9 + 2\cdot6\cdot7 + 3\cdot4\cdot8) - (3\cdot5\cdot7 + 1\cdot6\cdot8 + 2\cdot4\cdot9) $$
+            $$ |A| = (45 + 84 + 96) - (105 + 48 + 72) = 225 - 225 = 0 $$
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide25">
+            <h2 class="text-3xl font-bold mb-4">Definição de Menor Complementar e Cofator</h2>
+            <p>O menor complementar $D_{ij}$ de um elemento $a_{ij}$ de uma matriz quadrada A é o determinante da submatriz obtida pela remoção da i-ésima linha e da j-ésima coluna.</p>
+            <p>O cofator $C_{ij}$ é definido como $C_{ij} = (-1)^{i+j}D_{ij}$.</p>
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide26">
+            <h2 class="text-3xl font-bold mb-4">Exemplos de Menores Complementares e Cofatores</h2>
+            <p>Para a matriz $A = \begin{bmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \\ 7 & 8 & 9 \end{bmatrix}$</p>
+            <p>$D_{11} = \begin{vmatrix} 5 & 6 \\ 8 & 9 \end{vmatrix} = 45 - 48 = -3$</p>
+            <p>$C_{11} = (-1)^{1+1}D_{11} = 1 \cdot (-3) = -3$</p>
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide27">
+            <h2 class="text-3xl font-bold mb-4">Teorema de Laplace</h2>
+            <p>O Teorema de Laplace afirma que o determinante de uma matriz pode ser calculado pela soma dos produtos dos elementos de qualquer linha ou coluna pelos seus respectivos cofatores.</p>
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide28">
+            <h2 class="text-3xl font-bold mb-4">Exemplo Detalhado de Determinante 4x4 (Laplace)</h2>
+            <p>Vamos calcular o determinante da matriz A, escolhendo a primeira coluna para a expansão:</p>
+            $$ A = \begin{bmatrix} 2 & 1 & 0 & 3 \\ 1 & 0 & 2 & 1 \\ 3 & 2 & 0 & 4 \\ 0 & 1 & 3 & 2 \end{bmatrix} $$
+            <p>det(A) = $2 \cdot C_{11} + 1 \cdot C_{21} + 3 \cdot C_{31} + 0 \cdot C_{41}$</p>
+            <p>$C_{11} = (-1)^{1+1} \begin{vmatrix} 0 & 2 & 1 \\ 2 & 0 & 4 \\ 1 & 3 & 2 \end{vmatrix} = 1 \cdot (0 - 8 - 6 - (0+0+8)) = -22$</p>
+            <p>$C_{21} = (-1)^{2+1} \begin{vmatrix} 1 & 0 & 3 \\ 2 & 0 & 4 \\ 1 & 3 & 2 \end{vmatrix} = -1 \cdot (0+0+18 - (0+12+0)) = -6$</p>
+            <p>$C_{31} = (-1)^{3+1} \begin{vmatrix} 1 & 0 & 3 \\ 0 & 2 & 1 \\ 1 & 3 & 2 \end{vmatrix} = 1 \cdot (4+0+0 - (6+3+0)) = -5$</p>
+            <p>det(A) = $2(-22) + 1(-6) + 3(-5) + 0 = -44 - 6 - 15 = -65$</p>
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide29">
+            <h2 class="text-3xl font-bold mb-4">Definição de Sistemas de Equações Lineares</h2>
+            <p>Um sistema de equações lineares é um conjunto de uma ou mais equações lineares com um conjunto de variáveis.</p>
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide30">
+            <h2 class="text-3xl font-bold mb-4">Exemplos de Sistemas de Equações em Problemas Reais</h2>
+            <p>1. Balanceamento de reações químicas.</p>
+            <p>2. Análise de circuitos elétricos.</p>
+            <p>3. Modelos econômicos de oferta e demanda.</p>
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide31">
+            <h2 class="text-3xl font-bold mb-4">Classificação de Sistemas Lineares</h2>
+            <p>Um sistema linear pode ser:</p>
+            <ul>
+                <li>Possível e Determinado (solução única)</li>
+                <li>Possível e Indeterminado (infinitas soluções)</li>
+                <li>Impossível (nenhuma solução)</li>
+            </ul>
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide32">
+            <h2 class="text-3xl font-bold mb-4">Exemplo: Sistema Possível e Determinado</h2>
+            <p>O sistema tem uma única solução.</p>
+            $$ \begin{cases} x + y = 2 \\ x - y = 0 \end{cases} $$
+            <p>Solução: $x=1, y=1$</p>
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide33">
+            <h2 class="text-3xl font-bold mb-4">Exemplo: Sistema Possível e Indeterminado</h2>
+            <p>O sistema tem infinitas soluções.</p>
+            $$ \begin{cases} x + y = 2 \\ 2x + 2y = 4 \end{cases} $$
+            <p>A segunda equação é um múltiplo da primeira.</p>
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide34">
+            <h2 class="text-3xl font-bold mb-4">Exemplo: Sistema Impossível</h2>
+            <p>O sistema não tem solução.</p>
+            $$ \begin{cases} x + y = 2 \\ x + y = 3 \end{cases} $$
+            <p>As equações são contraditórias.</p>
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide35">
+            <h2 class="text-3xl font-bold mb-4">Definição de Decomposição LU</h2>
+            <p>A decomposição LU é um método que fatora uma matriz A como o produto de uma matriz triangular inferior L e uma matriz triangular superior U (A=LU). É útil para resolver sistemas de equações lineares.</p>
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide36">
+            <h2 class="text-3xl font-bold mb-4">Definição de Escalonamento de Matrizes por Gauss-Jordan</h2>
+            <p>O método de eliminação de Gauss-Jordan é um algoritmo para resolver sistemas de equações lineares, encontrar a inversa de uma matriz e o posto de uma matriz. Ele transforma a matriz aumentada do sistema em uma forma escalonada reduzida por linhas.</p>
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide37">
+            <h2 class="text-3xl font-bold mb-4">Exemplo de Solução de Sistema por Gauss-Jordan</h2>
+            <p>Resolver o sistema:</p>
+            $$ \begin{cases} 2x + y - z = 8 \\ -3x - y + 2z = -11 \\ -2x + y + 2z = -3 \end{cases} $$
+            <p>Matriz aumentada:</p>
+            $$ \left[ \begin{array}{ccc|c} 2 & 1 & -1 & 8 \\ -3 & -1 & 2 & -11 \\ -2 & 1 & 2 & -3 \end{array} \right] $$
+            <p>$L_1 \leftarrow \frac{1}{2}L_1$</p>
+            $$ \left[ \begin{array}{ccc|c} 1 & 1/2 & -1/2 & 4 \\ -3 & -1 & 2 & -11 \\ -2 & 1 & 2 & -3 \end{array} \right] $$
+            <p>$L_2 \leftarrow L_2 + 3L_1$, $L_3 \leftarrow L_3 + 2L_1$</p>
+            $$ \left[ \begin{array}{ccc|c} 1 & 1/2 & -1/2 & 4 \\ 0 & 1/2 & 1/2 & 1 \\ 0 & 2 & 1 & 5 \end{array} \right] $$
+            <p>$L_2 \leftarrow 2L_2$</p>
+            $$ \left[ \begin{array}{ccc|c} 1 & 1/2 & -1/2 & 4 \\ 0 & 1 & 1 & 2 \\ 0 & 2 & 1 & 5 \end{array} \right] $$
+            <p>$L_1 \leftarrow L_1 - \frac{1}{2}L_2$, $L_3 \leftarrow L_3 - 2L_2$</p>
+            $$ \left[ \begin{array}{ccc|c} 1 & 0 & -1 & 3 \\ 0 & 1 & 1 & 2 \\ 0 & 0 & -1 & 1 \end{array} \right] $$
+            <p>$L_3 \leftarrow -L_3$</p>
+            $$ \left[ \begin{array}{ccc|c} 1 & 0 & -1 & 3 \\ 0 & 1 & 1 & 2 \\ 0 & 0 & 1 & -1 \end{array} \right] $$
+            <p>$L_1 \leftarrow L_1 + L_3$, $L_2 \leftarrow L_2 - L_3$</p>
+            $$ \left[ \begin{array}{ccc|c} 1 & 0 & 0 & 2 \\ 0 & 1 & 0 & 3 \\ 0 & 0 & 1 & -1 \end{array} \right] $$
+            <p>Solução: $x=2, y=3, z=-1$</p>
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide38">
+            <h2 class="text-3xl font-bold mb-4">Definição de Matriz Transposta</h2>
+            <p>A transposta de uma matriz A, denotada por $A^T$, é a matriz obtida pela troca de suas linhas por colunas.</p>
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide39">
+            <h2 class="text-3xl font-bold mb-4">Exemplos de Matrizes e suas Transpostas</h2>
+            $$ A = \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix} \Rightarrow A^T = \begin{bmatrix} 1 & 3 \\ 2 & 4 \end{bmatrix} $$
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide40">
+            <h2 class="text-3xl font-bold mb-4">Definição de Matriz Inversa</h2>
+            <p>A inversa de uma matriz quadrada A, denotada por $A^{-1}$, é a matriz tal que o produto de A por $A^{-1}$ é a matriz identidade. Nem toda matriz tem uma inversa.</p>
+            $$ A \cdot A^{-1} = A^{-1} \cdot A = I $$
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide41">
+            <h2 class="text-3xl font-bold mb-4">Exemplos de Matrizes e suas Inversas</h2>
+            $$ A = \begin{bmatrix} 2 & 5 \\ 1 & 3 \end{bmatrix} \Rightarrow A^{-1} = \begin{bmatrix} 3 & -5 \\ -1 & 2 \end{bmatrix} $$
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide42">
+            <h2 class="text-3xl font-bold mb-4">Determinação da Inversa por Gauss-Jordan</h2>
+            <p>Para encontrar a inversa de A, formamos a matriz aumentada $[A|I]$ e usamos operações de linha para transformar A em I. A matriz resultante será $[I|A^{-1}]$.</p>
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide43">
+            <h2 class="text-3xl font-bold mb-4">Exemplo de Inversão de Matriz por Gauss-Jordan</h2>
+            <p>Encontrar a inversa da matriz A:</p>
+            $$ A = \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix} $$
+            <p>Matriz aumentada $[A|I]$:</p>
+            $$ \left[ \begin{array}{cc|cc} 1 & 2 & 1 & 0 \\ 3 & 4 & 0 & 1 \end{array} \right] $$
+            <p>$L_2 \leftarrow L_2 - 3L_1$</p>
+            $$ \left[ \begin{array}{cc|cc} 1 & 2 & 1 & 0 \\ 0 & -2 & -3 & 1 \end{array} \right] $$
+            <p>$L_2 \leftarrow -\frac{1}{2}L_2$</p>
+            $$ \left[ \begin{array}{cc|cc} 1 & 2 & 1 & 0 \\ 0 & 1 & 3/2 & -1/2 \end{array} \right] $$
+            <p>$L_1 \leftarrow L_1 - 2L_2$</p>
+            $$ \left[ \begin{array}{cc|cc} 1 & 0 & -2 & 1 \\ 0 & 1 & 3/2 & -1/2 \end{array} \right] $$
+            <p>A inversa é:</p>
+            $$ A^{-1} = \begin{bmatrix} -2 & 1 \\ 3/2 & -1/2 \end{bmatrix} $$
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide44">
+            <h2 class="text-3xl font-bold mb-4">Definição de Matriz Ortogonal</h2>
+            <p>Uma matriz quadrada A é ortogonal se sua transposta é igual à sua inversa.</p>
+            $$ A^T = A^{-1} \iff A \cdot A^T = A^T \cdot A = I $$
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <button onclick="navigate(1)" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Próximo</button>
+            </div>
+        </section>
+        <section id="slide45">
+            <h2 class="text-3xl font-bold mb-4">Exemplo de Matriz Ortogonal</h2>
+            <p>A matriz de rotação é um exemplo de matriz ortogonal:</p>
+            $$ R(\theta) = \begin{bmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{bmatrix} $$
+            <p>Sua transposta é sua inversa.</p>
+            <div class="mt-8 flex justify-between">
+                <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
+                <a href="#slide0" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Voltar ao Início</a>
+            </div>
+        </section>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/dist/reveal.js"></script>
     <script>
-        Reveal.initialize({
-            hash: true,
-            plugins: []
-        });
-
         document.addEventListener("DOMContentLoaded", function() {
             renderMathInElement(document.body, {
                 delimiters: [
@@ -310,6 +500,31 @@
                     {left: "\\(", right: "\\)", display: false}
                 ]
             });
+        });
+
+        const sections = document.querySelectorAll('section');
+        let currentSection = 0;
+
+        function navigate(direction) {
+            const nextSection = currentSection + direction;
+            if (nextSection >= 0 && nextSection < sections.length) {
+                currentSection = nextSection;
+                const targetId = 'slide' + currentSection;
+                document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Update currentSection based on scroll position
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    currentSection = parseInt(entry.target.id.replace('slide', ''));
+                }
+            });
+        }, { threshold: 0.5 });
+
+        sections.forEach(section => {
+            observer.observe(section);
         });
     </script>
 </body>
