@@ -103,6 +103,12 @@
             </div>
         </form>
 
+        <!-- Feedback Box -->
+        <div id="feedback-container" class="mt-4 p-4 rounded-lg hidden">
+            <p id="feedback-text" class="font-semibold"></p>
+            <p id="justification-text" class="mt-2"></p>
+        </div>
+
         <!-- Navegação e Resultados -->
         <div id="navigation" class="flex justify-between items-center pt-8">
             <button type="button" id="prev-btn" class="bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-lg hover:bg-gray-400 transition-colors disabled:bg-gray-200 disabled:cursor-not-allowed">
@@ -144,6 +150,9 @@
             const startQuizBtn = document.getElementById('start-quiz-btn');
             const fullnameInput = document.getElementById('fullname');
             const quizContainer = document.getElementById('quiz-container');
+            const feedbackContainer = document.getElementById('feedback-container');
+            const feedbackText = document.getElementById('feedback-text');
+            const justificationText = document.getElementById('justification-text');
 
             let userName = '';
 
@@ -152,6 +161,14 @@
             const totalQuestions = questions.length;
             
             const correctAnswers = { q1: 'a', q2: 'b', q3: 'b', q4: 'a', q5: 'b' };
+
+            const justifications = {
+                q1: 'A soma de matrizes é feita somando os elementos correspondentes. $A+B = \\begin{pmatrix} 2+1 & 1+0 \\ 3+(-2) & 5+4 \\end{pmatrix} = \\begin{pmatrix} 3 & 1 \\ 1 & 9 \\end{pmatrix}$.',
+                q2: 'Para multiplicar uma matriz por um escalar, multiplicamos cada elemento da matriz pelo escalar. $3C = \\begin{pmatrix} 3 \\cdot 4 & 3 \\cdot (-2) \\ 3 \\cdot 0 & 3 \\cdot 6 \\end{pmatrix} = \\begin{pmatrix} 12 & -6 \\ 0 & 18 \\end{pmatrix}$.',
+                q3: 'O produto de matrizes $D_{2\\times2}$ e $E_{2\\times2}$ resulta em uma matriz $DE_{2\\times2}$. $DE = \\begin{pmatrix} (1\\cdot2+2\\cdot1) & (1\\cdot0+2\\cdot2) \\ (3\\cdot2+4\\cdot1) & (3\\cdot0+4\\cdot2) \\end{pmatrix} = \\begin{pmatrix} 4 & 4 \\ 10 & 8 \\end{pmatrix}$.',
+                q4: 'A transposta de uma matriz é obtida trocando suas linhas por colunas. A matriz $F$ de ordem $2 \\times 3$ terá uma transposta $F^T$ de ordem $3 \\times 2$.',
+                q5: 'Primeiro, calculamos $2I = 2\\begin{pmatrix} 1 & 0 \\ 0 & 1 \\end{pmatrix} = \\begin{pmatrix} 2 & 0 \\ 0 & 2 \\end{pmatrix}$. Depois, subtraímos: $G - 2I = \\begin{pmatrix} 5-2 & 2-0 \\ -1-0 & 0-2 \\end{pmatrix} = \\begin{pmatrix} 3 & 2 \\ -1 & -2 \\end{pmatrix}$.'
+            };
 
             startQuizBtn.addEventListener('click', () => {
                 userName = fullnameInput.value.trim();
@@ -164,7 +181,36 @@
                 }
             });
 
+            function showFeedback(questionId, selectedValue) {
+                const isCorrect = correctAnswers[questionId] === selectedValue;
+                feedbackContainer.classList.remove('hidden', 'bg-green-100', 'bg-red-100', 'text-green-800', 'text-red-800');
+                if (isCorrect) {
+                    feedbackText.textContent = 'Correto!';
+                    feedbackContainer.classList.add('bg-green-100', 'text-green-800');
+                } else {
+                    feedbackText.textContent = 'Incorreto.';
+                    feedbackContainer.classList.add('bg-red-100', 'text-red-800');
+                }
+                justificationText.textContent = justifications[questionId];
+                renderMathInElement(justificationText, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false}
+                    ]
+                });
+                feedbackContainer.classList.remove('hidden');
+            }
+
+            quizForm.addEventListener('change', function(event) {
+                if (event.target.type === 'radio') {
+                    const questionId = event.target.name;
+                    const selectedValue = event.target.value;
+                    showFeedback(questionId, selectedValue);
+                }
+            });
+
             function updateQuizView() {
+                feedbackContainer.classList.add('hidden');
                 questions.forEach((question, index) => {
                     question.classList.toggle('hidden', index !== currentQuestionIndex);
                 });
