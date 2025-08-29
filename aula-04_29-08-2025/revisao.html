@@ -504,10 +504,14 @@
             </div>
         </section>
         <section id="slide46">
-            <h2 class="text-3xl font-bold mb-4">Exemplo de Matriz Ortogonal</h2>
+            <h2 class="text-3xl font-bold mb-4">Exemplos de Matrizes Ortogonais</h2>
             <p>A matriz de rotação é um exemplo de matriz ortogonal:</p>
             $$ R(\theta) = \begin{bmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{bmatrix} $$
-            <p>Sua transposta é sua inversa.</p>
+            <p>Matrizes de permutação também são ortogonais:</p>
+            $$ P = \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix} $$
+            <p>Matrizes de reflexão são outro exemplo:</p>
+            $$ R_y = \begin{bmatrix} -1 & 0 \\ 0 & 1 \end{bmatrix} $$
+            <p>Em todos esses casos, a transposta da matriz é igual à sua inversa.</p>
             <div class="mt-8 flex justify-between">
                 <button onclick="navigate(-1)" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400">Anterior</button>
                 <a href="#slide0" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Voltar ao Início</a>
