@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisa Operacional - Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Estilos para os botões de navegação */
+        .nav-btn {
+            width: 32px;
+            height: 32px;
+            border: 2px solid #d1d5db; /* gray-300 */
+            color: #4b5563; /* gray-600 */
+            background-color: #f9fafb; /* gray-50 */
+        }
+        .nav-btn.current {
+            border-color: #111827; /* gray-900 */
+            background-color: #f3f4f6; /* gray-100 */
+            font-weight: bold;
+        }
+        .nav-btn.answered {
+            border-color: #16a34a; /* green-600 */
+            background-color: #f0fdf4; /* green-50 */
+            color: #15803d; /* green-700 */
+        }
+        .nav-btn.skipped {
+            border-color: #f59e0b; /* amber-500 */
+            background-color: #fffbeb; /* amber-50 */
+            color: #b45309; /* amber-700 */
+        }
+        /* Estilos discretos para as alternativas */
+        .btn-answer.correct {
+            background-color: #f0fdf4 !important; /* green-50 */
+            border-color: #4ade80 !important; /* green-400 */
+        }
+        .btn-answer.incorrect {
+            background-color: #fef2f2 !important; /* red-50 */
+            border-color: #f87171 !important; /* red-400 */
+        }
+        /* Estilos para o texto de feedback dentro do botão */
+        .feedback-text-inline.correct-feedback {
+            color: #15803d; /* green-700 */
+        }
+        .feedback-text-inline.incorrect-feedback {
+            color: #b91c1c; /* red-700 */
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto px-6 py-4">
+            <div class="text-center">
+                <h1 class="text-4xl font-bold text-gray-900">Pesquisa Operacional</h1>
+                <p class="text-lg text-gray-600 mt-2">Prof. Felipe Heitmann</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8">
+        <section class="bg-white p-6 rounded-lg shadow-lg mb-8">
+            <div class="w-full max-w-2xl mx-auto">
+                
+                <!-- Tela de Início -->
+                <div id="start-screen" class="text-center">
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Teste Rápido: Programação Linear</h2>
+                    <p class="mt-2 text-gray-600">Por favor, insira seu nome completo para começar.</p>
+                    <div class="mt-6">
+                        <input type="text" id="name-input" placeholder="Digite seu nome completo aqui" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition">
+                        <p id="name-error" class="text-red-500 text-sm mt-2 hidden">O nome é obrigatório.</p>
+                    </div>
+                    <button id="start-btn" class="w-full mt-4 px-8 py-3 font-bold text-white bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed">Iniciar Quiz</button>
+                </div>
+
+                <!-- Container do Quiz -->
+                <div id="quiz-container" class="hidden">
+                    <!-- Container da Questão -->
+                    <div id="question-screen">
+                        <div id="question-nav" class="flex justify-center gap-2 mb-6">
+                            <!-- Botões de navegação das questões -->
+                        </div>
+
+                        <div class="mb-4">
+                            <p id="progress-text" class="text-sm text-gray-500">Questão 1 de 5</p>
+                            <h2 id="question-text" class="text-lg md:text-xl font-bold text-gray-800 mt-2">Carregando pergunta...</h2>
+                        </div>
+
+                        <div id="answer-buttons" class="grid grid-cols-1 gap-3 mt-6">
+                            <!-- As alternativas serão inseridas aqui pelo JavaScript -->
+                        </div>
+
+                        <div id="video-container" class="mt-6 hidden">
+                            <!-- O vídeo será inserido aqui pelo JavaScript -->
+                        </div>
+
+                        <div id="hint-container" class="mt-4 p-4 rounded-lg bg-blue-50 border border-blue-200 hidden">
+                            <p class="text-sm text-blue-700"><strong class="font-bold">Dica:</strong> <span id="hint-text"></span></p>
+                        </div>
+
+                        <div class="flex justify-between items-center mt-6">
+                            <div>
+                                <button id="hint-btn" class="px-4 py-2 text-sm font-medium text-blue-600 bg-blue-100 rounded-lg hover:bg-blue-200 transition-colors">Dica</button>
+                                <button id="skip-btn" class="px-4 py-2 text-sm font-medium text-amber-600 bg-amber-100 rounded-lg hover:bg-amber-200 transition-colors ml-2">Pular</button>
+                            </div>
+                            <button id="next-btn" class="px-6 py-2 text-sm font-medium text-white bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors hidden">Próxima</button>
+                        </div>
+                    </div>
+
+                    <!-- Container de Resultados -->
+                    <div id="results-screen" class="text-center hidden">
+                        <h3 id="user-name-display" class="text-2xl font-bold text-gray-800 break-words"></h3>
+                        <p id="score-text" class="mt-2 text-lg text-gray-600">Você acertou 0 de 5 questões.</p>
+                        <img id="result-image" src="https://placehold.co/400x250/e2e8f0/475569?text=Resultado" alt="Imagem de resultado" class="mx-auto my-6 rounded-lg">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <button id="restart-btn" class="w-full px-8 py-3 font-bold text-gray-800 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors">Tentar Novamente</button>
+                            <a id="send-results-btn" href="#" target="_blank" class="w-full block px-8 py-3 font-bold text-white bg-green-600 rounded-lg hover:bg-green-700 transition-colors">Enviar para o professor</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="mt-8 flex justify-between items-center border-t pt-4">
+                <span><a href="../aula_03-18-08-2025/index.html" class="text-blue-600 hover:underline font-medium"> &larr; Aula Anterior</a></span>
+                <a href="../index.html" class="text-gray-600 hover:underline font-medium">Página Principal</a>
+                <span><a href="../aula_05-01-09-2025/index.html" class="text-blue-600 hover:underline font-medium">Próxima Aula &rarr;</a></span>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white mt-12 py-6 border-t">
+        <div class="container mx-auto px-6 text-center text-gray-500">
+            <p>&copy; 2025 - Prof. Felipe Heitmann. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- DADOS DO QUIZ ---
+        const quizData = 
+
+            [
+    {
+        "question": "Uma cervejaria artesanal busca maximizar seu lucro produzindo dois tipos de cerveja: IPA e APA. Os recursos e lucros são:\n- IPA: Lucro de R$5, consome 0,5kg de malte e 10g de lúpulo.\n- APA: Lucro de R$4, consome 0,4kg de malte e 6g de lúpulo.\nO estoque disponível é de 200kg de malte e 3.000g de lúpulo. Qual plano de produção maximiza o lucro?",
+        "answers": [
+            { "text": "A produção de APA deve ser de 500 unidades.", "correct": true, "rationale": "Exato! A produção de 500 APAs e 0 IPAs utiliza todo o lúpulo disponível e 200kg de malte. Essa combinação gera um lucro de R$2.000, o valor máximo possível dadas as restrições de estoque." },
+            { "text": "A produção de IPA deve ser de 400 unidades.", "correct": false, "rationale": "Essa produção não é viável. Para produzir 400 IPAs, seriam necessários 4.000g de lúpulo, mas o estoque é de apenas 3.000g." },
+            { "text": "A produção de APA deve ser de 0 unidades.", "correct": false, "rationale": "Se a cervejaria não produzisse APA, ela poderia fazer no máximo 300 IPAs (limitado pelo lúpulo), com um lucro de R$1.500. É um bom lucro, mas não é o maior possível." },
+            { "text": "A produção de IPA deve ser de 300 unidades.", "correct": false, "rationale": "Produzir 300 IPAs é uma opção viável (usa 150kg de malte e 3.000g de lúpulo), resultando em um lucro de R$1.500. No entanto, existe outra combinação que gera um lucro ainda maior." }
+        ],
+        "video": "https://www.youtube.com/embed/HAzSWBcOKhE",
+        "hint": "Para resolver, defina variáveis para as quantidades de IPA (x) e APA (y). Seu objetivo é maximizar a função de lucro, respeitando os limites (restrições) de malte e lúpulo."
+    },
+    {
+        "question": "Uma agência de publicidade quer maximizar o alcance de uma campanha com um orçamento de R$100.000 e 480 horas de trabalho da equipe. As opções de investimento são:\n- Anúncios Online: A cada R$1.000, atinge 4.000 pessoas e consome 4 horas de trabalho.\n- Anúncios de TV: A cada R$1.000, atinge 10.000 pessoas e consome 12 horas de trabalho.\nQual a melhor distribuição do orçamento para o alcance máximo?",
+        "answers": [
+            { "text": "O investimento em anúncios de TV deve ser de R$ 40.000.", "correct": false, "rationale": "Investir R$40.000 em TV é o máximo possível se considerarmos apenas a restrição de horas (12h * 40 = 480h). No entanto, essa escolha não otimiza o uso do orçamento e não leva ao alcance máximo." },
+            { "text": "O investimento em anúncios online deve ser de R$ 90.000.", "correct": true, "rationale": "Exato! Investir R$90.000 online e R$10.000 em TV consome exatamente o orçamento de R$100.000 e as 480 horas da equipe, resultando no maior alcance possível: 460.000 pessoas." },
+            { "text": "O investimento em anúncios de TV deve ser de R$ 100.000.", "correct": false, "rationale": "Essa opção é inviável. Um investimento de R$100.000 em TV exigiria 1.200 horas da equipe, muito acima das 480 horas disponíveis." },
+            { "text": "O investimento em anúncios online deve ser de R$ 10.000.", "correct": false, "rationale": "Na combinação ideal, R$10.000 é o valor a ser investido em TV, não em anúncios online. Investir apenas R$10.000 online levaria a um alcance muito baixo." }
+        ],
+        "video": "https://www.youtube.com/embed/X3BOi-p_LXM",
+        "hint": "Defina o valor investido em cada mídia como uma variável. O desafio é maximizar o alcance total sem ultrapassar o orçamento e as horas de trabalho disponíveis."
+    },
+    {
+        "question": "Uma marcenaria fabrica mesas e cadeiras e quer maximizar seu lucro. Os recursos disponíveis são 300m² de madeira e 680 horas de trabalho.\n- Mesa: Lucro de R$80, usa 5m² de madeira e 10 horas de trabalho.\n- Cadeira: Lucro de R$50, usa 2m² de madeira e 8 horas de trabalho.\nQual a combinação de produção que gera o lucro máximo?",
+        "answers": [
+            { "text": "A produção de mesas deve ser de 60 unidades.", "correct": false, "rationale": "Essa produção é viável. Fazer 60 mesas (e 0 cadeiras) usaria toda a madeira e 600 das 680 horas. O lucro seria de R$4.800, que é um bom valor, mas não é o máximo possível." },
+            { "text": "A produção de cadeiras deve ser de 85 unidades.", "correct": false, "rationale": "Produzir 85 cadeiras usaria todas as 680 horas de trabalho. No entanto, o lucro seria de R$4.250, inferior à solução ótima." },
+            { "text": "A produção de mesas deve ser de 52 unidades.", "correct": true, "rationale": "Perfeito! Produzir 52 mesas e 20 cadeiras utiliza os recursos de madeira e horas de forma ótima, alcançando o lucro máximo de R$5.160." },
+            { "text": "A produção de cadeiras deve ser de 52 unidades.", "correct": false, "rationale": "Atenção à variável! Na solução ótima, o número ideal de cadeiras é 20. 52 é a quantidade correta de mesas a serem produzidas." }
+        ],
+        "video": "https://www.youtube.com/embed/2THPavwurBQ",
+        "hint": "Pense em como maximizar o lucro. Defina variáveis para o número de mesas e cadeiras e crie as restrições com base nos limites de madeira e horas de trabalho."
+    },
+    {
+        "question": "Uma consultoria aloca seus profissionais em dois tipos de projeto, buscando maximizar o faturamento. A disponibilidade mensal é de 1.200 horas de consultores sênior e 1.600 horas de júnior.\n- Projeto Tipo A: Fatura R$3.000, exige 20h sênior e 40h júnior.\n- Projeto Tipo B: Fatura R$2.500, exige 30h sênior e 20h júnior.\nQual a combinação de projetos que maximiza o faturamento?",
+        "answers": [
+            { "text": "A quantidade de projetos do Tipo A deve ser de 30.", "correct": true, "rationale": "Isso mesmo! Fazer 30 projetos do Tipo A e 20 do Tipo B é a alocação ideal. Ela utiliza exatamente as 1.200h sênior e 1.600h júnior, maximizando o faturamento em R$140.000." },
+            { "text": "A quantidade de projetos do Tipo B deve ser de 40.", "correct": false, "rationale": "Realizar 40 projetos do Tipo B (e 0 do Tipo A) também é viável, pois consome 1.200h sênior e 800h júnior, faturando R$100.000. Existe uma solução melhor." },
+            { "text": "A quantidade de projetos do Tipo A deve ser de 40.", "correct": false, "rationale": "Fazer 40 projetos do Tipo A (e 0 do Tipo B) é uma opção viável, pois consome 1.600h júnior e 800h sênior, gerando um faturamento de R$120.000. Contudo, não é a combinação de maior retorno." },
+            { "text": "A quantidade de projetos do Tipo B deve ser de 30.", "correct": false, "rationale": "Cuidado com a troca! Na solução ótima, 30 é o número de projetos do Tipo A, não do Tipo B." }
+        ],
+        "video": "https://www.youtube.com/embed/bm7jnCy8Dec",
+        "hint": "O seu objetivo é maximizar o faturamento total. As horas de consultores sênior e júnior são suas restrições. Defina uma variável para cada tipo de projeto para encontrar a solução."
+    },
+    {
+        "question": "Um fazendeiro possui 100 hectares de terra e uma cota de 12.000 m³ de água para irrigação. Ele pode plantar Soja ou Milho e quer maximizar seu retorno financeiro.\n- Soja: Retorno de R$400 por hectare, consome 100 m³ de água por hectare.\n- Milho: Retorno de R$600 por hectare, consome 200 m³ de água por hectare.\nQual a divisão de área entre as culturas que gera o maior retorno?",
+        "answers": [
+            { "text": "A área plantada com Milho deve ser de 60 hectares.", "correct": false, "rationale": "Plantar 60 hectares de milho (e 0 de soja) usaria toda a água disponível e geraria um retorno de R$36.000. É uma estratégia possível, mas não a mais lucrativa." },
+            { "text": "A área plantada com Soja deve ser de 20 hectares.", "correct": false, "rationale": "Cuidado para não confundir as culturas. Na solução ideal, 20 hectares é a área que deve ser destinada ao Milho, não à Soja." },
+            { "text": "A área plantada com Milho deve ser de 80 hectares.", "correct": false, "rationale": "Essa opção é inviável. Plantar 80 hectares de milho exigiria 16.000 m³ de água, ultrapassando a cota de 12.000 m³." },
+            { "text": "A área plantada com Soja deve ser de 80 hectares.", "correct": true, "rationale": "Exatamente! Plantar 80 hectares de Soja e 20 hectares de Milho utiliza todos os 100 hectares de terra e e os 12.000 m³ de água. Essa é a combinação que gera o maior retorno possível para o fazendeiro: R$44.000." }
+        ],
+        "video": "https://www.youtube.com/embed/CMzt35gtx4Y",
+        "hint": "Defina a área de cada cultura como uma variável. O seu objetivo é maximizar o retorno total, sem ultrapassar os limites de área (terra) e de recursos (água)."
+    }
+];
+            
+            
+            
+            
+            
+            
+            
+            
+    
+        // --- ELEMENTOS DO HTML ---
+        const startScreen = document.getElementById('start-screen');
+        const nameInput = document.getElementById('name-input');
+        const nameError = document.getElementById('name-error');
+        const startBtn = document.getElementById('start-btn');
+        
+        const quizContainer = document.getElementById('quiz-container');
+        const questionScreen = document.getElementById('question-screen');
+        const resultsScreen = document.getElementById('results-screen');
+        
+        const questionNav = document.getElementById('question-nav');
+        const progressText = document.getElementById('progress-text');
+        const questionText = document.getElementById('question-text');
+        const answerButtons = document.getElementById('answer-buttons');
+        const hintContainer = document.getElementById('hint-container');
+        const hintText = document.getElementById('hint-text');
+        const hintBtn = document.getElementById('hint-btn');
+        const skipBtn = document.getElementById('skip-btn');
+        const nextBtn = document.getElementById('next-btn');
+        
+        const userNameDisplay = document.getElementById('user-name-display');
+        const scoreText = document.getElementById('score-text');
+        const resultImage = document.getElementById('result-image');
+        const restartBtn = document.getElementById('restart-btn');
+        const sendResultsBtn = document.getElementById('send-results-btn');
+
+        // --- VARIÁVEIS DE ESTADO DO QUIZ ---
+        let userName = '';
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+
+        // --- FUNÇÕES DO QUIZ ---
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            userAnswers = Array(quizData.length).fill(null);
+            quizContainer.classList.remove('hidden');
+            resultsScreen.classList.add('hidden');
+            questionScreen.classList.remove('hidden');
+            goToQuestion(0);
+        }
+
+        function updateNav() {
+            questionNav.innerHTML = '';
+            quizData.forEach((_, index) => {
+                const navButton = document.createElement('button');
+                navButton.innerText = index + 1;
+                navButton.classList.add('nav-btn', 'rounded-full', 'flex', 'items-center', 'justify-center', 'font-medium', 'text-sm');
+                if (userAnswers[index] !== null) {
+                    navButton.classList.add(userAnswers[index].skipped ? 'skipped' : 'answered');
+                }
+                if (index === currentQuestionIndex) {
+                    navButton.classList.add('current');
+                }
+                navButton.addEventListener('click', () => goToQuestion(index));
+                questionNav.appendChild(navButton);
+            });
+        }
+
+        function goToQuestion(index) {
+            currentQuestionIndex = index;
+            resetState();
+            updateNav();
+
+            const currentQuestion = quizData[currentQuestionIndex];
+            progressText.innerText = `Questão ${currentQuestionIndex + 1} de ${quizData.length}`;
+            questionText.innerText = currentQuestion.question;
+            hintText.innerText = currentQuestion.hint;
+
+            currentQuestion.answers.forEach((answer, answerIndex) => {
+                const button = document.createElement('button');
+                button.classList.add('btn-answer', 'w-full', 'p-4', 'text-left', 'bg-gray-50', 'border-2', 'border-gray-200', 'rounded-lg', 'hover:bg-gray-100', 'hover:border-gray-300', 'transition-colors', 'flex', 'flex-col', 'items-start');
+                
+                const answerText = document.createElement('span');
+                answerText.innerText = answer.text;
+                button.appendChild(answerText);
+
+                const feedbackText = document.createElement('span');
+                feedbackText.classList.add('feedback-text-inline', 'text-sm', 'mt-2', 'font-normal', 'hidden');
+                button.appendChild(feedbackText);
+
+                button.dataset.correct = answer.correct;
+                button.dataset.rationale = answer.rationale;
+                button.dataset.index = answerIndex;
+                button.addEventListener('click', selectAnswer);
+                answerButtons.appendChild(button);
+            });
+
+            if (userAnswers[currentQuestionIndex] && !userAnswers[currentQuestionIndex].skipped) {
+                showPreviousAnswer();
+            }
+        }
+        
+        function resetState() {
+            nextBtn.classList.add('hidden');
+            hintBtn.classList.remove('hidden');
+            skipBtn.classList.remove('hidden');
+            hintContainer.classList.add('hidden');
+            answerButtons.innerHTML = '';
+            document.getElementById('video-container').classList.add('hidden');
+        }
+
+        function selectAnswer(e) {
+            const selectedBtn = e.currentTarget;
+            const isCorrect = selectedBtn.dataset.correct === 'true';
+            const answerIndex = parseInt(selectedBtn.dataset.index);
+
+            userAnswers[currentQuestionIndex] = {
+                skipped: false,
+                correct: isCorrect,
+                selectedIndex: answerIndex
+            };
+
+            showFeedback();
+            disableButtonsAndShowNext();
+        }
+
+        function showPreviousAnswer() {
+            showFeedback();
+            disableButtonsAndShowNext();
+        }
+
+        function showFeedback() {
+            const answerState = userAnswers[currentQuestionIndex];
+            if (!answerState) return;
+
+            const selectedBtn = answerButtons.children[answerState.selectedIndex];
+            const isCorrect = answerState.correct;
+
+            if (isCorrect) {
+                const feedbackSpan = selectedBtn.querySelector('.feedback-text-inline');
+                selectedBtn.classList.add('correct');
+                feedbackSpan.innerText = selectedBtn.dataset.rationale;
+                feedbackSpan.classList.add('correct-feedback');
+                feedbackSpan.classList.remove('hidden');
+            } else {
+                // Marca a incorreta
+                const incorrectFeedbackSpan = selectedBtn.querySelector('.feedback-text-inline');
+                selectedBtn.classList.add('incorrect');
+                incorrectFeedbackSpan.innerText = selectedBtn.dataset.rationale;
+                incorrectFeedbackSpan.classList.add('incorrect-feedback');
+                incorrectFeedbackSpan.classList.remove('hidden');
+
+                // Acha e marca a correta
+                // const correctBtn = Array.from(answerButtons.children).find(btn => btn.dataset.correct === 'true');
+                // if (correctBtn) {
+                //     const correctFeedbackSpan = correctBtn.querySelector('.feedback-text-inline');
+                //     correctBtn.classList.add('correct');
+                //     correctFeedbackSpan.innerText = correctBtn.dataset.rationale;
+                //     correctFeedbackSpan.classList.add('correct-feedback');
+                //     correctFeedbackSpan.classList.remove('hidden');
+                // }
+            }
+            showVideo();
+        }
+
+        function showVideo() {
+            const videoContainer = document.getElementById('video-container');
+            const currentQuestion = quizData[currentQuestionIndex];
+            if (currentQuestion.video) {
+                videoContainer.innerHTML = `
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">Resolução em Vídeo</h3>
+                    <iframe width="100%" height="315" src="${currentQuestion.video}?autoplay=1"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen
+                            class="rounded-lg">
+                    </iframe>`;
+                videoContainer.classList.remove('hidden');
+            }
+        }
+        
+        function disableButtonsAndShowNext() {
+            Array.from(answerButtons.children).forEach(button => {
+                button.disabled = true;
+            });
+
+            const allAnswered = userAnswers.every(answer => answer !== null);
+            nextBtn.innerText = allAnswered ? "Finalizar" : "Próxima";
+
+            nextBtn.classList.remove('hidden');
+            hintBtn.classList.add('hidden');
+            skipBtn.classList.add('hidden');
+            updateNav();
+        }
+
+        function handleNext() {
+            const nextUnansweredIndex = userAnswers.findIndex(answer => answer === null);
+            if (nextUnansweredIndex !== -1) {
+                goToQuestion(nextUnansweredIndex);
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            questionScreen.classList.add('hidden');
+            resultsScreen.classList.remove('hidden');
+            
+            userNameDisplay.innerText = userName;
+
+            const score = userAnswers.filter(a => a && a.correct).length;
+            const totalQuestions = quizData.length;
+            const percentage = Math.round((score / totalQuestions) * 100);
+            const scoreString = `${userName} acertou ${score} questões de um total de ${totalQuestions} obtendo ${percentage}% de acertos.`;
+            scoreText.innerText = scoreString;
+            
+            if (score >= 4) {
+                 resultImage.src = `https://placehold.co/400x250/22c55e/ffffff?text=Excelente!`;
+            } else if (score >= 2) {
+                 resultImage.src = `https://placehold.co/400x250/f97316/ffffff?text=Bom+Trabalho!`;
+            } else {
+                 resultImage.src = `https://placehold.co/400x250/ef4444/ffffff?text=Continue+Estudando!`;
+            }
+
+            // Prepara o link do Google Form
+            const baseURL = "https://docs.google.com/forms/d/e/1FAIpQLSeRws-IUSGx8jZjzovK3MQrD6bJKoUwjxt9zDkh0GeuQZV5YA/viewform";
+            const encodedName = encodeURIComponent(userName);
+            const base64Score = btoa(scoreString);
+            const finalURL = `${baseURL}?usp=pp_url&entry.1793684442=${encodedName}&entry.327685325=${base64Score}`;
+            sendResultsBtn.href = finalURL;
+        }
+
+        // --- EVENT LISTENERS ---
+        nameInput.addEventListener('input', () => {
+            if (nameInput.value.trim().length > 0) {
+                startBtn.disabled = false;
+                nameError.classList.add('hidden');
+            } else {
+                startBtn.disabled = true;
+            }
+        });
+
+        startBtn.addEventListener('click', () => {
+            const name = nameInput.value.trim();
+            if (name) {
+                userName = name;
+                startScreen.classList.add('hidden');
+                startQuiz();
+            } else {
+                nameError.classList.remove('hidden');
+            }
+        });
+
+        hintBtn.addEventListener('click', () => hintContainer.classList.toggle('hidden'));
+        
+        skipBtn.addEventListener('click', () => {
+            userAnswers[currentQuestionIndex] = { skipped: true };
+            handleNext();
+        });
+
+        nextBtn.addEventListener('click', handleNext);
+        
+        restartBtn.addEventListener('click', () => {
+            quizContainer.classList.add('hidden');
+            startScreen.classList.remove('hidden');
+            nameInput.value = '';
+            startBtn.disabled = true;
+        });
+
+        // --- INICIAR ---
+        startBtn.disabled = true; // Botão de início começa desabilitado
+    </script>
+
+</body>
+</html>
