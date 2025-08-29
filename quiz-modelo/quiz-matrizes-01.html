@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Operações com Matrizes</title>
+    <!-- Tailwind CSS para estilização -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- KaTeX para renderização de LaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUbKyIyuh" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+    <style>
+        /* Estilo para as respostas corretas e incorretas */
+        .correct-answer {
+            color: #16a34a; /* green-600 */
+        }
+        .incorrect-answer {
+            color: #dc2626; /* red-600 */
+            text-decoration: line-through;
+        }
+        .katex {
+            font-size: 1.2em !important;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .question-block.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 flex items-center justify-center min-h-screen p-4">
+
+    <div class="container mx-auto max-w-2xl bg-white rounded-xl shadow-lg p-6 md:p-8">
+        <h1 class="text-3xl font-bold text-center text-gray-900 mb-2">Teste de Operações com Matrizes</h1>
+        <p id="progress-indicator" class="text-center text-gray-600 mb-8 font-semibold">Questão 1 de 5</p>
+
+        <form id="quiz-form" class="space-y-8">
+            <!-- As questões serão mostradas uma de cada vez pelo JS -->
+            <!-- Questão 1 -->
+            <div class="question-block">
+                <p class="font-semibold text-lg mb-4">1. Dadas as matrizes $A = \begin{pmatrix} 2 & 1 \\ 3 & 5 \end{pmatrix}$ e $B = \begin{pmatrix} 1 & 0 \\ -2 & 4 \end{pmatrix}$, qual é o resultado de $A + B$?</p>
+                <div class="space-y-3" id="q1-options">
+                    <div><label class="flex items-center space-x-3"><input type="radio" name="q1" value="a" class="h-4 w-4"> <span>$A+B = \begin{pmatrix} 3 & 1 \\ 1 & 9 \end{pmatrix}$</span></label></div>
+                    <div><label class="flex items-center space-x-3"><input type="radio" name="q1" value="b" class="h-4 w-4"> <span>$A+B = \begin{pmatrix} 3 & 1 \\ 5 & 9 \end{pmatrix}$</span></label></div>
+                    <div><label class="flex items-center space-x-3"><input type="radio" name="q1" value="c" class="h-4 w-4"> <span>$A+B = \begin{pmatrix} 2 & 1 \\ -5 & 20 \end{pmatrix}$</span></label></div>
+                    <div><label class="flex items-center space-x-3"><input type="radio" name="q1" value="d" class="h-4 w-4"> <span>$A+B = \begin{pmatrix} 1 & 1 \\ -1 & 1 \end{pmatrix}$</span></label></div>
+                </div>
+            </div>
+
+            <!-- Questão 2 -->
+            <div class="question-block hidden">
+                <p class="font-semibold text-lg mb-4">2. Se $C = \begin{pmatrix} 4 & -2 \\ 0 & 6 \end{pmatrix}$, qual é a matriz $3C$?</p>
+                <div class="space-y-3" id="q2-options">
+                    <div><label class="flex items-center space-x-3"><input type="radio" name="q2" value="a" class="h-4 w-4"> <span>$3C = \begin{pmatrix} 7 & 1 \\ 3 & 9 \end{pmatrix}$</span></label></div>
+                    <div><label class="flex items-center space-x-3"><input type="radio" name="q2" value="b" class="h-4 w-4"> <span>$3C = \begin{pmatrix} 12 & -6 \\ 0 & 18 \end{pmatrix}$</span></label></div>
+                    <div><label class="flex items-center space-x-3"><input type="radio" name="q2" value="c" class="h-4 w-4"> <span>$3C = \begin{pmatrix} 12 & -2 \\ 0 & 6 \end{pmatrix}$</span></label></div>
+                    <div><label class="flex items-center space-x-3"><input type="radio" name="q2" value="d" class="h-4 w-4"> <span>$3C = \begin{pmatrix} 4 & -6 \\ 0 & 18 \end{pmatrix}$</span></label></div>
+                </div>
+            </div>
+
+            <!-- Questão 3 -->
+            <div class="question-block hidden">
+                <p class="font-semibold text-lg mb-4">3. Qual é o produto das matrizes $D = \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}$ e $E = \begin{pmatrix} 2 & 0 \\ 1 & 2 \end{pmatrix}$?</p>
+                <div class="space-y-3" id="q3-options">
+                    <div><label class="flex items-center space-x-3"><input type="radio" name="q3" value="a" class="h-4 w-4"> <span>$DE = \begin{pmatrix} 2 & 0 \\ 3 & 8 \end{pmatrix}$</span></label></div>
+                    <div><label class="flex items-center space-x-3"><input type="radio" name="q3" value="b" class="h-4 w-4"> <span>$DE = \begin{pmatrix} 4 & 4 \\ 10 & 8 \end{pmatrix}$</span></label></div>
+                    <div><label class="flex items-center space-x-3"><input type="radio" name="q3" value="c" class="h-4 w-4"> <span>$DE = \begin{pmatrix} 4 & 10 \\ 4 & 8 \end{pmatrix}$</span></label></div>
+                    <div><label class="flex items-center space-x-3"><input type="radio" name="q3" value="d" class="h-4 w-4"> <span>A multiplicação não é possível.</span></label></div>
+                </div>
+            </div>
+
+            <!-- Questão 4 -->
+            <div class="question-block hidden">
+                <p class="font-semibold text-lg mb-4">4. Qual é a transposta da matriz $F = \begin{pmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{pmatrix}$?</p>
+                <div class="space-y-3" id="q4-options">
+                    <div><label class="flex items-center space-x-3"><input type="radio" name="q4" value="a" class="h-4 w-4"> <span>$F^T = \begin{pmatrix} 1 & 4 \\ 2 & 5 \\ 3 & 6 \end{pmatrix}$</span></label></div>
+                    <div><label class="flex items-center space-x-3"><input type="radio" name="q4" value="b" class="h-4 w-4"> <span>$F^T = \begin{pmatrix} 4 & 5 & 6 \\ 1 & 2 & 3 \end{pmatrix}$</span></label></div>
+                    <div><label class="flex items-center space-x-3"><input type="radio" name="q4" value="c" class="h-4 w-4"> <span>$F^T = \begin{pmatrix} 6 & 3 \\ 5 & 2 \\ 4 & 1 \end{pmatrix}$</span></label></div>
+                    <div><label class="flex items-center space-x-3"><input type="radio" name="q4" value="d" class="h-4 w-4"> <span>A matriz não pode ser transposta.</span></label></div>
+                </div>
+            </div>
+
+            <!-- Questão 5 -->
+            <div class="question-block hidden">
+                <p class="font-semibold text-lg mb-4">5. Se $G = \begin{pmatrix} 5 & 2 \\ -1 & 0 \end{pmatrix}$ e $I = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}$ (matriz identidade), qual é o resultado de $G - 2I$?</p>
+                <div class="space-y-3" id="q5-options">
+                    <div><label class="flex items-center space-x-3"><input type="radio" name="q5" value="a" class="h-4 w-4"> <span>$G - 2I = \begin{pmatrix} 4 & 2 \\ -1 & -1 \end{pmatrix}$</span></label></div>
+                    <div><label class="flex items-center space-x-3"><input type="radio" name="q5" value="b" class="h-4 w-4"> <span>$G - 2I = \begin{pmatrix} 3 & 2 \\ -1 & -2 \end{pmatrix}$</span></label></div>
+                    <div><label class="flex items-center space-x-3"><input type="radio" name="q5" value="c" class="h-4 w-4"> <span>$G - 2I = \begin{pmatrix} 3 & 0 \\ -1 & -2 \end{pmatrix}$</span></label></div>
+                    <div><label class="flex items-center space-x-3"><input type="radio" name="q5" value="d" class="h-4 w-4"> <span>$G - 2I = \begin{pmatrix} 5 & 2 \\ -1 & 0 \end{pmatrix}$</span></label></div>
+                </div>
+            </div>
+        </form>
+
+        <!-- Navegação e Resultados -->
+        <div id="navigation" class="flex justify-between items-center pt-8">
+            <button type="button" id="prev-btn" class="bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-lg hover:bg-gray-400 transition-colors disabled:bg-gray-200 disabled:cursor-not-allowed">
+                Anterior
+            </button>
+            <button type="button" id="next-btn" class="bg-indigo-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-indigo-700 transition-colors">
+                Próximo
+            </button>
+        </div>
+
+        <div id="results" class="text-center mt-8 hidden">
+            <h2 class="text-2xl font-bold">Resultados</h2>
+            <p id="score" class="text-xl mt-2"></p>
+             <button type="button" id="restart-btn" class="mt-6 bg-indigo-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-indigo-700 transition-colors">
+                Tentar Novamente
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ]
+            });
+
+            const quizForm = document.getElementById('quiz-form');
+            const resultsDiv = document.getElementById('results');
+            const scoreP = document.getElementById('score');
+            const navigationDiv = document.getElementById('navigation');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const restartBtn = document.getElementById('restart-btn');
+            const progressIndicator = document.getElementById('progress-indicator');
+
+            const questions = document.querySelectorAll('.question-block');
+            let currentQuestionIndex = 0;
+            const totalQuestions = questions.length;
+            
+            const correctAnswers = { q1: 'a', q2: 'b', q3: 'b', q4: 'a', q5: 'b' };
+
+            function updateQuizView() {
+                questions.forEach((question, index) => {
+                    question.classList.toggle('hidden', index !== currentQuestionIndex);
+                });
+
+                progressIndicator.textContent = `Questão ${currentQuestionIndex + 1} de ${totalQuestions}`;
+                prevBtn.disabled = currentQuestionIndex === 0;
+                nextBtn.textContent = (currentQuestionIndex === totalQuestions - 1) ? 'Finalizar' : 'Próximo';
+            }
+
+            function showResults() {
+                navigationDiv.classList.add('hidden');
+                progressIndicator.classList.add('hidden');
+                document.querySelector('h1').textContent = "Resultados do Teste";
+
+                let score = 0;
+                
+                questions.forEach((question, index) => {
+                    question.classList.remove('hidden'); // Mostra todas as questões
+                    const questionId = `q${index + 1}`;
+                    const optionsDiv = document.getElementById(`${questionId}-options`);
+                    const selectedOption = quizForm.elements[questionId].value;
+                    const correctAnswerValue = correctAnswers[questionId];
+
+                    const radios = quizForm.elements[questionId];
+                    for(let radio of radios) {
+                        radio.disabled = true;
+                    }
+                    
+                    if (selectedOption) {
+                        const selectedLabel = document.querySelector(`label:has(input[name="${questionId}"][value="${selectedOption}"])`);
+                        if (selectedOption === correctAnswerValue) {
+                            score++;
+                            selectedLabel.classList.add('correct-answer');
+                        } else {
+                            selectedLabel.classList.add('incorrect-answer');
+                            const correctLabel = document.querySelector(`label:has(input[name="${questionId}"][value="${correctAnswerValue}"])`);
+                            correctLabel.classList.add('correct-answer');
+                        }
+                    } else {
+                        const correctLabel = document.querySelector(`label:has(input[name="${questionId}"][value="${correctAnswerValue}"])`);
+                        correctLabel.classList.add('correct-answer');
+                    }
+                });
+
+                scoreP.textContent = `Você acertou ${score} de ${totalQuestions} questões!`;
+                if(score/totalQuestions < 0.5) {
+                    scoreP.className = 'text-xl mt-2 text-red-600 font-semibold';
+                } else if (score/totalQuestions < 0.8) {
+                    scoreP.className = 'text-xl mt-2 text-yellow-600 font-semibold';
+                } else {
+                    scoreP.className = 'text-xl mt-2 text-green-600 font-semibold';
+                }
+                
+                resultsDiv.classList.remove('hidden');
+            }
+
+            nextBtn.addEventListener('click', function() {
+                if (currentQuestionIndex < totalQuestions - 1) {
+                    currentQuestionIndex++;
+                    updateQuizView();
+                } else {
+                    showResults();
+                }
+            });
+
+            prevBtn.addEventListener('click', function() {
+                if (currentQuestionIndex > 0) {
+                    currentQuestionIndex--;
+                    updateQuizView();
+                }
+            });
+
+            restartBtn.addEventListener('click', () => window.location.reload());
+
+            // Inicia a visualização do quiz
+            updateQuizView();
+        });
+    </script>
+</body>
+</html>
+
