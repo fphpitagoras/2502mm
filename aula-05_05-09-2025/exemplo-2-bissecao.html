@@ -3,298 +3,333 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Método da Bisseção Gráfico e Interativo</title>
+    <title>Visualizador Interativo: Método da Bisseção</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony -->
+    <!-- Application Structure Plan: A aplicação foi estruturada como uma narrativa educacional de rolagem única, ideal para iniciantes. A estrutura guia o usuário desde a teoria até a prática interativa. Começa com uma introdução conceitual, seguida por uma visualização gráfica do problema para dar contexto. O núcleo é um simulador interativo, onde o usuário avança passo a passo pelas iterações, vendo as atualizações nos cálculos e no gráfico. Finalmente, uma tabela de resumo consolida o aprendizado. Esta abordagem passo a passo, controlada pelo usuário, reforça a compreensão do algoritmo de uma maneira que um texto estático não consegue, transformando a leitura passiva em exploração ativa. -->
+    <!-- Visualization & Content Choices: Informação: Função f(x) = x³ + x² + 2, intervalo [-2, 0] e 4 iterações. Objetivo: Ensinar o método da bisseção. Viz/Apresentação: Gráfico de Linhas com Chart.js para a função e uma área sombreada para o intervalo. Blocos de texto para os cálculos. Tabela HTML para o resumo. Interação: Um botão "Próxima Iteração" controla o fluxo. A cada clique, o JS atualiza os blocos de texto com os dados da iteração atual e redesenha a área sombreada no gráfico para mostrar o novo intervalo. Justificativa: A combinação de um gráfico dinâmico com cálculos passo a passo torna o conceito abstrato de convergência visualmente concreto e fácil de entender. Biblioteca: Chart.js (Canvas). -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
         }
-        .table-container {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        #chart-container {
+        .chart-container {
             position: relative;
-            height: 400px;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 50vh;
         }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 450px;
+            }
+        }
+        .card {
+            background-color: #FFFFFF;
+            border: 1px solid #EAEAEA;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+        }
+        .btn {
+            transition: all 0.3s ease;
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .highlight-blue { color: #3B82F6; font-weight: 500; }
+        .highlight-red { color: #EF4444; font-weight: 500; }
+        .highlight-green { color: #22C55E; font-weight: 500; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
-
-    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-7xl">
-
-        <header class="text-center mb-8">
-            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900">Método da Bisseção Gráfico e Interativo</h1>
-            <p class="mt-2 text-lg text-gray-600">Visualize o processo de encontrar zeros de funções.</p>
+<body class="antialiased">
+    <div class="container mx-auto px-4 py-8 md:py-12">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800">Método da Bisseção Interativo</h1>
+            <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Uma exploração visual para encontrar a raiz da função <span class="font-mono bg-gray-100 p-1 rounded-md">f(x) = x³ + x² + 2</span>.</p>
         </header>
 
-        <main class="grid lg:grid-cols-2 gap-8">
-            <!-- Coluna de Controles -->
-            <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
-                <h2 class="text-xl font-semibold mb-4 text-gray-800 border-b pb-2">Parâmetros de Cálculo</h2>
-                
-                <div class="space-y-4">
-                    <div>
-                        <label for="function-input" class="block text-sm font-medium text-gray-700">Função f(x)</label>
-                        <input type="text" id="function-input" value="x**3 - x - 2" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm font-mono placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                        <p class="mt-1 text-xs text-gray-500">Use sintaxe de JavaScript. Ex: `Math.sin(x)`, `x**2` (para $x^2$).</p>
-                    </div>
-                    <div>
-                        <label for="intervalo-a" class="block text-sm font-medium text-gray-700">Início do Intervalo (a)</label>
-                        <input type="number" id="intervalo-a" value="1" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    </div>
-                    <div>
-                        <label for="intervalo-b" class="block text-sm font-medium text-gray-700">Fim do Intervalo (b)</label>
-                        <input type="number" id="intervalo-b" value="2" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    </div>
-                    <div>
-                        <label for="precisao" class="block text-sm font-medium text-gray-700">Precisão (tolerância)</label>
-                        <input type="number" id="precisao" value="0.0001" step="0.0001" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    </div>
+        <main class="space-y-12">
+            <section id="introduction" class="card p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">O que é a Raiz de uma Função?</h2>
+                <p class="text-gray-700 leading-relaxed">
+                    A <span class="font-semibold">raiz</span> de uma função é o ponto onde seu gráfico cruza o eixo X. Neste ponto, o valor da função é zero. O Método da Bisseção é uma técnica poderosa para encontrar essa raiz de forma aproximada, dividindo repetidamente um intervalo ao meio e escolhendo a metade que contém a raiz. Vamos visualizar este processo para a função <span class="font-mono text-gray-800 font-semibold">f(x) = x³ + x² + 2</span> no intervalo inicial <span class="font-mono text-gray-800 font-semibold">[-2, 0]</span>.
+                </p>
+            </section>
+            
+            <section id="visualizer" class="card p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2 text-center">Visualização do Problema</h2>
+                <p class="text-gray-600 mb-6 text-center">Abaixo, vemos o gráfico da função e o intervalo onde buscaremos a raiz.</p>
+                <div class="chart-container">
+                    <canvas id="bisectionChart"></canvas>
+                </div>
+            </section>
+            
+            <section id="simulation" class="card p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Simulador Passo a Passo</h2>
+                <div class="flex flex-col md:flex-row items-center justify-center gap-6 mb-8">
+                    <button id="nextStepBtn" class="btn w-full md:w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">Iniciar Simulação</button>
+                    <button id="resetBtn" class="btn w-full md:w-auto bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-8 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75">Reiniciar</button>
                 </div>
 
-                <button id="calculate-btn" class="mt-6 w-full inline-flex justify-center py-3 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform transform hover:scale-105">
-                    Calcular e Desenhar Gráfico
-                </button>
-
-                 <div class="bg-gray-50 p-4 rounded-lg border mt-6">
-                     <h3 class="text-lg font-semibold text-gray-800 mb-3">Algoritmo da Bisseção</h3>
-                     <ol class="list-decimal list-inside space-y-2 text-sm text-gray-600">
-                         <li>Escolha um intervalo $[a, b]$ onde $f(a) \cdot f(b) < 0$.</li>
-                         <li>Calcule o ponto médio $c = (a + b) / 2$.</li>
-                         <li>Se $|b-a|$ for menor que a precisão, $c$ é a raiz.</li>
-                         <li>Verifique o sinal de $f(c)$ e reduza o intervalo para $[a, c]$ ou $[c, b]$.</li>
-                         <li>Volte para o passo 2.</li>
-                     </ol>
-                </div>
-            </div>
-
-            <!-- Coluna de Gráfico e Resultados -->
-            <div id="results-section" class="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
-                <h2 class="text-2xl font-bold text-gray-900 mb-4">Visualização Gráfica e Resultados</h2>
-                <div id="error-message" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative mb-4" role="alert"></div>
-                
-                <div id="success-output" class="hidden">
-                    <div id="chart-container" class="mb-6">
-                        <canvas id="function-chart"></canvas>
-                    </div>
-
-                    <div class="bg-indigo-50 border border-indigo-200 p-4 rounded-lg mb-6 text-center">
-                        <p class="text-md text-indigo-800">A raiz aproximada encontrada é:</p>
-                        <p id="final-root" class="text-2xl font-bold text-indigo-600 mt-1"></p>
-                    </div>
-    
-                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Passo a Passo das Iterações:</h3>
-                    <div class="table-container border rounded-lg">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-100 sticky top-0">
-                                <tr>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Iteração</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">a</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">b</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">c</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">f(c)</th>
-                                </tr>
-                            </thead>
-                            <tbody id="iterations-table" class="bg-white divide-y divide-gray-200"></tbody>
-                        </table>
+                <div id="step-info" class="min-h-[250px] bg-gray-50 p-6 rounded-lg border border-gray-200 transition-opacity duration-500 opacity-0">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">Iteração <span id="iteration-count">0</span></h3>
+                    <div class="space-y-3">
+                        <p class="text-center"><strong>Intervalo Atual:</strong> <span id="interval-val" class="font-mono">[-, -]</span></p>
+                        <div class="bg-white p-4 rounded-md border text-center md:text-left">
+                            <p class="font-semibold text-gray-700">1. Cálculo do Ponto Médio (m):</p>
+                            <p id="midpoint-calc" class="font-mono text-lg mt-1 text-gray-800">-</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-md border text-center md:text-left">
+                            <p class="font-semibold text-gray-700">2. Cálculo de f(m):</p>
+                            <p id="f-midpoint-calc" class="font-mono text-lg mt-1 text-gray-800">-</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-md border text-center md:text-left">
+                             <p class="font-semibold text-gray-700">3. Análise e Novo Intervalo:</p>
+                             <p id="explanation-text" class="mt-1 text-gray-600 leading-relaxed"></p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
+
+            <section id="summary" class="card p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Tabela de Resumo das Iterações</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-center border-collapse">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="p-3 font-bold uppercase text-gray-600 border border-gray-300">Iteração</th>
+                                <th class="p-3 font-bold uppercase text-gray-600 border border-gray-300">Intervalo [a, b]</th>
+                                <th class="p-3 font-bold uppercase text-gray-600 border border-gray-300">Ponto Médio (m)</th>
+                                <th class="p-3 font-bold uppercase text-gray-600 border border-gray-300">f(m)</th>
+                                <th class="p-3 font-bold uppercase text-gray-600 border border-gray-300">Tamanho do Intervalo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="summary-table-body">
+                            <tr id="no-summary-row"><td colspan="5" class="p-4 text-gray-500 italic">Complete as iterações para ver o resumo.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                 <div class="mt-6 text-center bg-blue-50 border border-blue-200 p-4 rounded-lg">
+                    <p class="text-lg text-blue-800">Para esta função, a raiz não é um número inteiro simples. O método nos ajuda a encontrar uma <strong class="font-semibold">aproximação</strong> cada vez mais precisa a cada passo.</p>
+                </div>
+            </section>
         </main>
     </div>
 
     <script>
-        let chartInstance = null;
+        const iterationData = [
+            { a: -2, b: 0, m: -1, fm: 2, nextA: -2, nextB: -1, explanation: `Como f(-2) é negativo e f(-1) é <span class="highlight-green">positivo</span>, a raiz está na primeira metade. O novo intervalo é [-2, -1].` },
+            { a: -2, b: -1, m: -1.5, fm: 0.875, nextA: -2, nextB: -1.5, explanation: `Como f(-2) é negativo e f(-1.5) é <span class="highlight-green">positivo</span>, a raiz está na primeira metade. O novo intervalo é [-2, -1.5].` },
+            { a: -2, b: -1.5, m: -1.75, fm: -0.296875, nextA: -1.75, nextB: -1.5, explanation: `Como f(-1.75) é <span class="highlight-red">negativo</span> e f(-1.5) é positivo, a raiz está na segunda metade. O novo intervalo é [-1.75, -1.5].` },
+            { a: -1.75, b: -1.5, m: -1.625, fm: 0.349609375, nextA: -1.75, nextB: -1.625, explanation: `Como f(-1.75) é negativo e f(-1.625) é <span class="highlight-green">positivo</span>, a raiz está na primeira metade. O novo intervalo é [-1.75, -1.625].` }
+        ];
 
-        const calculateBtn = document.getElementById('calculate-btn');
-        const resultsSection = document.getElementById('results-section');
-        const errorMessage = document.getElementById('error-message');
-        const successOutput = document.getElementById('success-output');
-        const finalRoot = document.getElementById('final-root');
-        const iterationsTable = document.getElementById('iterations-table');
-        const functionInput = document.getElementById('function-input');
-        
-        // Função para parsear a entrada do usuário de forma segura
-        function parseFunction(funcStr) {
-            try {
-                // Adiciona 'return' se não estiver presente
-                if (!funcStr.toLowerCase().includes('return')) {
-                    funcStr = 'return ' + funcStr;
-                }
-                return new Function('x', funcStr);
-            } catch (e) {
-                console.error("Erro de sintaxe na função:", e);
-                return null;
-            }
+        let currentIteration = -1;
+        let chart;
+
+        const nextStepBtn = document.getElementById('nextStepBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const stepInfo = document.getElementById('step-info');
+
+        const iterationCountEl = document.getElementById('iteration-count');
+        const intervalEl = document.getElementById('interval-val');
+        const midpointCalcEl = document.getElementById('midpoint-calc');
+        const fMidpointCalcEl = document.getElementById('f-midpoint-calc');
+        const explanationEl = document.getElementById('explanation-text');
+        const summaryTableBody = document.getElementById('summary-table-body');
+        const noSummaryRow = document.getElementById('no-summary-row');
+
+        function f(x) {
+            return x * x * x + x * x + 2;
         }
 
-        calculateBtn.addEventListener('click', () => {
-            // Limpa resultados anteriores
-            iterationsTable.innerHTML = '';
-            errorMessage.classList.add('hidden');
-            successOutput.classList.add('hidden');
-
-            const f_str = functionInput.value;
-            const f = parseFunction(f_str);
-
-            if (!f) {
-                showError('Erro de sintaxe na função. Verifique a expressão e tente novamente.');
-                return;
-            }
-
-            let a = parseFloat(document.getElementById('intervalo-a').value);
-            let b = parseFloat(document.getElementById('intervalo-b').value);
-            const tolerance = parseFloat(document.getElementById('precisao').value);
-
-            if (isNaN(a) || isNaN(b) || isNaN(tolerance)) {
-                showError('Por favor, insira valores numéricos válidos para os campos de intervalo e precisão.');
-                return;
-            }
-            if (tolerance <= 0) {
-                showError('A precisão (tolerância) deve ser um valor positivo.');
-                return;
-            }
-            if (a >= b) {
-                showError('O valor de "a" deve ser menor que o valor de "b".');
-                return;
-            }
-            // Verifica se a função pode ser avaliada
-            try {
-                if (f(a) * f(b) >= 0) {
-                    showError('O intervalo é inválido. A função não muda de sinal entre "a" e "b" (f(a) * f(b) >= 0).');
-                    return;
-                }
-            } catch(e) {
-                 showError('Não foi possível calcular f(a) ou f(b). Verifique se a função está correta.');
-                 return;
-            }
-
-            let iteration = 1;
-            let c;
-            const maxIterations = 1000;
-
-            while ((b - a) >= tolerance && iteration <= maxIterations) {
-                c = (a + b) / 2;
-                const fc = f(c);
-                addIterationRow(iteration, a, b, c, fc);
-                if (fc === 0.0) break;
-                else if (f(a) * fc < 0) b = c;
-                else a = c;
-                iteration++;
-            }
-            
-            if(iteration > maxIterations){
-                 showError('O número máximo de iterações foi atingido.');
-                 return;
-            }
-
-            c = (a + b) / 2;
-            finalRoot.textContent = c.toFixed(6);
-            successOutput.classList.remove('hidden');
-            drawChart(f, a, b, c);
-        });
-
-        function addIterationRow(iter, a, b, c, fc) {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">${iter}</td>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">${a.toFixed(6)}</td>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">${b.toFixed(6)}</td>
-                <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">${c.toFixed(6)}</td>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">${fc.toFixed(6)}</td>
-            `;
-            iterationsTable.appendChild(row);
-        }
-
-        function showError(message) {
-            errorMessage.textContent = message;
-            errorMessage.classList.remove('hidden');
-            successOutput.classList.add('hidden');
-            if(chartInstance) chartInstance.destroy();
-        }
-
-        function drawChart(f, a_final, b_final, root) {
-            const ctx = document.getElementById('function-chart').getContext('2d');
-            if (chartInstance) {
-                chartInstance.destroy();
-            }
-
-            const a_initial = parseFloat(document.getElementById('intervalo-a').value);
-            const b_initial = parseFloat(document.getElementById('intervalo-b').value);
-            const range = b_initial - a_initial;
-            const plot_start = a_initial - range * 0.2;
-            const plot_end = b_initial + range * 0.2;
+        function createChart(initialA, initialB) {
+            const ctx = document.getElementById('bisectionChart').getContext('2d');
             
             const labels = [];
-            const data = [];
-            const step = (plot_end - plot_start) / 200;
-
-            for (let x = plot_start; x <= plot_end; x += step) {
-                try {
-                    const y = f(x);
-                    if (isFinite(y)) { // Ignora valores como Infinity ou NaN
-                        labels.push(x.toFixed(3));
-                        data.push(y.toFixed(3));
-                    }
-                } catch(e) { /* Ignora erros de avaliação em pontos específicos */ }
+            const dataPoints = [];
+            for (let i = -3; i <= 1; i += 0.1) {
+                labels.push(i.toFixed(1));
+                dataPoints.push(f(i));
             }
-            
-            chartInstance = new Chart(ctx, {
+
+            const config = {
                 type: 'line',
                 data: {
                     labels: labels,
-                    datasets: [{
-                        label: 'f(x)',
-                        data: data,
-                        borderColor: 'rgb(79, 70, 229)',
-                        borderWidth: 2,
-                        pointRadius: 0,
-                        tension: 0.1
-                    }, {
-                        label: 'Raiz',
-                        data: [{x: root.toFixed(3), y: 0}],
-                        backgroundColor: 'rgb(220, 38, 38)',
-                        pointRadius: 6,
-                        pointHoverRadius: 8,
-                        type: 'scatter'
-                    }]
+                    datasets: [
+                        {
+                            label: 'f(x) = x³ + x² + 2',
+                            data: dataPoints,
+                            borderColor: '#3B82F6',
+                            borderWidth: 3,
+                            pointRadius: 0,
+                            tension: 0.1,
+                            fill: false
+                        },
+                        {
+                            label: 'Intervalo',
+                            data: labels.map(x => ({x: parseFloat(x), y: 0})),
+                            backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                            borderColor: 'rgba(59, 130, 246, 0.5)',
+                            borderWidth: 1,
+                            type: 'bar',
+                            barPercentage: 1.0,
+                            categoryPercentage: 1.0,
+                            hidden: true
+                        }
+                    ]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     scales: {
                         x: {
-                            title: { display: true, text: 'x' },
-                             ticks: {
-                                maxTicksLimit: 10
+                            type: 'linear',
+                            position: 'bottom',
+                            title: {
+                                display: true,
+                                text: 'x',
+                                font: { size: 14, weight: 'bold' }
+                            },
+                            grid: {
+                                drawOnChartArea: false
                             }
                         },
                         y: {
-                            title: { display: true, text: 'f(x)' },
-                            grid: {
-                                zeroLineColor: '#000',
-                                zeroLineWidth: 2
-                            }
+                            title: {
+                                display: true,
+                                text: 'f(x)',
+                                font: { size: 14, weight: 'bold' }
+                            },
                         }
                     },
                     plugins: {
-                        legend: { display: false },
                         tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return `(x: ${context.parsed.x.toFixed(3)}, y: ${context.parsed.y.toFixed(3)})`;
+                            mode: 'index',
+                            intersect: false,
+                        },
+                        legend: {
+                            position: 'top',
+                        },
+                        annotation: {
+                            annotations: {
+                                line1: {
+                                    type: 'line',
+                                    yMin: 0,
+                                    yMax: 0,
+                                    borderColor: 'rgb(75, 75, 75)',
+                                    borderWidth: 1,
                                 }
                             }
                         }
                     }
                 }
-            });
+            };
+
+            chart = new Chart(ctx, config);
+            updateChartInterval(initialA, initialB);
         }
+
+        function updateChartInterval(a, b) {
+            const backgroundColors = chart.data.labels.map(x => {
+                const val = parseFloat(x);
+                return (val >= a && val <= b) ? 'rgba(59, 130, 246, 0.2)' : 'transparent';
+            });
+            chart.data.datasets[1].backgroundColor = backgroundColors;
+            chart.data.datasets[1].hidden = false;
+            chart.update();
+        }
+
+        function updateStep() {
+            if (currentIteration >= iterationData.length) return;
+            
+            const data = iterationData[currentIteration];
+            
+            iterationCountEl.textContent = currentIteration + 1;
+            intervalEl.textContent = `[${data.a}, ${data.b}]`;
+
+            midpointCalcEl.innerHTML = `m = (${data.a} + ${data.b}) / 2 = <strong class="highlight-blue">${data.m}</strong>`;
+            
+            const mCubed = (data.m * data.m * data.m);
+            const mSquared = (data.m * data.m);
+            const fmResult = data.fm;
+            const fmColorClass = data.fm > 0 ? 'highlight-green' : 'highlight-red';
+            fMidpointCalcEl.innerHTML = `f(${data.m}) = (${data.m})³ + (${data.m})² + 2 = ${mCubed.toPrecision(5)} + ${mSquared.toPrecision(5)} + 2 = <strong class="${fmColorClass}">${fmResult.toPrecision(5)}</strong>`;
+            
+            explanationEl.innerHTML = data.explanation;
+
+            stepInfo.classList.remove('opacity-0');
+
+            updateChartInterval(data.nextA, data.nextB);
+            updateSummaryTable(data, currentIteration + 1);
+
+            if (currentIteration === iterationData.length - 1) {
+                nextStepBtn.textContent = 'Fim';
+                nextStepBtn.disabled = true;
+            } else {
+                 nextStepBtn.textContent = 'Próxima Iteração';
+            }
+        }
+
+        function updateSummaryTable(data, iterationNum) {
+            if(noSummaryRow) {
+                const parent = noSummaryRow.parentNode;
+                if(parent) parent.removeChild(noSummaryRow);
+            }
+            const row = document.createElement('tr');
+            row.className = 'border-b border-gray-200';
+            row.innerHTML = `
+                <td class="p-3 border border-gray-300">${iterationNum}</td>
+                <td class="p-3 border border-gray-300 font-mono">[${data.a}, ${data.b}]</td>
+                <td class="p-3 border border-gray-300 font-mono">${data.m}</td>
+                <td class="p-3 border border-gray-300 font-mono ${data.fm > 0 ? 'text-green-600' : 'text-red-600'}">${data.fm.toPrecision(5)}</td>
+                <td class="p-3 border border-gray-300 font-mono">${(data.b - data.a).toPrecision(5)}</td>
+            `;
+            summaryTableBody.appendChild(row);
+        }
+
+        function handleNextStep() {
+            currentIteration++;
+            if (currentIteration < iterationData.length) {
+                updateStep();
+            }
+        }
+        
+        function resetSimulation() {
+            currentIteration = -1;
+            
+            nextStepBtn.disabled = false;
+            nextStepBtn.textContent = 'Iniciar Simulação';
+            
+            stepInfo.classList.add('opacity-0');
+            iterationCountEl.textContent = '0';
+            intervalEl.textContent = `[-, -]`;
+            midpointCalcEl.textContent = `-`;
+            fMidpointCalcEl.textContent = `-`;
+            explanationEl.innerHTML = '';
+            
+            summaryTableBody.innerHTML = '<tr id="no-summary-row"><td colspan="5" class="p-4 text-gray-500 italic">Complete as iterações para ver o resumo.</td></tr>';
+            
+            updateChartInterval(-2, 0);
+        }
+
+        nextStepBtn.addEventListener('click', handleNextStep);
+        resetBtn.addEventListener('click', resetSimulation);
+        
+        window.onload = () => {
+            createChart(-2, 0);
+        };
     </script>
 </body>
 </html>
