@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizador Interativo: Método da Bisseção</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony -->
+    <!-- Application Structure Plan: A aplicação foi estruturada como uma narrativa educacional de rolagem única, ideal para iniciantes. A estrutura guia o usuário desde a teoria até a prática interativa. Começa com uma introdução conceitual, seguida por uma visualização gráfica do problema para dar contexto. O núcleo é um simulador interativo, onde o usuário avança passo a passo pelas iterações, vendo as atualizações nos cálculos e no gráfico. Finalmente, uma tabela de resumo consolida o aprendizado. Esta abordagem passo a passo, controlada pelo usuário, reforça a compreensão do algoritmo de uma maneira que um texto estático não consegue, transformando a leitura passiva em exploração ativa. -->
+    <!-- Visualization & Content Choices: Informação: Função f(x) = x² - 4, intervalo [1, 4] e 4 iterações. Objetivo: Ensinar o método da bisseção. Viz/Apresentação: Gráfico de Linhas com Chart.js para a função e uma área sombreada para o intervalo. Blocos de texto para os cálculos. Tabela HTML para o resumo. Interação: Um botão "Próxima Iteração" controla o fluxo. A cada clique, o JS atualiza os blocos de texto com os dados da iteração atual e redesenha a área sombreada no gráfico para mostrar o novo intervalo. Justificativa: A combinação de um gráfico dinâmico com cálculos passo a passo torna o conceito abstrato de convergência visualmente concreto e fácil de entender. Biblioteca: Chart.js (Canvas). -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 50vh;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 450px;
+            }
+        }
+        .card {
+            background-color: #FFFFFF;
+            border: 1px solid #EAEAEA;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+        }
+        .btn {
+            transition: all 0.3s ease;
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .highlight-blue { color: #3B82F6; font-weight: 500; }
+        .highlight-red { color: #EF4444; font-weight: 500; }
+        .highlight-green { color: #22C55E; font-weight: 500; }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="container mx-auto px-4 py-8 md:py-12">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800">Método da Bisseção Interativo</h1>
+            <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Uma exploração visual para encontrar a raiz da função <span class="font-mono bg-gray-100 p-1 rounded-md">f(x) = x² - 4</span>.</p>
+        </header>
+
+        <main class="space-y-12">
+            <section id="introduction" class="card p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">O que é a Raiz de uma Função?</h2>
+                <p class="text-gray-700 leading-relaxed">
+                    A <span class="font-semibold">raiz</span> de uma função é o ponto onde seu gráfico cruza o eixo X. Neste ponto, o valor da função é zero. O Método da Bisseção é uma técnica poderosa para encontrar essa raiz de forma aproximada, dividindo repetidamente um intervalo ao meio e escolhendo a metade que contém a raiz. Vamos visualizar este processo para a função <span class="font-mono text-gray-800 font-semibold">f(x) = x² - 4</span> no intervalo inicial <span class="font-mono text-gray-800 font-semibold">[1, 4]</span>.
+                </p>
+            </section>
+            
+            <section id="visualizer" class="card p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2 text-center">Visualização do Problema</h2>
+                <p class="text-gray-600 mb-6 text-center">Abaixo, vemos o gráfico da função e o intervalo onde buscaremos a raiz.</p>
+                <div class="chart-container">
+                    <canvas id="bisectionChart"></canvas>
+                </div>
+            </section>
+            
+            <section id="simulation" class="card p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Simulador Passo a Passo</h2>
+                <div class="flex flex-col md:flex-row items-center justify-center gap-6 mb-8">
+                    <button id="nextStepBtn" class="btn w-full md:w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">Iniciar Simulação</button>
+                    <button id="resetBtn" class="btn w-full md:w-auto bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-8 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75">Reiniciar</button>
+                </div>
+
+                <div id="step-info" class="min-h-[250px] bg-gray-50 p-6 rounded-lg border border-gray-200 transition-opacity duration-500 opacity-0">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">Iteração <span id="iteration-count">0</span></h3>
+                    <div class="space-y-3">
+                        <p class="text-center"><strong>Intervalo Atual:</strong> <span id="interval-val" class="font-mono">[-, -]</span></p>
+                        <div class="bg-white p-4 rounded-md border text-center md:text-left">
+                            <p class="font-semibold text-gray-700">1. Cálculo do Ponto Médio (m):</p>
+                            <p id="midpoint-calc" class="font-mono text-lg mt-1 text-gray-800">-</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-md border text-center md:text-left">
+                            <p class="font-semibold text-gray-700">2. Cálculo de f(m):</p>
+                            <p id="f-midpoint-calc" class="font-mono text-lg mt-1 text-gray-800">-</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-md border text-center md:text-left">
+                             <p class="font-semibold text-gray-700">3. Análise e Novo Intervalo:</p>
+                             <p id="explanation-text" class="mt-1 text-gray-600 leading-relaxed"></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="summary" class="card p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Tabela de Resumo das Iterações</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-center border-collapse">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="p-3 font-bold uppercase text-gray-600 border border-gray-300">Iteração</th>
+                                <th class="p-3 font-bold uppercase text-gray-600 border border-gray-300">Intervalo [a, b]</th>
+                                <th class="p-3 font-bold uppercase text-gray-600 border border-gray-300">Ponto Médio (m)</th>
+                                <th class="p-3 font-bold uppercase text-gray-600 border border-gray-300">f(m)</th>
+                                <th class="p-3 font-bold uppercase text-gray-600 border border-gray-300">Tamanho do Intervalo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="summary-table-body">
+                            <tr id="no-summary-row"><td colspan="5" class="p-4 text-gray-500 italic">Complete as iterações para ver o resumo.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                 <div class="mt-6 text-center bg-blue-50 border border-blue-200 p-4 rounded-lg">
+                    <p class="text-lg text-blue-800">A raiz exata da função é <strong class="font-semibold">x = 2</strong>, pois <span class="font-mono">f(2) = 2² - 4 = 0</span>. Observe como os valores do ponto médio na tabela se aproximam de 2 a cada passo.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const iterationData = [
+            { a: 1, b: 4, m: 2.5, fm: 2.25, nextA: 1, nextB: 2.5, explanation: `Como f(1) é negativo e f(2.5) é <span class="highlight-green">positivo</span>, a raiz está na primeira metade. O novo intervalo é [1, 2.5].` },
+            { a: 1, b: 2.5, m: 1.75, fm: -0.9375, nextA: 1.75, nextB: 2.5, explanation: `Como f(1.75) é <span class="highlight-red">negativo</span> e f(2.5) é positivo, a raiz está na segunda metade. O novo intervalo é [1.75, 2.5].` },
+            { a: 1.75, b: 2.5, m: 2.125, fm: 0.515625, nextA: 1.75, nextB: 2.125, explanation: `Como f(1.75) é negativo e f(2.125) é <span class="highlight-green">positivo</span>, a raiz está na primeira metade. O novo intervalo é [1.75, 2.125].` },
+            { a: 1.75, b: 2.125, m: 1.9375, fm: -0.24609375, nextA: 1.9375, nextB: 2.125, explanation: `Como f(1.9375) é <span class="highlight-red">negativo</span> e f(2.125) é positivo, a raiz está na segunda metade. O novo intervalo é [1.9375, 2.125].` }
+        ];
+
+        let currentIteration = -1;
+        let chart;
+
+        const nextStepBtn = document.getElementById('nextStepBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const stepInfo = document.getElementById('step-info');
+
+        const iterationCountEl = document.getElementById('iteration-count');
+        const intervalEl = document.getElementById('interval-val');
+        const midpointCalcEl = document.getElementById('midpoint-calc');
+        const fMidpointCalcEl = document.getElementById('f-midpoint-calc');
+        const explanationEl = document.getElementById('explanation-text');
+        const summaryTableBody = document.getElementById('summary-table-body');
+        const noSummaryRow = document.getElementById('no-summary-row');
+
+        function f(x) {
+            return x * x - 4;
+        }
+
+        function createChart(initialA, initialB) {
+            const ctx = document.getElementById('bisectionChart').getContext('2d');
+            
+            const labels = [];
+            const dataPoints = [];
+            for (let i = 0; i <= 5; i += 0.1) {
+                labels.push(i.toFixed(1));
+                dataPoints.push(f(i));
+            }
+
+            const config = {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'f(x) = x² - 4',
+                            data: dataPoints,
+                            borderColor: '#3B82F6',
+                            borderWidth: 3,
+                            pointRadius: 0,
+                            tension: 0.1,
+                            fill: false
+                        },
+                        {
+                            label: 'Intervalo',
+                            data: labels.map(x => ({x: parseFloat(x), y: 0})),
+                            backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                            borderColor: 'rgba(59, 130, 246, 0.5)',
+                            borderWidth: 1,
+                            type: 'bar',
+                            barPercentage: 1.0,
+                            categoryPercentage: 1.0,
+                            hidden: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom',
+                            title: {
+                                display: true,
+                                text: 'x',
+                                font: { size: 14, weight: 'bold' }
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'f(x)',
+                                font: { size: 14, weight: 'bold' }
+                            },
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                        },
+                        legend: {
+                            position: 'top',
+                        },
+                        annotation: {
+                            annotations: {
+                                line1: {
+                                    type: 'line',
+                                    yMin: 0,
+                                    yMax: 0,
+                                    borderColor: 'rgb(75, 75, 75)',
+                                    borderWidth: 1,
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            chart = new Chart(ctx, config);
+            updateChartInterval(initialA, initialB);
+        }
+
+        function updateChartInterval(a, b) {
+            const backgroundColors = chart.data.labels.map(x => {
+                const val = parseFloat(x);
+                return (val >= a && val <= b) ? 'rgba(59, 130, 246, 0.2)' : 'transparent';
+            });
+            chart.data.datasets[1].backgroundColor = backgroundColors;
+            chart.data.datasets[1].hidden = false;
+            chart.update();
+        }
+
+        function updateStep() {
+            if (currentIteration >= iterationData.length) return;
+            
+            const data = iterationData[currentIteration];
+            
+            iterationCountEl.textContent = currentIteration + 1;
+            intervalEl.textContent = `[${data.a}, ${data.b}]`;
+
+            midpointCalcEl.innerHTML = `m = (${data.a} + ${data.b}) / 2 = <strong class="highlight-blue">${data.m}</strong>`;
+            
+            const mSquared = (data.m * data.m).toPrecision(5);
+            const fmResult = data.fm.toPrecision(5);
+            const fmColorClass = data.fm > 0 ? 'highlight-green' : 'highlight-red';
+            fMidpointCalcEl.innerHTML = `f(${data.m}) = (${data.m})² - 4 = ${mSquared} - 4 = <strong class="${fmColorClass}">${fmResult}</strong>`;
+            
+            explanationEl.innerHTML = data.explanation;
+
+            stepInfo.classList.remove('opacity-0');
+
+            updateChartInterval(data.nextA, data.nextB);
+            updateSummaryTable(data, currentIteration + 1);
+
+            if (currentIteration === iterationData.length - 1) {
+                nextStepBtn.textContent = 'Fim';
+                nextStepBtn.disabled = true;
+            } else {
+                 nextStepBtn.textContent = 'Próxima Iteração';
+            }
+        }
+
+        function updateSummaryTable(data, iterationNum) {
+            if(noSummaryRow) {
+                const parent = noSummaryRow.parentNode;
+                if(parent) parent.removeChild(noSummaryRow);
+            }
+            const row = document.createElement('tr');
+            row.className = 'border-b border-gray-200';
+            row.innerHTML = `
+                <td class="p-3 border border-gray-300">${iterationNum}</td>
+                <td class="p-3 border border-gray-300 font-mono">[${data.a}, ${data.b}]</td>
+                <td class="p-3 border border-gray-300 font-mono">${data.m}</td>
+                <td class="p-3 border border-gray-300 font-mono ${data.fm > 0 ? 'text-green-600' : 'text-red-600'}">${data.fm.toPrecision(5)}</td>
+                <td class="p-3 border border-gray-300 font-mono">${(data.b - data.a).toPrecision(5)}</td>
+            `;
+            summaryTableBody.appendChild(row);
+        }
+
+        function handleNextStep() {
+            currentIteration++;
+            if (currentIteration < iterationData.length) {
+                updateStep();
+            }
+        }
+        
+        function resetSimulation() {
+            currentIteration = -1;
+            
+            nextStepBtn.disabled = false;
+            nextStepBtn.textContent = 'Iniciar Simulação';
+            
+            stepInfo.classList.add('opacity-0');
+            iterationCountEl.textContent = '0';
+            intervalEl.textContent = `[-, -]`;
+            midpointCalcEl.textContent = `-`;
+            fMidpointCalcEl.textContent = `-`;
+            explanationEl.innerHTML = '';
+            
+            summaryTableBody.innerHTML = '<tr id="no-summary-row"><td colspan="5" class="p-4 text-gray-500 italic">Complete as iterações para ver o resumo.</td></tr>';
+            
+            updateChartInterval(1, 4);
+        }
+
+        nextStepBtn.addEventListener('click', handleNextStep);
+        resetBtn.addEventListener('click', resetSimulation);
+        
+        window.onload = () => {
+            createChart(1, 4);
+        };
+    </script>
+</body>
+</html>
+
