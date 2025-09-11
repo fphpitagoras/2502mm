@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluxograma Interativo - Processo Completo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        /* Estilo para garantir que o SVG gerado pelo Mermaid se ajuste ao contêiner */
+        #diagramContainer svg {
+            max-width: 100%;
+            height: auto;
+        }
+        /* Estilos para transições suaves e efeitos */
+        .info-panel, .card-container, button {
+            transition: all 0.3s ease-in-out;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-slate-100 font-sans p-4 sm:p-6 lg:p-8 flex items-center justify-center min-h-screen">
+
+    <div class="card-container w-full max-w-7xl mx-auto bg-white rounded-2xl shadow-2xl p-6 sm:p-8 space-y-6 border border-slate-200">
+        
+        <header class="text-center pb-4 border-b border-slate-200">
+            <h1 class="text-3xl sm:text-4xl font-bold text-slate-800">Fluxograma Interativo do Processo</h1>
+            <p class="text-slate-500 mt-2">Navegue pelas 42 etapas do processo de Qualificação e Documentação</p>
+        </header>
+
+        <!-- Painel de Informações da Etapa Atual -->
+        <div id="infoPanel" class="info-panel bg-indigo-50 border-l-4 border-indigo-500 text-indigo-900 p-5 rounded-lg min-h-[120px] flex flex-col justify-center hover:shadow-lg hover:border-indigo-600">
+            <p id="stepIndicator" class="font-semibold text-sm mb-1 text-indigo-600">Pressione "Iniciar Animação" ou "Próximo" para começar.</p>
+            <h2 id="stepTitle" class="text-xl font-semibold">Bem-vindo!</h2>
+            <div class="flex items-center text-sm mt-2 font-medium">
+                <p id="stepDepartment" class="mr-6"></p>
+                <p id="stepLeadTime"></p>
+            </div>
+        </div>
+
+        <!-- Barra de Progresso -->
+        <div>
+            <div class="w-full bg-slate-200 rounded-full h-3">
+                <div id="progressBar" class="bg-gradient-to-r from-indigo-500 to-purple-600 h-3 rounded-full" style="width: 0%; transition: width 0.5s ease-in-out;"></div>
+            </div>
+        </div>
+        
+        <!-- Controles de Navegação -->
+        <div class="flex flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-4 pt-4">
+            <button id="prevBtn" class="px-5 py-2.5 w-full sm:w-auto flex items-center justify-center font-semibold text-slate-700 bg-slate-200 rounded-lg hover:bg-slate-300 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none" disabled>
+                <svg xmlns="http://www.w.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                Anterior
+            </button>
+            <button id="playPauseBtn" class="px-6 py-3 w-full sm:w-auto flex items-center justify-center font-bold text-white bg-gradient-to-r from-indigo-600 to-purple-700 rounded-lg shadow-lg hover:from-indigo-700 hover:to-purple-800 focus:outline-none">
+                <span id="playIcon">
+                    <svg xmlns="http://www.w.org/2000/svg" class="h-6 w-6 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg>
+                </span>
+                <span id="pauseIcon" class="hidden">
+                    <svg xmlns="http://www.w.org/2000/svg" class="h-6 w-6 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>
+                </span>
+                <span id="playPauseText">Iniciar Animação</span>
+            </button>
+            <button id="nextBtn" class="px-5 py-2.5 w-full sm:w-auto flex items-center justify-center font-semibold text-slate-700 bg-slate-200 rounded-lg hover:bg-slate-300 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none">
+                Próximo
+                <svg xmlns="http://www.w.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>
+            </button>
+        </div>
+
+        <!-- Contêiner do Fluxograma -->
+        <div id="diagramContainer" class="w-full overflow-x-auto p-4 bg-slate-50 rounded-lg border-2 border-dashed border-slate-200">
+            <!-- MermaidJS irá renderizar o gráfico aqui -->
+        </div>
+    </div>
+
+    <!-- Importação da biblioteca MermaidJS -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: false,
+            theme: 'base',
+            fontFamily: 'Poppins, sans-serif',
+            themeVariables: {
+                fontSize: '15px',
+                primaryColor: '#f9fafb', // Cor de fundo dos nós
+                primaryTextColor: '#1f2937', // Cor do texto dos nós
+                nodeBorder: '#a5b4fc', // Cor da borda (indigo-300)
+                lineColor: '#6b7280', // Cor das setas
+                mainBkg: '#f9fafb', // Cor de fundo do SVG
+            }
+        });
+
+        // --- DADOS DO FLUXOGRAMA ---
+        const flowchartSteps = [
+            { id: 'A', title: '1. Recebimento e análise dos desenhos e documentos de projeto', department: 'EMS', leadTime: '' },
+            { id: 'B', title: '2. Análise dos desenhos x Especificações do cliente x Banco de EPS', department: 'EMS', leadTime: '3 dias' },
+            { id: 'C', title: '3. Validação da necessidade de qualificação de nova EPS', department: 'EMS', leadTime: '' },
+            { id: 'D', title: '4. Determinação do número da EPS e cadastro na planilha de controle', department: 'EMS', leadTime: '1 dia' },
+            { id: 'G', title: '5. Após análise das juntas, sequência de soldagem, tipo e disponibilidade de materiais, determina-se a data de necessidade da EPS e IEIS no projeto', department: 'PCP / GP', leadTime: '1 dia' },
+            { id: 'H', title: '6. Inclusão da EPS no cronograma do projeto', department: 'PCP', leadTime: '6 dias' },
+            { id: 'E', title: '7. Emissão da pré-EPS', department: 'EMS', leadTime: '3 dias' },
+            { id: 'F', title: '8. Solicitação de materiais de base e consumíveis', department: 'EMS', leadTime: '2 dias' },
+            { id: 'I', title: '9. Consulta dos materiais no estoque', department: 'Eng/Caldeiraria ou GP', leadTime: '3 dias' },
+            { id: 'K', title: '10. Emissão do pedido de compra ou solicitação ao cliente', department: 'Eng/Caldeiraria ou GP', leadTime: '2 dias' },
+            { id: 'L', title: '11. Aprovação do pedido de compra', department: 'GP', leadTime: '3 dias' },
+            { id: 'J', title: '12. Compra do material de base e consumível', department: 'Suprimentos', leadTime: '10 a 120 dias' },
+            { id: 'O', title: '13. Inspeção de recebimento dos materiais', department: 'CQ/Recebimento', leadTime: '1 dia' },
+            { id: 'M', title: '13. Análise e aprovação dos certificados', department: 'EMS', leadTime: '3 dias' },
+            { id: 'N', title: '14. Requisição dos materiais ao almoxarifado', department: 'EMS', leadTime: '1 dia' },
+            { id: 'P', title: '15. Programação de recursos para soldagem', department: 'PCP e CQ', leadTime: '1 dia' },
+            { id: 'Q', title: '16. Disponibilização de recursos e local', department: 'PCP / Produção', leadTime: '1 a 5 dias' },
+            { id: 'R', title: '17. Preparação dos corpos de prova', department: 'PCP / Produção', leadTime: '1 a 5 dias' },
+            { id: 'U', title: '18. Soldagem com acompanhamento full time', department: 'Produção / CQ / EMS', leadTime: '1 a 8 dias' },
+            { id: 'S', title: '19. Emissão da programação de ensaios de raio X', department: 'EMS', leadTime: '' },
+            { id: 'T', title: '20. Execução de ensaios não destrutivos (END)', department: 'CQ / Radioscan', leadTime: '1 a 5 dias' },
+            { id: 'Z', title: '21. Execução do plano de aproveitamento de CPs e solicitação de ensaios', department: 'EMS', leadTime: '1 a 5 dias' },
+            { id: 'X', title: '22. Expedição', department: 'Logística', leadTime: '1 dia' },
+            { id: 'V', title: '23. Solicitação de transporte', department: 'EMS', leadTime: '' },
+            { id: 'W', title: '24. Emissão da RENF (EMS)', department: 'EMS', leadTime: '' },
+            { id: 'Y', title: '25. Cotação e programação de transporte', department: 'Logística', leadTime: '' },
+            { id: 'AC', title: '26. Emissão da Nota Fiscal de saída', department: 'Célula Fiscal', leadTime: '' },
+            { id: 'AB', title: '27. Transporte', department: 'Logística', leadTime: '1 a 5 dias' },
+            { id: 'AA', title: '28. Programação das datas para ensaios mecânicos', department: 'Suprimentos', leadTime: '1 a 3 dias' },
+            { id: 'CC', title: '29. Convocação/agendamento com cliente e certificadora', department: 'GP', leadTime: '1 a 10 dias' },
+            { id: 'BB', title: '30. Execução dos ensaios mecânicos', department: 'Laboratórios', leadTime: '1 a 30 dias' },
+            { id: 'DD', title: '31. Acompanhamento dos ensaios mecânicos', department: 'EMS / Cliente', leadTime: '' },
+            { id: 'EE', title: '32. Avaliação dos resultados e emissão do RQPS / EPS', department: 'EMS', leadTime: '6 dias' },
+            { id: 'FF', title: '33. Tramitação dos documentos (EPS) para o cliente', department: 'EMS /DCC', leadTime: '' },
+            { id: 'GG', title: '34. Avaliação do cliente (EPS)', department: 'CLIENTE', leadTime: '7 a 20 dias' },
+            { id: 'HH', title: '35. Recebimento do documento (EPS) aprovado pelo cliente', department: 'CLIENTE', leadTime: '' },
+            { id: 'II', title: '36. Emissão da IEIS', department: 'EMS', leadTime: '3 dias' },
+            { id: 'JJ', title: '37. Avaliação do cliente (IEIS)', department: 'CLIENTE', leadTime: '7 a 20 dias' },
+            { id: 'KK', title: '38. Recebimento do documento (IEIS) aprovado pelo cliente', department: 'CLIENTE', leadTime: '' },
+            { id: 'LL', title: '39. Disponibilização da documentação para a produção', department: 'DCC', leadTime: '1 dia' },
+            { id: 'MM', title: '40. Arquivo final da documentação', department: 'DCC', leadTime: '1 dia' },
+            { id: 'NN', title: '41. Fim', department: 'FIM', leadTime: '' }
+        ];
+
+        // --- ELEMENTOS DO DOM ---
+        const diagramContainer = document.getElementById('diagramContainer');
+        const infoPanel = {
+            indicator: document.getElementById('stepIndicator'),
+            title: document.getElementById('stepTitle'),
+            department: document.getElementById('stepDepartment'),
+            leadTime: document.getElementById('stepLeadTime')
+        };
+        const progressBar = document.getElementById('progressBar');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const playPauseText = document.getElementById('playPauseText');
+        const playIcon = document.getElementById('playIcon');
+        const pauseIcon = document.getElementById('pauseIcon');
+
+        // --- ESTADO DA APLICAÇÃO ---
+        let currentStepIndex = -1;
+        let animationInterval = null;
+
+        // --- LÓGICA DE RENDERIZAÇÃO E CONTROLE ---
+
+        const getMermaidString = (highlightedId) => {
+            let nodeDefinitions = '';
+            const departments = [...new Set(flowchartSteps.map(s => s.department))];
+            
+            departments.forEach(dept => {
+                const safeDeptId = dept.replace(/[^a-zA-Z0-9]/g, '_');
+                nodeDefinitions += `\nsubgraph ${safeDeptId} [${dept}]\n`;
+                flowchartSteps.filter(s => s.department === dept).forEach(step => {
+                    const cleanTitle = step.title.split('. ')[1]?.replace(/"/g, '#quot;') || step.title.replace(/"/g, '#quot;');
+                    nodeDefinitions += `    ${step.id}["${cleanTitle}"]\n`;
+                });
+                nodeDefinitions += 'end\n';
+            });
+            
+            const connections = flowchartSteps.map(s => s.id).join(' --> ');
+            const style = highlightedId ? `\nstyle ${highlightedId} fill:#4f46e5,stroke:#3730a3,stroke-width:3px,color:#fff` : '';
+
+            return `graph TD\n${nodeDefinitions}\n${connections}\n${style}`;
+        };
+
+        const updateUI = () => {
+            // Atualiza botões
+            prevBtn.disabled = currentStepIndex <= 0;
+            nextBtn.disabled = currentStepIndex >= flowchartSteps.length - 1;
+
+            // Atualiza painel de informações
+            if (currentStepIndex < 0) {
+                 infoPanel.indicator.textContent = 'Pressione "Iniciar Animação" ou "Próximo" para começar.';
+                 infoPanel.title.textContent = 'Bem-vindo!';
+                 infoPanel.department.textContent = '';
+                 infoPanel.leadTime.textContent = '';
+            } else {
+                const step = flowchartSteps[currentStepIndex];
+                infoPanel.indicator.textContent = `Etapa ${currentStepIndex + 1} de ${flowchartSteps.length}`;
+                infoPanel.title.textContent = step.title;
+                infoPanel.department.textContent = `Setor: ${step.department}`;
+                infoPanel.leadTime.textContent = step.leadTime ? `Prazo: ${step.leadTime}` : '';
+            }
+            
+            // Atualiza barra de progresso
+            const progress = currentStepIndex < 0 ? 0 : ((currentStepIndex + 1) / flowchartSteps.length) * 100;
+            progressBar.style.width = `${progress}%`;
+            
+            // Renderiza o diagrama
+            renderDiagram();
+        };
+
+        const renderDiagram = async () => {
+            const highlightedId = currentStepIndex >= 0 ? flowchartSteps[currentStepIndex].id : null;
+            const mermaidCode = getMermaidString(highlightedId);
+            
+            try {
+                const { svg } = await mermaid.render('mermaid-graph', mermaidCode);
+                diagramContainer.innerHTML = svg;
+            } catch(e) {
+                console.error("Erro ao renderizar o Mermaid:", e);
+                diagramContainer.innerHTML = '<p class="text-red-500">Ocorreu um erro ao renderizar o fluxograma.</p>';
+            }
+        };
+
+        const handleNext = () => {
+            if (currentStepIndex < flowchartSteps.length - 1) {
+                currentStepIndex++;
+                updateUI();
+            } else {
+                pauseAnimation(); // Para no final
+                playPauseText.textContent = 'Reiniciar Animação';
+            }
+        };
+
+        const handlePrev = () => {
+            if (currentStepIndex > 0) {
+                currentStepIndex--;
+                updateUI();
+            }
+        };
+
+        const playAnimation = () => {
+            if(currentStepIndex >= flowchartSteps.length - 1) {
+                currentStepIndex = -1; // Reinicia se estiver no final
+            }
+            
+            animationInterval = setInterval(handleNext, 2000);
+            playPauseText.textContent = 'Pausar Animação';
+            playIcon.classList.add('hidden');
+            pauseIcon.classList.remove('hidden');
+        };
+
+        const pauseAnimation = () => {
+            clearInterval(animationInterval);
+            animationInterval = null;
+            if(currentStepIndex < flowchartSteps.length - 1) {
+                playPauseText.textContent = 'Continuar Animação';
+            }
+            playIcon.classList.remove('hidden');
+            pauseIcon.classList.add('hidden');
+        };
+
+        const handlePlayPause = () => {
+            if (animationInterval) {
+                pauseAnimation();
+            } else {
+                if(currentStepIndex >= flowchartSteps.length - 1){
+                    currentStepIndex = -1; // Garante que reinicie
+                }
+                handleNext(); // Garante que a primeira etapa seja exibida imediatamente
+                playAnimation();
+            }
+        };
+
+        // --- EVENT LISTENERS ---
+        nextBtn.addEventListener('click', () => { if(animationInterval) pauseAnimation(); handleNext(); });
+        prevBtn.addEventListener('click', () => { if(animationInterval) pauseAnimation(); handlePrev(); });
+        playPauseBtn.addEventListener('click', handlePlayPause);
+
+        // --- INICIALIZAÇÃO ---
+        renderDiagram(); // Renderiza o diagrama inicial sem destaque
+    </script>
+</body>
+</html>
+
