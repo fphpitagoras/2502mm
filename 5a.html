@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avaliação Oficial 2 - Lista de Exercícios</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --azul-tema: #005aa0;
+            --azul-claro: #ebf5ff;
+            --cor-fundo: #f4f7f6;
+            --cor-texto: #333;
+            --cor-borda: #ccc;
+            --cor-errado: #ffebee;
+            --cor-errado-borda: #f44336;
+            --cor-correto: #e8f5e9;
+            --cor-correto-borda: #4caf50;
+        }
+
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--azul-tema);
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        header h2 {
+            margin: 0.5rem 0 0;
+            font-size: 1.2rem;
+            font-weight: normal;
+            color: var(--azul-claro);
+        }
+
+        header p {
+            margin: 1rem 0 0;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .question-header {
+            background-color: var(--azul-tema);
+            color: white;
+            padding: 1rem 1.5rem;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .question-body {
+            padding: 1.5rem;
+        }
+
+        .enunciado {
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .enunciado ul {
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+        }
+
+        /* Tabelas */
+        .tabela-contabil {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .tabela-contabil th, .tabela-contabil td {
+            border: 1px solid var(--cor-borda);
+            padding: 8px;
+            text-align: center;
+        }
+
+        .tabela-contabil th {
+            background-color: var(--azul-claro);
+            color: var(--azul-tema);
+        }
+
+        .tabela-contabil .left-align {
+            text-align: left;
+        }
+
+        .tabela-contabil .right-align {
+            text-align: right;
+        }
+
+        /* Alternativas */
+        .alternativas {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .alternativa-btn {
+            background-color: #fff;
+            border: 1px solid var(--cor-borda);
+            border-radius: 4px;
+            padding: 1rem;
+            text-align: left;
+            font-family: inherit;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .alternativa-btn:hover {
+            background-color: var(--azul-claro);
+            border-color: var(--azul-tema);
+        }
+
+        .letra-alt {
+            font-weight: bold;
+            color: var(--azul-tema);
+            min-width: 25px;
+        }
+
+        .alternativa-btn.selected-wrong {
+            background-color: var(--cor-errado);
+            border-color: var(--cor-errado-borda);
+        }
+
+        .alternativa-btn.selected-correct {
+            background-color: var(--cor-correto);
+            border-color: var(--cor-correto-borda);
+        }
+
+        /* Feedback */
+        .feedback-box {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 4px;
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .feedback-box.show {
+            display: block;
+        }
+
+        .feedback-box.correct {
+            background-color: var(--cor-correto);
+            border-left: 5px solid var(--cor-correto-borda);
+            color: #2e7d32;
+        }
+
+        .feedback-box.wrong {
+            background-color: var(--cor-errado);
+            border-left: 5px solid var(--cor-errado-borda);
+            color: #c62828;
+        }
+
+        .feedback-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Preparação para a Avaliação Oficial 2</h1>
+        <h2>Lista de Exercícios e Resoluções Detalhadas</h2>
+        <p>Prof. Felipe Heitmann - Faculdade Anhanguera</p>
+    </header>
+
+    <div class="container" id="quiz-container">
+        <!-- As questões serão injetadas aqui pelo JavaScript -->
+    </div>
+
+    <script>
+        const questoes = [
+            {
+                id: 1,
+                enunciado: `As empresas usam dois sistemas básicos para controlar estoques: o periódico e o permanente.<br><br>Qual é a principal desvantagem do sistema de <strong>inventário periódico</strong> no controle das mercadorias?`,
+                alternativas: [
+                    { texto: "Exige programas de computador caros para dar baixa em cada venda realizada.", correta: false, justificativa: "Incorreto. Essa é uma característica atribuída ao sistema permanente (que exige controle em tempo real), não ao periódico." },
+                    { texto: "Não permite saber o saldo exato do estoque sem fazer uma contagem física.", correta: true, justificativa: "Correto! No sistema de inventário periódico, as vendas são registradas sem dar baixa imediata no estoque. A empresa é obrigada a 'fechar' fazendo a contagem física (inventário) das mercadorias no fim do período para descobrir qual é o Estoque Final real." },
+                    { texto: "Impede o contador de calcular o Custo das Mercadorias Vendidas (CMV) no fim do ano.", correta: false, justificativa: "Incorreto. O contador calcula sim o CMV no sistema periódico, mas utilizando a fórmula: CMV = Estoque Inicial + Compras - Estoque Final." },
+                    { texto: "Avalia as saídas de estoque usando apenas o preço de venda, ignorando o custo.", correta: false, justificativa: "Incorreto. As saídas nunca ignoram o preço de custo na apuração do resultado. No fechamento do periódico, o custo é devidamente apurado pela equação." },
+                    { texto: "Obriga a empresa a usar o método UEPS, que é restrito pela Receita Federal.", correta: false, justificativa: "Incorreto. O sistema periódico não obriga o uso do UEPS (que de fato é vedado pela Receita Federal para fins de IR)." }
+                ]
+            },
+            {
+                id: 2,
+                enunciado: `Os métodos PEPS (Primeiro que Entra, Primeiro que Sai), UEPS e Média Ponderada geram resultados diferentes no balanço, dependendo dos preços.<br><br>Sobre as características e regras desses métodos, assinale a alternativa CORRETA:`,
+                alternativas: [
+                    { texto: "O UEPS é o método mais aceito pela lei brasileira, pois reflete o custo atual de reposição.", correta: false, justificativa: "Incorreto. O UEPS é vedado (proibido) no Brasil pela legislação fiscal para apuração do Imposto de Renda." },
+                    { texto: "No PEPS, o Estoque Final reflete o custo das compras mais recentes, ficando próximo ao valor de mercado atual.", correta: true, justificativa: "Correto! No método PEPS, as mercadorias vendidas (baixas) são valorizadas pelo custo dos lotes mais antigos. O que sobra na prateleira (o Estoque Final) são exatamente os lotes mais novos, cujos custos estão próximos aos do mercado atual." },
+                    { texto: "A Média Ponderada exige calcular o custo apenas no final do ano, ignorando a ordem das compras mensais.", correta: false, justificativa: "Incorreto. A Média Ponderada *Móvel* (usada no sistema permanente) exige o recálculo do custo a cada nova compra registrada na ficha." },
+                    { texto: "O PEPS garante que os últimos produtos comprados sejam os primeiros vendidos, evitando produtos vencidos.", correta: false, justificativa: "Incorreto. O PEPS faz o oposto: os *primeiros* produtos comprados (antigos) são os primeiros vendidos. O que a alternativa descreve é a mecânica do UEPS." },
+                    { texto: "A escolha do método afeta apenas o Balanço Patrimonial, sem alterar o Lucro na DRE.", correta: false, justificativa: "Incorreto. A escolha do método afeta o valor do Estoque Final (Balanço) e, simultaneamente, afeta o valor do CMV apurado, o que muda diretamente o Lucro na DRE." }
+                ]
+            },
+            {
+                id: 3,
+                enunciado: `Veja o histórico do estoque de uma empresa em março:
+                <ul>
+                    <li><strong>01/03:</strong> Estoque inicial de 10 itens a R$ 20,00 cada.</li>
+                    <li><strong>04/03:</strong> Compra de 30 itens a R$ 30,00 cada.</li>
+                    <li><strong>10/03:</strong> Venda de 15 itens por R$ 60,00 cada (preço de venda).</li>
+                </ul>
+                Pelo método da <strong>Média Ponderada Móvel</strong>, qual o custo unitário registrado na saída do dia 10/03?`,
+                alternativas: [
+                    { texto: "R$ 20,00.", correta: false, justificativa: "Incorreto. Este é apenas o valor do lote inicial. Na média móvel os valores devem ser ponderados." },
+                    { texto: "R$ 25,00.", correta: false, justificativa: "Incorreto. R$ 25 seria uma média simples entre 20 e 30, mas o cálculo deve considerar as quantidades (ponderada)." },
+                    { texto: "R$ 27,50.", correta: true, justificativa: "Correto! Saldo em 01/03: 10 unid × R$ 20 = R$ 200. Compra 04/03: 30 unid × R$ 30 = R$ 900. Total financeiro: R$ 1.100. Total físico: 40 peças. Custo Médio: R$ 1.100 ÷ 40 = R$ 27,50. A saída usa este custo médio." },
+                    { texto: "R$ 28,33.", correta: false, justificativa: "Incorreto. O cálculo exato financeiro / quantidades (1100 / 40) resulta em exatamente R$ 27,50." },
+                    { texto: "R$ 30,00.", correta: false, justificativa: "Incorreto. Este é apenas o valor do último lote comprado, o que seria usado no UEPS, mas não na Média Ponderada." }
+                ]
+            },
+            {
+                id: 4,
+                enunciado: `Movimentação de mercadorias da Loja Alpha em abril:
+                <ul>
+                    <li><strong>01/04:</strong> Saldo inicial de 20 unidades a R$ 12,00 cada.</li>
+                    <li><strong>05/04:</strong> Compra de 10 unidades a R$ 18,00 cada.</li>
+                    <li><strong>12/04:</strong> Venda de 25 unidades.</li>
+                </ul>
+                Usando o método <strong>PEPS (Primeiro que Entra, Primeiro que Sai)</strong>, qual é o Custo das Mercadorias Vendidas (CMV) no dia 12/04?`,
+                alternativas: [
+                    { texto: "R$ 300,00.", correta: false, justificativa: "Incorreto. Lembre-se de aplicar a regra PEPS: esgotar os 20 itens mais antigos antes de usar os novos." },
+                    { texto: "R$ 330,00.", correta: true, justificativa: "Correto! A venda de 25 unidades exige tirar primeiro o lote antigo: 20 unid × R$ 12 = R$ 240. Faltam 5 unidades, que saem do lote novo: 5 unid × R$ 18 = R$ 90. CMV = 240 + 90 = R$ 330,00." },
+                    { texto: "R$ 390,00.", correta: false, justificativa: "Incorreto. Esse seria o resultado aproximado usando UEPS ou se calculasse errado a ordem dos lotes." },
+                    { texto: "R$ 420,00.", correta: false, justificativa: "Incorreto. Revise a conta: 20 unidades a 12 reais (240) + 5 unidades a 18 reais (90)." },
+                    { texto: "R$ 450,00.", correta: false, justificativa: "Incorreto. Este valor assume vender as 25 peças a 18 reais, o que não reflete a realidade do PEPS." }
+                ]
+            },
+            {
+                id: 5,
+                enunciado: `A equação do inventário periódico é:<br><br>
+                <strong>CMV = Estoque Inicial + Compras Líquidas - Estoque Final</strong><br><br>
+                Sem fazer cálculos numéricos, assinale a alternativa que interpreta corretamente essa fórmula:`,
+                alternativas: [
+                    { texto: "Se o Estoque Final for menor que o Estoque Inicial, a empresa teve lucro operacional garantido.", correta: false, justificativa: "Incorreto. Um Estoque Final menor que o Inicial indica apenas que se vendeu mais mercadoria do que se comprou. Lucro depende do preço de venda cobrado comparado a esse custo." },
+                    { texto: "Se o Estoque Final for zero, o CMV será igual a todas as mercadorias que estavam disponíveis (EI + Compras).", correta: true, justificativa: "Correto! Se EF = 0, a fórmula vira CMV = (EI + Compras) - 0. Ou seja, se não sobrou nada na prateleira, significa que absolutamente tudo o que estava disponível foi vendido e transformou-se em Custo (CMV)." },
+                    { texto: "Um aumento nas Compras do mês sempre diminui o valor do CMV.", correta: false, justificativa: "Incorreto. Pela equação (CMV = EI + Compras - EF), as compras somam na equação. Aumentar as compras tende a aumentar o custo se o EF for constante." },
+                    { texto: "O valor numérico do CMV é exatamente igual ao preço de venda cobrado do cliente na prateleira.", correta: false, justificativa: "Incorreto. CMV reflete o custo de aquisição/produção. O preço da prateleira é a Receita de Venda (que inclui a margem de lucro)." },
+                    { texto: "Se os estoques inicial e final forem iguais, o CMV será zero, independentemente de quantas compras ocorreram.", correta: false, justificativa: "Incorreto. Se EI = EF, eles se anulam na fórmula. Assim, o CMV será exatamente igual ao valor das Compras." }
+                ]
+            },
+            {
+                id: 6,
+                enunciado: `A tabela a seguir é uma ficha de estoque. Considere: H (histórico), C (compra), V (venda) e S.I. (saldo inicial).<br><br>
+                <table class="tabela-contabil">
+                    <tr><th>Data</th><th>H</th><th colspan="2">Entrada</th><th colspan="2">Saída</th><th colspan="2">Saldo</th></tr>
+                    <tr><th></th><th></th><th>Qtd</th><th>Unit.</th><th>Qtd</th><th>Unit.</th><th>Qtd</th><th>Unit.</th></tr>
+                    <tr><td>01/05</td><td>S.I.</td><td></td><td></td><td></td><td></td><td>30</td><td>10,00</td></tr>
+                    <tr><td>04/05</td><td>C</td><td>50</td><td>15,00</td><td></td><td></td><td>30<br>50</td><td>10,00<br>15,00</td></tr>
+                    <tr><td>09/05</td><td>C</td><td>20</td><td>20,00</td><td></td><td></td><td>30<br>50<br>20</td><td>10,00<br>15,00<br>20,00</td></tr>
+                    <tr><td>15/05</td><td>V</td><td></td><td></td><td>20<br>40</td><td>20,00<br>15,00</td><td>30<br>10</td><td>10,00<br>15,00</td></tr>
+                </table>
+                <br>Analisando como as saídas e os saldos foram registrados, especialmente no dia 15/05, qual método a empresa usou?`,
+                alternativas: [
+                    { texto: "PEPS (Primeiro que Entra, Primeiro que Sai).", correta: false, justificativa: "Incorreto. Se fosse PEPS, a saída de 60 unidades no dia 15/05 começaria consumindo as 30 peças velhas de R$ 10,00." },
+                    { texto: "Média Ponderada Móvel.", correta: false, justificativa: "Incorreto. Na média móvel, o saldo seria mesclado num único valor unitário a cada entrada, e não haveria lotes separados (10, 15, 20)." },
+                    { texto: "UEPS (Último que Entra, Primeiro que Sai).", correta: true, justificativa: "Correto! Observe a coluna de Saída do dia 15/05. A empresa precisou tirar 60 peças. Ela começou tirando as 20 peças mais novas (de R$ 20,00) e completou com 40 peças do lote intermediário (R$ 15,00). Ou seja, tirou os 'Últimos a entrar'." },
+                    { texto: "Inventário Periódico.", correta: false, justificativa: "Incorreto. A manutenção de uma ficha de controle de lote após lote em cada operação caracteriza Inventário Permanente." },
+                    { texto: "Custo Específico de Lote.", correta: false, justificativa: "Incorreto. A característica sistemática de consumir sempre os últimos lotes caracteriza a metodologia UEPS." }
+                ]
+            },
+            {
+                id: 7,
+                enunciado: `A ficha de estoque abaixo usa rigorosamente o método <strong>PEPS (Primeiro que Entra, Primeiro que Sai)</strong>.<br><br>
+                <table class="tabela-contabil">
+                    <tr><th>Data</th><th>H</th><th colspan="2">Entrada</th><th colspan="2">Saída</th><th colspan="2">Saldo</th></tr>
+                    <tr><th></th><th></th><th>Qtd</th><th>Unit.</th><th>Qtd</th><th>Unit.</th><th>Qtd</th><th>Unit.</th></tr>
+                    <tr><td>01/06</td><td>S.I.</td><td></td><td></td><td></td><td></td><td>20</td><td>10,00</td></tr>
+                    <tr><td>05/06</td><td>V</td><td></td><td></td><td>10</td><td>10,00</td><td>10</td><td>10,00</td></tr>
+                    <tr><td>10/06</td><td>C</td><td>20</td><td>15,00</td><td></td><td></td><td>10<br>20</td><td>10,00<br>15,00</td></tr>
+                    <tr><td>15/06</td><td>V</td><td></td><td></td><td>10<br>15</td><td>10,00<br>15,00</td><td>5</td><td>15,00</td></tr>
+                </table>
+                <br>Qual é o valor total do <strong>Custo das Mercadorias Vendidas (CMV)</strong> apurado no mês de junho inteiro (soma das saídas)?`,
+                alternativas: [
+                    { texto: "R$ 325,00.", correta: false, justificativa: "Incorreto. R$ 325,00 é o CMV apenas da venda do dia 15/06. A questão pede o do mês inteiro." },
+                    { texto: "R$ 425,00.", correta: true, justificativa: "Correto! O CMV total é a soma financeira de todas as saídas: Venda do dia 05 (10 × R$ 10 = R$ 100,00) + Venda do dia 15 (10 × R$ 10 = R$ 100,00 E 15 × R$ 15 = R$ 225,00). Total: 100 + 100 + 225 = R$ 425,00." },
+                    { texto: "R$ 400,00.", correta: false, justificativa: "Incorreto. O valor exato soma as parcelas listadas na coluna Saída." },
+                    { texto: "R$ 350,00.", correta: false, justificativa: "Incorreto. Lembre-se de multiplicar a Qtd pelo Unitário de cada linha de saída e depois somar os resultados." },
+                    { texto: "R$ 500,00.", correta: false, justificativa: "Incorreto. A soma financeira das saídas (CMV) é 425. R$ 500 não reflete as saídas da ficha." }
+                ]
+            },
+            {
+                id: 8,
+                enunciado: `Eventos de vendas do mês de agosto:
+                <ul>
+                    <li><strong>01/08:</strong> Venda de 20 itens por R$ 50,00 cada.</li>
+                    <li><strong>05/08:</strong> Compra de 30 itens por R$ 20,00 cada.</li>
+                    <li><strong>10/08:</strong> Venda de 10 itens por R$ 60,00 cada.</li>
+                    <li><strong>12/08:</strong> Cliente do dia 01 devolveu 5 itens.</li>
+                    <li><strong>15/08:</strong> Desconto incondicional de R$ 50,00 dado na venda do dia 10.</li>
+                </ul>
+                Apurando o início da DRE, qual é a <strong>Receita Líquida de Vendas</strong> do período?`,
+                alternativas: [
+                    { texto: "R$ 1.000,00.", correta: false, justificativa: "Incorreto. A Receita Bruta é 1.600. Você precisa abater a devolução e o desconto incondicional desse valor." },
+                    { texto: "R$ 1.300,00.", correta: true, justificativa: "Correto! Receita Bruta: (20 × R$ 50) + (10 × R$ 60) = 1.000 + 600 = R$ 1.600,00. Deduções: Devolução de 5 itens (5 × 50 = R$ 250,00) + Desconto Incondicional (R$ 50,00) = R$ 300,00 de deduções. Receita Líquida = 1.600 - 300 = R$ 1.300,00." },
+                    { texto: "R$ 1.350,00.", correta: false, justificativa: "Incorreto. Você pode ter esquecido de deduzir o Desconto Incondicional de R$ 50,00." },
+                    { texto: "R$ 1.550,00.", correta: false, justificativa: "Incorreto. O valor das devoluções não é de apenas 5 reais, são 5 itens que foram vendidos originalmente a 50 reais cada." },
+                    { texto: "R$ 1.600,00.", correta: false, justificativa: "Incorreto. R$ 1.600,00 é a Receita Bruta. A questão pede a Receita Líquida (após deduções de devoluções e descontos)." }
+                ]
+            },
+            {
+                id: 9,
+                enunciado: `<strong>Partidas Dobradas:</strong> O total de débitos deve sempre ser igual ao de créditos. Às vezes, usamos mais de duas contas para registrar um evento.<br><br>
+                <strong>Situação:</strong> A empresa comprou um veículo de R$ 100.000,00. Pagou R$ 40.000,00 à vista pelo Banco, e financiou o saldo de R$ 60.000,00 (Financiamentos a Pagar).<br><br>
+                Qual é o lançamento contábil correto para registrar essa compra?`,
+                alternativas: [
+                    { texto: "Débito em Veículos (100.000) | Crédito em Banco (40.000) e Crédito em Financiamentos a Pagar (60.000).", correta: true, justificativa: "Correto! O bem Veículos (Ativo) aumentou em 100k, logo recebe Débito. O saldo do Banco (Ativo) diminuiu em 40k, logo recebe Crédito. A obrigação Financiamentos (Passivo) aumentou em 60k, logo recebe Crédito. Total Débito (100k) = Total Crédito (40k + 60k)." },
+                    { texto: "Débito em Veículos (100.000) | Crédito em Banco (100.000).", correta: false, justificativa: "Incorreto. Isso assumiria que todo o carro foi pago à vista, o que não reflete a parte financiada." },
+                    { texto: "Débito em Financiamentos a Pagar (60.000) e Débito em Banco (40.000) | Crédito em Veículos (100.000).", correta: false, justificativa: "Incorreto. As naturezas estão completamente invertidas. Aumentar ativo = Débito. Diminuir ativo / Aumentar passivo = Crédito." },
+                    { texto: "Crédito em Veículos (100.000) | Débito em Banco (40.000) e Débito em Financiamentos a Pagar (60.000).", correta: false, justificativa: "Incorreto. Ao creditar Veículos, a empresa estaria registrando a perda/venda de um veículo, não a compra." },
+                    { texto: "Débito em Banco (40.000) e Débito em Veículos (60.000) | Crédito em Financiamentos a Pagar (100.000).", correta: false, justificativa: "Incorreto. Os valores estão trocados e a natureza do Banco está como se estivesse entrando dinheiro, quando na verdade ele saiu." }
+                ]
+            },
+            {
+                id: 10,
+                enunciado: `<strong>Regra das Naturezas:</strong> Ativos (bens e direitos) aumentam com Débitos. Passivos (obrigações) aumentam com Créditos. Modificações ocorrem, por exemplo, ao pagar uma dívida.<br><br>
+                <strong>Situação:</strong> A empresa pagou R$ 3.000,00 de uma duplicata a um fornecedor via transferência bancária.<br><br>
+                Lembrando que queremos <strong>diminuir</strong> a dívida e <strong>diminuir</strong> o saldo no banco, qual o lançamento correto?`,
+                alternativas: [
+                    { texto: "Débito em Fornecedores e Crédito em Banco.", correta: true, justificativa: "Correto! 'Fornecedores' é Passivo; para diminuí-lo, fazemos o oposto da sua natureza (um Débito). 'Banco' é Ativo; para diminuí-lo devido à saída do dinheiro, faz-se um Crédito." },
+                    { texto: "Débito em Banco e Crédito em Fornecedores.", correta: false, justificativa: "Incorreto. Esse lançamento representaria entrada de dinheiro no Banco e aumento da dívida com Fornecedores (como se a empresa tivesse pegado um empréstimo com o fornecedor)." },
+                    { texto: "Débito em Estoque de Mercadorias e Crédito em Banco.", correta: false, justificativa: "Incorreto. A compra das mercadorias ocorreu no passado. O ato agora é apenas o pagamento da dívida originada por essa compra." },
+                    { texto: "Crédito em Fornecedores e Crédito em Banco.", correta: false, justificativa: "Incorreto. Se houvesse dois créditos sem um débito correspondente, o lançamento feriria o método das partidas dobradas." },
+                    { texto: "Débito em Despesa com Compras e Crédito em Banco.", correta: false, justificativa: "Incorreto. O pagamento de duplicata de estoque não gera despesa no momento do pagamento, mas sim diminui a conta de Passivo." }
+                ]
+            },
+            {
+                id: 11,
+                enunciado: `<strong>Eventos Mistos:</strong> Algumas transações alteram o Patrimônio (Ativo/Passivo) e o Resultado (Receitas/Despesas) ao mesmo tempo.<br><br>
+                <strong>Situação:</strong> A empresa prestou um serviço de manutenção e recebeu R$ 5.000,00 à vista, via PIX na conta Banco.<br><br>
+                Como registrar esse evento de ganho de receita com entrada imediata de dinheiro?`,
+                alternativas: [
+                    { texto: "Débito em Banco (aumenta Ativo) e Crédito em Receita de Serviços (aumenta Receita).", correta: true, justificativa: "Correto! A entrada de dinheiro aumenta os bens (Banco é Ativo, aumenta com Débito). O ganho da prestação de serviço aumenta o Lucro (Receita de Serviços é Resultado, tem natureza Credora)." },
+                    { texto: "Débito em Receita de Serviços e Crédito em Banco.", correta: false, justificativa: "Incorreto. As naturezas estão invertidas. A conta Receita cresce a Crédito, e Banco perde valor a Crédito." },
+                    { texto: "Débito em Banco e Crédito em Clientes a Receber.", correta: false, justificativa: "Incorreto. Esse seria o lançamento se o cliente estivesse pagando uma dívida antiga. Na situação, o serviço acabou de ser prestado e gera Receita imediatamente." },
+                    { texto: "Crédito em Receita de Serviços e Crédito em Banco.", correta: false, justificativa: "Incorreto. Partidas dobradas sempre exigem pelo menos um Débito igualando um Crédito. Dois créditos não fecham." },
+                    { texto: "Débito em Caixa e Débito em Receita de Serviços.", correta: false, justificativa: "Incorreto. Mesmo motivo anterior: partidas dobradas não se resolvem só com débitos." }
+                ]
+            },
+            {
+                id: 12,
+                enunciado: `<strong>Princípio da Competência:</strong> Receitas e despesas devem ser contabilizadas no mês a que pertencem, não apenas quando são pagas ou recebidas.<br><br>
+                <strong>Situação:</strong> Em 1º de janeiro, a empresa pagou R$ 12.000,00 à vista por um seguro que vai cobri-la pelos próximos 12 meses.<br><br>
+                Pela Competência, como deve ser o registro no exato momento do pagamento?`,
+                alternativas: [
+                    { texto: "Lançar tudo imediatamente como Despesa de Seguros no mês de janeiro.", correta: false, justificativa: "Incorreto. Isso feriria a competência. A empresa ainda vai usufruir do seguro por 12 meses; a despesa deve ser diluída ao longo desse tempo." },
+                    { texto: "Lançar Débito em Seguros a Apropriar (direito no Ativo) e Crédito em Banco.", correta: true, justificativa: "Correto! O pagamento adiantado não é consumido no dia 1º, então ele cria um DIREITO para a empresa de estar segurada. Direitos são contas de Ativo (Débito em Seguros a Apropriar). A contrapartida é o Crédito no Banco." },
+                    { texto: "Lançar Débito em Banco e Crédito em Seguros a Apropriar (Passivo).", correta: false, justificativa: "Incorreto. Seguros a apropriar (quando a empresa contrata) é um direito (Ativo), não obrigação. E o dinheiro saiu do banco, logo o banco leva Crédito." },
+                    { texto: "Lançar Débito em Fornecedores e Crédito em Despesa de Seguros.", correta: false, justificativa: "Incorreto. Não há redução de fornecedor pois foi pago à vista. A despesa também não ocorreu integralmente." },
+                    { texto: "Esperar acabar o ano para fazer o registro contábil.", correta: false, justificativa: "Incorreto. O registro do pagamento/saída do dinheiro deve ser feito imediatamente. O que é adiado e fracionado é o reconhecimento da despesa mensalmente." }
+                ]
+            },
+            {
+                id: 13,
+                enunciado: `<strong>Balancete:</strong>
+                <ul>
+                    <li><strong>Saldo Devedor:</strong> Ativos e Despesas.</li>
+                    <li><strong>Saldo Credor:</strong> Passivos, Patrimônio Líquido e Receitas.</li>
+                </ul>
+                No balancete abaixo, os totais bateram, mas há duas contas com a natureza (coluna) invertida. Quais são elas?<br><br>
+                <table class="tabela-contabil">
+                    <tr><th class="left-align">Conta Contábil</th><th class="right-align">Saldo Devedor (R$)</th><th class="right-align">Saldo Credor (R$)</th></tr>
+                    <tr><td class="left-align">Caixa</td><td class="right-align">15.000,00</td><td class="right-align"></td></tr>
+                    <tr><td class="left-align">Fornecedores</td><td class="right-align">20.000,00</td><td class="right-align"></td></tr>
+                    <tr><td class="left-align">Capital Social</td><td class="right-align"></td><td class="right-align">15.000,00</td></tr>
+                    <tr><td class="left-align">Veículos</td><td class="right-align"></td><td class="right-align">20.000,00</td></tr>
+                    <tr><td class="left-align"><strong>Total</strong></td><td class="right-align"><strong>35.000,00</strong></td><td class="right-align"><strong>35.000,00</strong></td></tr>
+                </table>`,
+                alternativas: [
+                    { texto: "\"Fornecedores\" (dívida) deveria ser credor, e \"Veículos\" (bem) deveria ser devedor.", correta: true, justificativa: "Correto! Veículos são bens (Ativo = Devedor). Fornecedores são obrigações (Passivo = Credor). Como ambos possuem exatamente 20.000, ao serem lançados invertidos, o erro não altera o total matemático do balancete, mas esconde um grave erro contábil." },
+                    { texto: "\"Caixa\" deveria ser credor, pois representa o dinheiro que saiu.", correta: false, justificativa: "Incorreto. Caixa é um Ativo. Se ele tem saldo positivo (sobra dinheiro), sua natureza é sempre Devedora." },
+                    { texto: "\"Capital Social\" deveria ser devedor, para igualar com os bens.", correta: false, justificativa: "Incorreto. Capital Social é conta de Patrimônio Líquido (origem de recursos) e sua natureza normal é Credora." },
+                    { texto: "Nenhuma, pois se os totais (35.000) bateram, tudo está certo.", correta: false, justificativa: "Incorreto. Um dos grandes limites do balancete de verificação é que ele apenas checa a matemática. Lançamentos com contas invertidas mas de valores iguais deixam o balancete fechado, mesmo estando conceitualmente errados." },
+                    { texto: "Ativos e Passivos devem ficar sempre do mesmo lado.", correta: false, justificativa: "Incorreto. Ativos são Aplicações (Devedores) e Passivos são Origens (Credores). Devem ficar em lados opostos." }
+                ]
+            },
+            {
+                id: 14,
+                enunciado: `<strong>Erro Conceitual:</strong> O balancete de resultado abaixo não fechou. Ignorando a matemática de "quanto falta para bater", qual foi o erro puramente conceitual na classificação das contas?<br><br>
+                <table class="tabela-contabil">
+                    <tr><th class="left-align">Conta Contábil</th><th class="right-align">Saldo Devedor (R$)</th><th class="right-align">Saldo Credor (R$)</th></tr>
+                    <tr><td class="left-align">Receita de Serviços</td><td class="right-align"></td><td class="right-align">60.000,00</td></tr>
+                    <tr><td class="left-align">Despesa de Salários</td><td class="right-align">20.000,00</td><td class="right-align"></td></tr>
+                    <tr><td class="left-align">Custo dos Serviços</td><td class="right-align"></td><td class="right-align">15.000,00</td></tr>
+                    <tr><td class="left-align">Despesa de Aluguel</td><td class="right-align">5.000,00</td><td class="right-align"></td></tr>
+                    <tr><td class="left-align"><strong>Totais Atuais</strong></td><td class="right-align"><strong>25.000,00</strong></td><td class="right-align"><strong>75.000,00</strong></td></tr>
+                </table>`,
+                alternativas: [
+                    { texto: "O \"Custo dos Serviços\" é uma despesa, e por isso deveria ter Saldo Devedor.", correta: true, justificativa: "Correto! Na contabilidade, as contas de Custo e Despesa servem para reduzir o lucro. Portanto, carregam natureza Devedora. Colocar o Custo na coluna Credora é um erro conceitual." },
+                    { texto: "A \"Receita de Serviços\" é dinheiro no caixa, logo deveria ter Saldo Devedor.", correta: false, justificativa: "Incorreto. A contrapartida do dinheiro no caixa é devedora, mas a conta de Resultado \"Receita de Serviços\" que registra o ganho possui sempre natureza Credora." },
+                    { texto: "A \"Despesa de Salários\" é uma dívida com o funcionário, logo tem Saldo Credor.", correta: false, justificativa: "Incorreto. A dívida seria o \"Salários a Pagar\" (Passivo). A conta de resultado \"Despesa\" consumida no mês tem saldo devedor." },
+                    { texto: "O balancete de resultado nunca apresenta erros; é falha no software.", correta: false, justificativa: "Incorreto. Erros de classificação contábil causados pelo digitador gerarão totais que não fecham." },
+                    { texto: "A \"Despesa de Aluguel\" é conta credora por gerar obrigações futuras.", correta: false, justificativa: "Incorreto. Assim como salários, a \"Despesa\" em si é devedora. O passivo (Aluguel a Pagar) é que seria credor." }
+                ]
+            },
+            {
+                id: 15,
+                enunciado: `O balancete abaixo tem os totais iguais, indicando que as partidas dobradas foram feitas. Mas para saber o resultado real do mês, precisamos confrontar apenas as Receitas e Despesas (ARE).<br><br>
+                <table class="tabela-contabil">
+                    <tr><th class="left-align">Conta Contábil</th><th class="right-align">Saldo Devedor (R$)</th><th class="right-align">Saldo Credor (R$)</th></tr>
+                    <tr><td class="left-align">Bancos</td><td class="right-align">40.000,00</td><td class="right-align"></td></tr>
+                    <tr><td class="left-align">Despesas Administrativas</td><td class="right-align">30.000,00</td><td class="right-align"></td></tr>
+                    <tr><td class="left-align">Fornecedores</td><td class="right-align"></td><td class="right-align">20.000,00</td></tr>
+                    <tr><td class="left-align">Capital Social</td><td class="right-align"></td><td class="right-align">40.000,00</td></tr>
+                    <tr><td class="left-align">Receita Bruta de Vendas</td><td class="right-align"></td><td class="right-align">10.000,00</td></tr>
+                    <tr><td class="left-align"><strong>Total Geral</strong></td><td class="right-align"><strong>70.000,00</strong></td><td class="right-align"><strong>70.000,00</strong></td></tr>
+                </table>
+                <br>Analisando apenas as contas de resultado da tabela, a empresa teve lucro ou prejuízo?`,
+                alternativas: [
+                    { texto: "Prejuízo de R$ 20.000,00, pois as despesas superaram as receitas do período.", correta: true, justificativa: "Correto! Na Apuração do Resultado (ARE), usamos exclusivamente as contas de Resultado. Receitas (10k) - Despesas (30k) = Prejuízo de 20k. A conta Bancos (40k) demonstra posição financeira e bens patrimoniais, não influenciando o cálculo de lucro/prejuízo." },
+                    { texto: "Lucro real, pois a conta Bancos (R$ 40.000) cobriu todas as despesas sem problemas.", correta: false, justificativa: "Incorreto. A existência de dinheiro no banco (liquidez) não significa operação lucrativa. A empresa consumiu 30k em despesas mas gerou apenas 10k em vendas." },
+                    { texto: "Resultado zero, pois o total da coluna devedora é igual ao da coluna credora.", correta: false, justificativa: "Incorreto. O empate das colunas apenas valida as partidas dobradas globais, mas para saber o lucro é necessário isolar as contas de Resultado." },
+                    { texto: "Prejuízo de R$ 30.000,00, ignorando as receitas já que a empresa ainda deve a fornecedores.", correta: false, justificativa: "Incorreto. As receitas devem ser sempre confrontadas. O fato de dever fornecedores não apaga as vendas realizadas." },
+                    { texto: "Lucro de R$ 10.000,00, pois a conta Bancos anula as despesas do mês.", correta: false, justificativa: "Incorreto. Bancos é conta de Ativo, não anula contas de Despesa na apuração (ARE)." }
+                ]
+            },
+            {
+                id: 16,
+                enunciado: `A partir da DRE (Demonstração do Resultado do Exercício) abaixo, calcule o <strong>Resultado Líquido</strong>.<br><br>
+                <table class="tabela-contabil">
+                    <tr><th class="left-align">Demonstração do Resultado</th><th class="right-align">Valor (R$)</th></tr>
+                    <tr><td class="left-align">Receita Bruta de Vendas</td><td class="right-align">100.000,00</td></tr>
+                    <tr><td class="left-align">(-) Impostos sobre Vendas</td><td class="right-align">(10.000,00)</td></tr>
+                    <tr><td class="left-align"><strong>(=) Receita Líquida</strong></td><td class="right-align"><strong>90.000,00</strong></td></tr>
+                    <tr><td class="left-align">(-) CMV (Custo das Mercadorias)</td><td class="right-align">(50.000,00)</td></tr>
+                    <tr><td class="left-align"><strong>(=) Lucro Bruto</strong></td><td class="right-align"><strong>40.000,00</strong></td></tr>
+                    <tr><td class="left-align">(-) Despesas Operacionais</td><td class="right-align">(55.000,00)</td></tr>
+                </table>
+                <br>Depois de calcular, indique qual valor foi apurado e <strong>como</strong> a contabilidade deve registrar isso no Balanço Patrimonial:`,
+                alternativas: [
+                    { texto: "Prejuízo de R$ 15.000,00, a ser registrado no Patrimônio Líquido (\"Prejuízos Acumulados\"), reduzindo o capital.", correta: true, justificativa: "Correto! Lucro Bruto (40.000) - Despesas Operacionais (55.000) = Resultado Líquido Negativo (-15.000). Esse prejuízo é transferido do DRE diretamente para as contas de Patrimônio Líquido no Balanço, figurando como conta retificadora." },
+                    { texto: "Lucro de R$ 15.000,00, a ser registrado no Ativo Circulante, aumentando o saldo de Caixa.", correta: false, justificativa: "Incorreto. O valor é negativo (prejuízo). Além disso, o resultado apurado é transferido para o Patrimônio Líquido, não como dinheiro vivo no Caixa." },
+                    { texto: "Prejuízo de R$ 15.000,00, a ser lançado no Passivo como uma dívida com os sócios.", correta: false, justificativa: "Incorreto. O prejuízo não é tratado como \"dívida exigível\" aos sócios no Passivo, mas sim como redução do Patrimônio Líquido." },
+                    { texto: "Lucro Bruto de R$ 40.000,00, transferido para o Patrimônio Líquido ignorando as despesas.", correta: false, justificativa: "Incorreto. O Lucro Bruto não é o resultado final. É imperativo deduzir as despesas operacionais." },
+                    { texto: "Prejuízo de R$ 15.000,00, a ser guardado em conta transitória no Ativo para estorno no próximo ano.", correta: false, justificativa: "Incorreto. O encerramento do exercício exige a transferência do saldo da DRE para as rubricas de lucros/prejuízos acumulados no Patrimônio Líquido." }
+                ]
+            }
+        ];
+
+        const container = document.getElementById('quiz-container');
+
+        // Letras para as alternativas
+        const letras = ['a', 'b', 'c', 'd', 'e'];
+
+        // Renderizar questões
+        questoes.forEach((questao, qIndex) => {
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            
+            // Header
+            const header = document.createElement('div');
+            header.className = 'question-header';
+            header.innerText = `Questão ${questao.id < 10 ? '0'+questao.id : questao.id}`;
+            card.appendChild(header);
+
+            // Body
+            const body = document.createElement('div');
+            body.className = 'question-body';
+
+            // Enunciado
+            const enunciado = document.createElement('div');
+            enunciado.className = 'enunciado';
+            enunciado.innerHTML = questao.enunciado;
+            body.appendChild(enunciado);
+
+            // Container de alternativas
+            const altsContainer = document.createElement('div');
+            altsContainer.className = 'alternativas';
+
+            // Box de Feedback (único por questão, atualizado dinamicamente)
+            const feedbackBox = document.createElement('div');
+            feedbackBox.className = 'feedback-box';
+            feedbackBox.id = `feedback-${qIndex}`;
+
+            questao.alternativas.forEach((alt, aIndex) => {
+                const btn = document.createElement('button');
+                btn.className = 'alternativa-btn';
+                
+                btn.innerHTML = `<span class="letra-alt">${letras[aIndex]})</span> <span>${alt.texto}</span>`;
+                
+                btn.onclick = () => handleAnswer(btn, altsContainer, feedbackBox, alt.correta, alt.justificativa);
+                
+                altsContainer.appendChild(btn);
+            });
+
+            body.appendChild(altsContainer);
+            body.appendChild(feedbackBox);
+            card.appendChild(body);
+            container.appendChild(card);
+        });
+
+        // Lógica de resposta
+        function handleAnswer(btnClicked, container, feedbackBox, isCorrect, justificativa) {
+            // Remove as classes selected de todos os botoes desta questao
+            const allBtns = container.querySelectorAll('.alternativa-btn');
+            allBtns.forEach(b => {
+                b.classList.remove('selected-wrong', 'selected-correct');
+            });
+
+            // Adiciona classe baseada em se ta certo ou errado
+            if (isCorrect) {
+                btnClicked.classList.add('selected-correct');
+                feedbackBox.className = 'feedback-box show correct';
+                feedbackBox.innerHTML = `<div class="feedback-title">✅ Resposta Correta!</div><div>${justificativa}</div>`;
+            } else {
+                btnClicked.classList.add('selected-wrong');
+                feedbackBox.className = 'feedback-box show wrong';
+                feedbackBox.innerHTML = `<div class="feedback-title">❌ Alternativa Incorreta</div><div>${justificativa}</div>`;
+            }
+        }
+    </script>
+</body>
+</html>
